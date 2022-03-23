@@ -1,0 +1,72 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31729.503
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "90 StateMachineCodeGenerator.Tests", "StateMachineCodeGenenerator.Tests\90 StateMachineCodeGenerator.Tests.csproj", "{BA895445-17E4-493B-8182-9BD6ACAA862C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestsSubject", "TestsSubject", "{2A0DF2C1-553C-4876-A90E-8A518F5D01A0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "InputTestsFiles", "InputTestsFiles", "{F30FA48D-8A36-4D3F-85D4-B8FC305986AC}"
+	ProjectSection(SolutionItems) = preProject
+		InputTestsFiles\California Model.eap = InputTestsFiles\California Model.eap
+		InputTestsFiles\California Model.xml = InputTestsFiles\California Model.xml
+		InputTestsFiles\CCaliforniaStateMachine.cs = InputTestsFiles\CCaliforniaStateMachine.cs
+		InputTestsFiles\CGuideStateMachine.cs = InputTestsFiles\CGuideStateMachine.cs
+		InputTestsFiles\LaserProcessing Model new.xml = InputTestsFiles\LaserProcessing Model new.xml
+		InputTestsFiles\LaserProcessing Model#.eap = InputTestsFiles\LaserProcessing Model#.eap
+		InputTestsFiles\LaserProcessing Model#.xml = InputTestsFiles\LaserProcessing Model#.xml
+		InputTestsFiles\LaserProcessing Model.eap = InputTestsFiles\LaserProcessing Model.eap
+		InputTestsFiles\LaserProcessing Model.xml = InputTestsFiles\LaserProcessing Model.xml
+		InputTestsFiles\LaserWeld Model.eap = InputTestsFiles\LaserWeld Model.eap
+		InputTestsFiles\LaserWeld.xml = InputTestsFiles\LaserWeld.xml
+		InputTestsFiles\Waist SW Design Bad.eap = InputTestsFiles\Waist SW Design Bad.eap
+		InputTestsFiles\Waist SW Design Bad.xml = InputTestsFiles\Waist SW Design Bad.xml
+		InputTestsFiles\Waist SW Design Incomplete.eap = InputTestsFiles\Waist SW Design Incomplete.eap
+		InputTestsFiles\Waist SW Design Incomplete.xml = InputTestsFiles\Waist SW Design Incomplete.xml
+		InputTestsFiles\WocGuide Model.eap = InputTestsFiles\WocGuide Model.eap
+		InputTestsFiles\WocGuide Model.xml = InputTestsFiles\WocGuide Model.xml
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "10 StateMachineCodeGenerator.Gui", "StateMachineCodeGenerator.Gui\10 StateMachineCodeGenerator.Gui.csproj", "{2BE92A98-74CE-4A50-B9FE-5B1F775E9035}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "20 StateMachineCodeGenerator.ViewModels", "StateMachineCodeGenerator.ViewModels\20 StateMachineCodeGenerator.ViewModels.csproj", "{11649179-F56B-437D-9F0F-E1E155E95A24}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "50 StateMachineCodeGenerator.Common", "StateMachineCodeGenerator.Common\50 StateMachineCodeGenerator.Common.csproj", "{1F3A5E6B-F103-4F98-B96D-E1BDF81762E7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "35 StateMachineMetadata", "StateMachineMetadata\35 StateMachineMetadata.csproj", "{7D71FB16-CA6A-4BC7-B000-7D253DF8115F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BA895445-17E4-493B-8182-9BD6ACAA862C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA895445-17E4-493B-8182-9BD6ACAA862C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA895445-17E4-493B-8182-9BD6ACAA862C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA895445-17E4-493B-8182-9BD6ACAA862C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2BE92A98-74CE-4A50-B9FE-5B1F775E9035}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2BE92A98-74CE-4A50-B9FE-5B1F775E9035}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2BE92A98-74CE-4A50-B9FE-5B1F775E9035}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2BE92A98-74CE-4A50-B9FE-5B1F775E9035}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11649179-F56B-437D-9F0F-E1E155E95A24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11649179-F56B-437D-9F0F-E1E155E95A24}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11649179-F56B-437D-9F0F-E1E155E95A24}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11649179-F56B-437D-9F0F-E1E155E95A24}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1F3A5E6B-F103-4F98-B96D-E1BDF81762E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F3A5E6B-F103-4F98-B96D-E1BDF81762E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F3A5E6B-F103-4F98-B96D-E1BDF81762E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F3A5E6B-F103-4F98-B96D-E1BDF81762E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D71FB16-CA6A-4BC7-B000-7D253DF8115F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D71FB16-CA6A-4BC7-B000-7D253DF8115F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D71FB16-CA6A-4BC7-B000-7D253DF8115F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D71FB16-CA6A-4BC7-B000-7D253DF8115F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C0595ADB-A5FC-4DCF-B246-16F3CB93AE01}
+	EndGlobalSection
+EndGlobal

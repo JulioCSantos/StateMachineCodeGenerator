@@ -1,0 +1,9 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <RootNamespace>StateMachineCodeGenerator.Models</RootNamespace>
+    <AssemblyName>StateMachineCodeGenerator.Models</AssemblyName>
+  </PropertyGroup>
+
+</Project>

@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <RootNamespace>StateMachineCodeGenerator.Gui</RootNamespace>
+    <AssemblyName>StateMachineCodeGenerator.Gui</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\StateMachineCodeGenerator.Common\50 StateMachineCodeGenerator.Common.csproj" />
+    <ProjectReference Include="..\StateMachineCodeGenerator.ViewModels\20 StateMachineCodeGenerator.ViewModels.csproj" />
+  </ItemGroup>
+
+</Project>

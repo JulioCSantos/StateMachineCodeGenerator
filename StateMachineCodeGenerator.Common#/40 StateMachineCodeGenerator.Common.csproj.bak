@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net5.0-windows;net472-windows</TargetFrameworks>
+    <AssemblyName>StateMachineCodeGenerator.Common</AssemblyName>
+    <RootNamespace>StateMachineCodeGenerator.Common</RootNamespace>
+  </PropertyGroup>
+
+</Project>

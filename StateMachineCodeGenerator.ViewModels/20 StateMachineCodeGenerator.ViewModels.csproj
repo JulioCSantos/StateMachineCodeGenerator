@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <RootNamespace>StateMachineCodeGenerator.ViewModels</RootNamespace>
+    <AssemblyName>StateMachineCodeGenerator.ViewModels</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\StateMachineCodeGenerator.Common\50 StateMachineCodeGenerator.Common.csproj" />
+    <ProjectReference Include="..\StateMachineMetadata\35 StateMachineMetadata.csproj" />
+  </ItemGroup>
+
+</Project>
