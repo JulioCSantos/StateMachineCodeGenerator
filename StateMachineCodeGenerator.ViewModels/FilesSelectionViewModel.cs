@@ -10,8 +10,8 @@ namespace StateMachineCodeGenerator.ViewModels {
     public class FilesSelectionViewModel  : SetPropertyBase {
         public RelayCommand StartParsingCommand => new RelayCommand((o) => StartParsing());
         #region FilePath
-        //private string _filePath = @"C:\Users\santosj25\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineMetadata\Dependencies\LaserProcessing Model new";
-        private string _filePath = @"C:\AppData\InputTestsFiles";
+        private string _filePath = @"C:\Users\santosj25\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineMetadata\Dependencies\LaserProcessing Model new.xml";
+        //private string _filePath = @"C:\AppData\InputTestsFiles";
         public string FilePath {
             get => _filePath;
             set => SetProperty(ref _filePath, value);

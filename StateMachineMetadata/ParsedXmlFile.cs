@@ -1,9 +1,11 @@
 ﻿using StateMachineMetadata.Extensions;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 using System.Xml.Linq;
 
 namespace StateMachineMetadata
@@ -21,7 +23,21 @@ namespace StateMachineMetadata
 
         #region Root Level
         private XElement xmlRootElement;
-        public XElement XmlRootElement { get { return xmlRootElement ?? (xmlRootElement = XElement.Load(XmlFilePath)); } }
+
+        public XElement XmlRootElement {
+            get {
+
+                //XmlDocument xmlDocument = new XmlDocument();
+                StreamReader reader = new StreamReader(XmlFilePath);
+                //xmlDocument.Load(reader);
+                //reader.Close();
+
+
+                return xmlRootElement ?? (xmlRootElement = XElement.Load(reader));
+                //return xmlRootElement ?? (xmlRootElement = XElement.Load(XmlFilePath));
+            }
+        }
+
         public XNamespace UML { get; private set; } = "omg.org/UML1.3";
         #endregion Root Level
 

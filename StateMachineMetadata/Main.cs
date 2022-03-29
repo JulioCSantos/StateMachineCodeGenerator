@@ -177,6 +177,7 @@ namespace StateMachineMetadata
                 var activeXML2ModelMapper = new XML2ModelMapper();
                 activeXML2ModelMapper.Map(parsedXmlFile, activeMainModel);
                 //StateMachineGenerator.Generate(activeMainModel, OutputFilesPath);
+
             }
         }
 
@@ -318,6 +319,8 @@ namespace StateMachineMetadata
             if (filesPaths == null || filesPaths.Length == 0) return null;
             return filesPaths[0];
         }
+
+
 
         #region Private Methods
         private static string[] FindFileInCurrentOrParentFolder(string searchFolderPath, string fileSearchPattern)

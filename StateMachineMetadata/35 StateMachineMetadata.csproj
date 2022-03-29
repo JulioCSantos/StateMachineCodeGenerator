@@ -49,6 +49,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CSystem.cs" />
+    <Compile Include="ViewModelCandidate.cs" />
     <Compile Include="Extensions\LinqExtensions.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Extensions\Coordinates.cs" />
@@ -85,6 +87,5 @@
     <Content Include="Dependencies\Waist SW Design Bad.xml" />
     <Content Include="Dependencies\WocGuide Model.xml" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
