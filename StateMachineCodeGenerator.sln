@@ -34,7 +34,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "20 StateMachineCodeGenerato
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "50 StateMachineCodeGenerator.Common", "StateMachineCodeGenerator.Common\50 StateMachineCodeGenerator.Common.csproj", "{1F3A5E6B-F103-4F98-B96D-E1BDF81762E7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "35 StateMachineMetadata", "StateMachineMetadata\35 StateMachineMetadata.csproj", "{7D71FB16-CA6A-4BC7-B000-7D253DF8115F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "35 StateMachineMetadata", "StateMachineMetadata new\35 StateMachineMetadata.csproj", "{7202F325-4A0E-4CAD-9E92-B7E12E6797B1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -58,10 +58,10 @@ Global
 		{1F3A5E6B-F103-4F98-B96D-E1BDF81762E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1F3A5E6B-F103-4F98-B96D-E1BDF81762E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1F3A5E6B-F103-4F98-B96D-E1BDF81762E7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7D71FB16-CA6A-4BC7-B000-7D253DF8115F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7D71FB16-CA6A-4BC7-B000-7D253DF8115F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7D71FB16-CA6A-4BC7-B000-7D253DF8115F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7D71FB16-CA6A-4BC7-B000-7D253DF8115F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7202F325-4A0E-4CAD-9E92-B7E12E6797B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7202F325-4A0E-4CAD-9E92-B7E12E6797B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7202F325-4A0E-4CAD-9E92-B7E12E6797B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7202F325-4A0E-4CAD-9E92-B7E12E6797B1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

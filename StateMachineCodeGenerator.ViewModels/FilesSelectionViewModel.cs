@@ -10,7 +10,8 @@ namespace StateMachineCodeGenerator.ViewModels {
     public class FilesSelectionViewModel  : SetPropertyBase {
         public RelayCommand StartParsingCommand => new RelayCommand((o) => StartParsing());
         #region FilePath
-        private string _filePath = @"C:\Users\santosj25\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineMetadata\Dependencies\LaserProcessing Model new.xml";
+        //private string _filePath = @"C:\Users\santosj25\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineMetadata\Dependencies\LaserProcessing Model new.xml";
+        private string _filePath = @"C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineMetadata new\Dependencies\LaserProcessing Model new.xml";
         //private string _filePath = @"C:\AppData\InputTestsFiles";
         public string FilePath {
             get => _filePath;
@@ -19,7 +20,8 @@ namespace StateMachineCodeGenerator.ViewModels {
         #endregion FilePath
 
         #region TargetPath
-        private string _targetPath = @"C:\Users\santosj25\source\repos\JulioCSantos\StateMachineCodeGenerator\TestsSubject";
+        //private string _targetPath = @"C:\Users\santosj25\source\repos\JulioCSantos\StateMachineCodeGenerator\TestsSubject";
+        private string _targetPath = @"C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\TestsSubject";
         public string TargetPath {
             get => _targetPath;
             set => SetProperty(ref _targetPath, value);
@@ -29,6 +31,8 @@ namespace StateMachineCodeGenerator.ViewModels {
         public void StartParsing() {
             Main.MainEntryPoint(new string[] { FilePath, TargetPath });
             var models = Main.MainModels;
+            var codeGenerator = new StateMachineGenerator();
+            codeGenerator.Generate(models.FirstOrDefault(), TargetPath);
         }
     }
 }

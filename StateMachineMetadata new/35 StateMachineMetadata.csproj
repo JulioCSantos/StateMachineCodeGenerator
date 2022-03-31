@@ -1,9 +1,24 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <RootNamespace>StateMachineMetadata</RootNamespace>
     <AssemblyName>StateMachineMetadata</AssemblyName>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Dependencies\**" />
+    <EmbeddedResource Remove="Dependencies\**" />
+    <None Remove="Dependencies\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Application.cs" />
+    <Compile Remove="Model\Event.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\StateMachineCodeGenerator.Common\50 StateMachineCodeGenerator.Common.csproj" />
+  </ItemGroup>
 
 </Project>

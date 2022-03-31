@@ -27,7 +27,6 @@
                           TextWrapping="Wrap"
                           Text="{Binding TargetPath}"  />
             </GroupBox>
-
         </StackPanel>
 
         <Button Grid.Row="2" Content="Start Parsing"
