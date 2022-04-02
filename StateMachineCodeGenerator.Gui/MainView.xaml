@@ -23,26 +23,61 @@
             <ColumnDefinition Width="5" />
             <ColumnDefinition Width="50*" />
         </Grid.ColumnDefinitions>
-        <StackPanel Grid.Row="0">
-            <local:GroupBoxFileFolder Text="EA exported XML file" 
-                OpenPopupCommand="{Binding OpenFileExplorerCommand}">
-                <!--<GroupBox.Header>
-                    <StackPanel Orientation="Horizontal" Height="20">
-                        <TextBox Text="EA exported XML file" 
-                                 BorderThickness="0"
-                                 Margin="0,0,2,0" />
-                        <Button Content=". . ." BorderThickness="0" Padding="2"
-                                Background="Gainsboro"/>
-                    </StackPanel>
-                </GroupBox.Header>-->
-                <TextBox  Text="{Binding SourceFilePath}" 
-                          Style="{StaticResource FilepathStyle}" />
-            </local:GroupBoxFileFolder>
-            <local:GroupBoxFileFolder Header="Target path' Generated files" >
-                <TextBox  Text="{Binding CodeTargetFolderPath}"  
-                          Style="{StaticResource FilepathStyle}" />
-            </local:GroupBoxFileFolder>
-        </StackPanel>
+        <Grid Grid.Row="0" Grid.IsSharedSizeScope="True">
+            <Grid.RowDefinitions>
+                <RowDefinition /> <!--SourceFilePath-->
+                <RowDefinition /> <!--CodeTargetFolderPath-->
+            </Grid.RowDefinitions>
+
+            <!--region SourceFilePath-->
+            <StackPanel Grid.Row="0" Orientation="Vertical">
+                <local:GroupBoxFileFolder Text="EA exported XML file" 
+                        LocateFileFolderCommand="{Binding OpenFileExplorerCommand}">
+                    <TextBox  Text="{Binding SourceFilePath}" 
+                              Style="{StaticResource FilepathStyle}" />
+                </local:GroupBoxFileFolder>
+
+                <!--#region EAModel-->
+                <Grid HorizontalAlignment="Right" MinWidth="200" Margin="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="ComboBoxLabels" />
+                        <ColumnDefinition Width="*" SharedSizeGroup="ComboBoxes" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="EA Model : " Margin="4,0,1,0" 
+                               VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                    <ComboBox Grid.Column="1" ItemsSource="{Binding EAModelsList}"
+                              DisplayMemberPath="ProjectName" MaxWidth="200" Margin="1,0,4,0"
+                              IsReadOnly="{Binding IsModelSelectable}"
+                              SelectedItem="{Binding SelectedEAModel}" />
+                </Grid>
+                <!--#endregion EAModel-->
+            </StackPanel>
+            <!--endregion SourceFilePath-->
+
+            <!--region CodeTargetFolderPath-->
+                <StackPanel Grid.Row="1" Orientation="Vertical" >
+                    <local:GroupBoxFileFolder Text="Target path (Generated files)" Height="Auto"
+                                              LocateFileFolderCommand="{Binding OpenFileExplorerCommand}">
+                        <TextBox  Text="{Binding CodeTargetFolderPath}"  
+                                  Style="{StaticResource FilepathStyle}" />
+                    </local:GroupBoxFileFolder>
+                    <!--#region Namespace-->
+                    <Grid  HorizontalAlignment="Right" MinWidth="200" Margin="2">
+                        <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" SharedSizeGroup="ComboBoxLabels" />
+                        <ColumnDefinition Width="*" SharedSizeGroup="ComboBoxes" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Target Namespace : " Margin="4,0,1,0"
+                                   HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                    <ComboBox Grid.Column="1" ItemsSource="{Binding NamespacesList}"
+                                  MaxWidth="200" Margin="1,0,4,0"
+                                  SelectedItem="{Binding SelectedNameSpace}" />
+                    </Grid>
+                    <!--#endregion Namespace-->
+                </StackPanel>
+            <!--endregion CodeTargetFolderPath-->
+        </Grid>
+
         <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" Foreground="Black"  />
     </Grid>
 </UserControl>

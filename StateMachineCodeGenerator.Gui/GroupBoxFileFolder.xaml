@@ -14,7 +14,7 @@
                      BorderThickness="0" Margin="0,0,2,0" />
             <Button Content=". . ." BorderThickness="0" Padding="2"
                     Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:GroupBoxFileFolder}}
-                        , Path=OpenPopupCommand}"
+                        , Path=LocateFileFolderCommand}"
                     Background="Gainsboro"/>
         </StackPanel>
     </GroupBox.Header>

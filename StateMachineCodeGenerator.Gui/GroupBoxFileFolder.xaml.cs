@@ -38,19 +38,18 @@ namespace StateMachineCodeGenerator.Gui
         }
         #endregion TextProperty
 
-        #region OpenPopupCommandProperty
-        public static DependencyProperty OpenPopupCommandProperty = DependencyProperty.Register("OpenPopupCommand"
-            , typeof(ICommand), typeof(GroupBoxFileFolder),
-            new PropertyMetadata(null, OpenPopupCommandCallBack)); 
-        public ICommand OpenPopupCommand {
-            get { return (ICommand)this.GetValue(OpenPopupCommandProperty); }
-            set { SetValue(OpenPopupCommandProperty, value); }
+        #region LocateFileFolderCommandProperty
+        public static DependencyProperty LocateFileFolderCommandProperty = DependencyProperty.Register("LocateFileFolderCommand"
+            , typeof(ICommand), typeof(GroupBoxFileFolder), new PropertyMetadata(null, LocateFileFolderCommandCallBack)); 
+        public ICommand LocateFileFolderCommand {
+            get { return (ICommand)this.GetValue(LocateFileFolderCommandProperty); }
+            set { SetValue(LocateFileFolderCommandProperty, value); }
         }
 
-        private static void OpenPopupCommandCallBack(DependencyObject d, DependencyPropertyChangedEventArgs e) {
+        private static void LocateFileFolderCommandCallBack(DependencyObject d, DependencyPropertyChangedEventArgs e) {
             var view = d as GroupBoxFileFolder;
         }
-        #endregion OpenPopupCommandProperty
+        #endregion LocateFileFolderCommandProperty
 
     }
 }
