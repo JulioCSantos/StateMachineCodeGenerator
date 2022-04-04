@@ -91,7 +91,7 @@ namespace StateMachineCodeGenerator.ViewModels
             //RaisePropertyChanged(nameof(TargetSolution));
         }
 
-        private void MainViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e) {
+        private async void MainViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e) {
             switch (e.PropertyName) {
                 case nameof(EAXMLFilePath):
                     EAModelsList = Main.GetStateMachineModelFromEAXMLFile(EAXMLFilePath);
@@ -101,7 +101,7 @@ namespace StateMachineCodeGenerator.ViewModels
                     RaisePropertyChanged(nameof(IsModelSelectable));
                     break;
                 case nameof(TargetSolution):
-                    NamespacesList = GetNameSpaces(TargetSolution).ToList();
+                    NamespacesList = (await GetNameSpaces(TargetSolution)).ToList();
                     break;
 
             }
@@ -111,33 +111,32 @@ namespace StateMachineCodeGenerator.ViewModels
         private readonly ReaderWriterLockSlim _lock = new (LockRecursionPolicy.SupportsRecursion);
 
 
-        private HashSet<string> GetNameSpaces(string targetSolution) {
+        private async Task<HashSet<string>> GetNameSpaces(string targetSolution) {
             var solutionFileInfo = new FileInfo(targetSolution);
             if (solutionFileInfo == null) {throw new ArgumentException(nameof(targetSolution));}
             var targetDir = solutionFileInfo.Directory;
             if (targetDir == null) { throw new ArgumentException(nameof(targetSolution)); }
 
-            var csFiles = targetDir.EnumerateFiles("*.cs", SearchOption.AllDirectories)
+            CsFiles = targetDir.EnumerateFiles("*.cs", SearchOption.AllDirectories)
                 .Select(f => new FileInfo(f.FullName)).ToList();
 
+            //var timer = new Stopwatch(); timer.Start();
+            //var namespaces = new HashSet<string>();
+            //foreach (FileInfo file in csFiles) {
+            //    var namespaceValue = GetNamepaceAsync(file).Result;
+            //    if (string.IsNullOrEmpty(namespaceValue) == false) { namespaces.Add(namespaceValue);}
+            //}
+            //Debug.WriteLine("====> " + timer.Elapsed);
+
             var namespaces = new HashSet<string>();
-            foreach (FileInfo file in csFiles) {
-                Debug.WriteLine(file.Name);
-                var namespaceValue = GetNamepaceAsync(file).Result;
-                if (string.IsNullOrEmpty(namespaceValue) == false) { namespaces.Add(namespaceValue);}
-            }
-
-            //Parallel.ForEach(csFiles
-            //    , new ParallelOptions { MaxDegreeOfParallelism = 4 }
-            //    , async (f) => {
-            //    var namespaceValues = await GetNamepaceAsync(f);
-            //    namespaceValues.ForEach(v => {
-            //            _lock.EnterWriteLock();
-            //            try { namespaces.Add(v); }
-            //            finally{ if (_lock.IsWriteLockHeld) _lock.ExitWriteLock(); } 
-            //        });
-            //    });
-
+            Parallel.ForEach(CsFiles
+                , new ParallelOptions { MaxDegreeOfParallelism = 3 }
+                , async f => {
+                    var  namespaceValue =  await GetNamepaceAsync(f);
+                    _lock.EnterWriteLock();
+                    try { if (string.IsNullOrEmpty(namespaceValue) == false) { namespaces.Add(namespaceValue); } }
+                    finally{ if (_lock.IsWriteLockHeld) {_lock.ExitWriteLock();} }
+                });
 
             return namespaces;
         }
