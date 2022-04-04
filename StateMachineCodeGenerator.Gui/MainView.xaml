@@ -33,7 +33,7 @@
             <StackPanel Grid.Row="0" Orientation="Vertical">
                 <local:GroupBoxFileFolder Text="EA exported XML file" 
                         LocateFileFolderCommand="{Binding OpenFileExplorerCommand}">
-                    <TextBox  Text="{Binding SourceFilePath}" 
+                    <TextBox  Text="{Binding EAXMLFilePath}" 
                               Style="{StaticResource FilepathStyle}" />
                 </local:GroupBoxFileFolder>
 
@@ -58,7 +58,7 @@
                 <StackPanel Grid.Row="1" Orientation="Vertical" >
                     <local:GroupBoxFileFolder Text="Target path (Generated files)" Height="Auto"
                                               LocateFileFolderCommand="{Binding OpenFileExplorerCommand}">
-                        <TextBox  Text="{Binding CodeTargetFolderPath}"  
+                        <TextBox  Text="{Binding TargetSolution}"  
                                   Style="{StaticResource FilepathStyle}" />
                     </local:GroupBoxFileFolder>
                     <!--#region Namespace-->
