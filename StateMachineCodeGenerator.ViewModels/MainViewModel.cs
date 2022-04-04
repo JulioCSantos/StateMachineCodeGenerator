@@ -31,6 +31,10 @@ namespace StateMachineCodeGenerator.ViewModels
         }
         #endregion EAXMLFilePath
 
+        #region EAXMLFileInfo
+        public FileInfo EAXMLFileInfo => EAXMLFileInfo == null ? null : new FileInfo(EAXMLFilePath);
+        #endregion EAXMLFileInfo
+
         #region TargetSolution
         public const string TargetSolutionLiteral = @"C:\Users\julio\Documents\Visual Studio 2019\Projects\MyCompanies\Corning\TemplateGrid\TemplateGrid.sln";
         //public const string TargetSolutionLiteral = @"C:\Users\santosj25\source\repos\JulioCSantos\StateMachineCodeGenerator\TestsSubject";
@@ -41,6 +45,10 @@ namespace StateMachineCodeGenerator.ViewModels
             set => SetProperty(ref _targetSolution, value);
         }
         #endregion TargetSolution
+
+        #region TargetSolutionFileInfo
+        public FileInfo TargetSolutionFileInfo => TargetSolution == null ? null: new FileInfo(TargetSolution);
+        #endregion TargetSolutionFileInfo
 
         #region EAModelsList
         private List<StateMachineMetadata.Model.MainModel> _eAModelsList;
@@ -87,8 +95,6 @@ namespace StateMachineCodeGenerator.ViewModels
         #region constructor
         public MainViewModel() {
             this.PropertyChanged += MainViewModel_PropertyChanged;
-            //RaisePropertyChanged(nameof(EAXMLFilePath));
-            //RaisePropertyChanged(nameof(TargetSolution));
         }
 
         private async void MainViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e) {
@@ -103,9 +109,7 @@ namespace StateMachineCodeGenerator.ViewModels
                 case nameof(TargetSolution):
                     NamespacesList = (await GetNameSpaces(TargetSolution)).ToList();
                     break;
-
             }
-
         }
 
         private readonly ReaderWriterLockSlim _lock = new (LockRecursionPolicy.SupportsRecursion);
@@ -120,21 +124,20 @@ namespace StateMachineCodeGenerator.ViewModels
             CsFiles = targetDir.EnumerateFiles("*.cs", SearchOption.AllDirectories)
                 .Select(f => new FileInfo(f.FullName)).ToList();
 
-            //var timer = new Stopwatch(); timer.Start();
-            //var namespaces = new HashSet<string>();
-            //foreach (FileInfo file in csFiles) {
-            //    var namespaceValue = GetNamepaceAsync(file).Result;
-            //    if (string.IsNullOrEmpty(namespaceValue) == false) { namespaces.Add(namespaceValue);}
-            //}
-            //Debug.WriteLine("====> " + timer.Elapsed);
-
+            var solutionName = TargetSolutionFileInfo.Name.Split('.')[0]; //name without extensions
             var namespaces = new HashSet<string>();
+            namespaces.Add(solutionName);
+            SelectedNameSpace = namespaces.First();
             Parallel.ForEach(CsFiles
                 , new ParallelOptions { MaxDegreeOfParallelism = 3 }
                 , async f => {
-                    var  namespaceValue =  await GetNamepaceAsync(f);
+                    var  namespaceValue =  GetNamepaceAsync(f);
                     _lock.EnterWriteLock();
-                    try { if (string.IsNullOrEmpty(namespaceValue) == false) { namespaces.Add(namespaceValue); } }
+                    try {
+                        if (string.IsNullOrEmpty(namespaceValue) == false) {
+                            namespaces.Add(namespaceValue);
+                            if (namespaceValue == solutionName) { SelectedNameSpace = namespaceValue;}
+                        } }
                     finally{ if (_lock.IsWriteLockHeld) {_lock.ExitWriteLock();} }
                 });
 
@@ -144,10 +147,9 @@ namespace StateMachineCodeGenerator.ViewModels
 
         public const string CSharpExtension = ".cs";
 
-        public async Task<string> GetNamepaceAsync(FileInfo csFile) {
+        public static string GetNamepaceAsync(FileInfo csFile) {
 
             string namespaceResult = null;
-            //var lines = await File.ReadAllLinesAsync(csFile.FullName, CancellationToken.None);
             var lines = File.ReadAllLines(csFile.FullName);
             foreach (var line in lines) {
                 namespaceResult = GetNamespaceValue(line);
@@ -169,22 +171,6 @@ namespace StateMachineCodeGenerator.ViewModels
             var asdf = match.Value;
             return match.Success ? match.Value : null;
         }
-        //public string GetNamespaceValue(string line) {
-        //    if (string.IsNullOrEmpty(line)) { return null;}
-
-        //    var namespaceSplits = line.Split(NamespaceLiteral, StringSplitOptions.RemoveEmptyEntries);
-        //    if (namespaceSplits.Any() == false || namespaceSplits[0] != NamespaceLiteral) { return null; }
-
-        //    var namespaceStart = namespaceSplits[^1].TrimStart();
-        //    var namespaceValue = namespaceStart.Split(" ", StringSplitOptions.RemoveEmptyEntries);
-
-        //    return namespaceValue[0];
-        //}
-
-        //public MainModel GetEAModelsList(string EA_XML_FilePath) {
-        //    EAModelsList = StateMachineMetadata.Main.GetStateMachineModelFromEAXMLFile(EA_XML_FilePath);
-        //    return EAModelsList?.FirstOrDefault();
-        //}
 
         public void OpenFileExplorer(object path) {
 
