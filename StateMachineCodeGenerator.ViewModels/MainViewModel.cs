@@ -107,7 +107,7 @@ namespace StateMachineCodeGenerator.ViewModels
                     RaisePropertyChanged(nameof(IsModelSelectable));
                     break;
                 case nameof(TargetSolution):
-                    NamespacesList = (await GetNameSpaces(TargetSolution)).ToList();
+                    NamespacesList = GetNameSpaces(TargetSolution).ToList();
                     break;
             }
         }
@@ -115,9 +115,9 @@ namespace StateMachineCodeGenerator.ViewModels
         private readonly ReaderWriterLockSlim _lock = new (LockRecursionPolicy.SupportsRecursion);
 
 
-        private async Task<HashSet<string>> GetNameSpaces(string targetSolution) {
+        private HashSet<string> GetNameSpaces(string targetSolution) {
             var solutionFileInfo = new FileInfo(targetSolution);
-            if (solutionFileInfo == null) {throw new ArgumentException(nameof(targetSolution));}
+            if (solutionFileInfo == null) { throw new ArgumentException(nameof(targetSolution)); }
             var targetDir = solutionFileInfo.Directory;
             if (targetDir == null) { throw new ArgumentException(nameof(targetSolution)); }
 
@@ -130,15 +130,16 @@ namespace StateMachineCodeGenerator.ViewModels
             SelectedNameSpace = namespaces.First();
             Parallel.ForEach(CsFiles
                 , new ParallelOptions { MaxDegreeOfParallelism = 3 }
-                , async f => {
-                    var  namespaceValue =  GetNamepaceAsync(f);
+                , body: f => {
+                    var namespaceValue = GetNamepaceAsync(f);
                     _lock.EnterWriteLock();
                     try {
                         if (string.IsNullOrEmpty(namespaceValue) == false) {
                             namespaces.Add(namespaceValue);
-                            if (namespaceValue == solutionName) { SelectedNameSpace = namespaceValue;}
-                        } }
-                    finally{ if (_lock.IsWriteLockHeld) {_lock.ExitWriteLock();} }
+                            if (namespaceValue == solutionName) { SelectedNameSpace = namespaceValue; }
+                        }
+                    }
+                    finally { if (_lock.IsWriteLockHeld) { _lock.ExitWriteLock(); } }
                 });
 
             return namespaces;
