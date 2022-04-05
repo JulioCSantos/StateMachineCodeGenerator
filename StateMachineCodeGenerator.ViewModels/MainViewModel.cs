@@ -90,7 +90,41 @@ namespace StateMachineCodeGenerator.ViewModels
         }
         #endregion CsFiles
 
+        #region IsModelSelectable
         public bool IsModelSelectable => (EAModelsList?.Count ?? 0) > 1;
+        #endregion IsModelSelectable
+
+        #region StateMachineBaseFileName
+        private string _stateMachineBaseFileName;
+        public string StateMachineBaseFileName {
+            get => _stateMachineBaseFileName;
+            set => SetProperty(ref _stateMachineBaseFileName, value);
+        }
+        #endregion StateMachineBaseFileName
+
+        #region StateMachineDerivedFileName
+        private string _stateMachineDerivedFileName;
+        public string StateMachineDerivedFileName {
+            get => _stateMachineDerivedFileName;
+            set => SetProperty(ref _stateMachineDerivedFileName, value);
+        }
+        #endregion StateMachineDerivedFileName
+
+        #region MainModelBaseFilePathString
+        private string _mainModelBaseFilePathString;
+        public string MainModelBaseFilePathString {
+            get => _mainModelBaseFilePathString;
+            set => SetProperty(ref _mainModelBaseFilePathString, value);
+        }
+        #endregion MainModelBaseFilePathString
+
+        #region MainModelDerivedFileName
+        private string _mainModelDerivedFileName;
+        public string MainModelDerivedFileName {
+            get => _mainModelDerivedFileName;
+            set => SetProperty(ref _mainModelDerivedFileName, value);
+        }
+        #endregion MainModelDerivedFileName
 
         #region constructor
         public MainViewModel() {

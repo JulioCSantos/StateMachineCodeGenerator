@@ -10,19 +10,20 @@
     <UserControl.DataContext>
         <viewModels:MainViewModel />
     </UserControl.DataContext>
+    <UserControl.Resources>
+        <Style x:Key="FilepathStyle"  TargetType="{x:Type TextBox}" >
+            <Setter Property="MinHeight" Value="70" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+            <Setter Property="VerticalAlignment" Value="Top" />
+        </Style>
+    </UserControl.Resources>
     <Grid>
-        <Grid.Resources>
-            <Style x:Key="FilepathStyle"  TargetType="{x:Type TextBox}" >
-                <Setter Property="MinHeight" Value="70" />
-                <Setter Property="TextWrapping" Value="Wrap" />
-                <Setter Property="VerticalAlignment" Value="Top" />
-            </Style>
-        </Grid.Resources>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="50*" />
             <ColumnDefinition Width="5" />
             <ColumnDefinition Width="50*" />
         </Grid.ColumnDefinitions>
+        <!--Left size column-->
         <Grid Grid.Row="0" Grid.IsSharedSizeScope="True">
             <Grid.RowDefinitions>
                 <RowDefinition /> <!--SourceFilePath-->
@@ -77,7 +78,39 @@
                 </StackPanel>
             <!--endregion CodeTargetFolderPath-->
         </Grid>
-
+        <!--middle (splitter) column-->
         <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" Foreground="Black"  />
+        <!--Right size column-->
+        <Grid Grid.Column="2">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <local:GroupBoxFileFolder Grid.Row="0" Text="StateMachineBaseFileName" 
+                                      LocateFileFolderCommand="{Binding OpenFileExplorerCommand}">
+                <TextBox  Text="{Binding StateMachineBaseFileName}" 
+                          Style="{StaticResource FilepathStyle}" />
+            </local:GroupBoxFileFolder>
+
+            <local:GroupBoxFileFolder Grid.Row="1" Text="StateMachineDerivedFileName" 
+                                      LocateFileFolderCommand="{Binding OpenFileExplorerCommand}">
+                <TextBox  Text="{Binding StateMachineDerivedFileName}" 
+                          Style="{StaticResource FilepathStyle}" />
+            </local:GroupBoxFileFolder>
+
+            <local:GroupBoxFileFolder Grid.Row="2" Text="MainModelBaseFilePathString" 
+                                      LocateFileFolderCommand="{Binding OpenFileExplorerCommand}">
+                <TextBox  Text="{Binding MainModelBaseFilePathString}" 
+                          Style="{StaticResource FilepathStyle}" />
+            </local:GroupBoxFileFolder>
+
+            <local:GroupBoxFileFolder Grid.Row="3" Text="MainModelDerivedFileName" 
+                                      LocateFileFolderCommand="{Binding OpenFileExplorerCommand}">
+                <TextBox  Text="{Binding MainModelDerivedFileName}" 
+                          Style="{StaticResource FilepathStyle}" />
+            </local:GroupBoxFileFolder>
+        </Grid>
     </Grid>
 </UserControl>
