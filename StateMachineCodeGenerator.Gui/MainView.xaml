@@ -26,15 +26,17 @@
         <!--Left size column-->
         <Grid Grid.Row="0" Grid.IsSharedSizeScope="True">
             <Grid.RowDefinitions>
-                <RowDefinition /> <!--SourceFilePath-->
-                <RowDefinition /> <!--CodeTargetFolderPath-->
+                <RowDefinition />
+                <!--SourceFilePath-->
+                <RowDefinition />
+                <!--CodeTargetFolderPath-->
             </Grid.RowDefinitions>
 
             <!--region SourceFilePath-->
             <StackPanel Grid.Row="0" Orientation="Vertical">
                 <local:GroupBoxFileFolder Text="EA exported XML file" 
                         LocateFileFolderCommand="{Binding OpenFileExplorerCommand}">
-                    <TextBox  Text="{Binding EAXMLFilePath}" 
+                    <TextBox  Text="{Binding EAXMLFileName}" 
                               Style="{StaticResource FilepathStyle}" />
                 </local:GroupBoxFileFolder>
 
@@ -56,26 +58,26 @@
             <!--endregion SourceFilePath-->
 
             <!--region CodeTargetFolderPath-->
-                <StackPanel Grid.Row="1" Orientation="Vertical" >
-                    <local:GroupBoxFileFolder Text="Target path (Generated files)" Height="Auto"
+            <StackPanel Grid.Row="1" Orientation="Vertical" >
+                <local:GroupBoxFileFolder Text="Target path (Generated files)" Height="Auto"
                                               LocateFileFolderCommand="{Binding OpenFileExplorerCommand}">
-                        <TextBox  Text="{Binding TargetSolution}"  
+                    <TextBox  Text="{Binding TargetSolutionFileName}"  
                                   Style="{StaticResource FilepathStyle}" />
-                    </local:GroupBoxFileFolder>
-                    <!--#region Namespace-->
-                    <Grid  HorizontalAlignment="Right" MinWidth="200" Margin="2">
-                        <Grid.ColumnDefinitions>
+                </local:GroupBoxFileFolder>
+                <!--#region Namespace-->
+                <Grid  HorizontalAlignment="Right" MinWidth="200" Margin="2">
+                    <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" SharedSizeGroup="ComboBoxLabels" />
                         <ColumnDefinition Width="*" SharedSizeGroup="ComboBoxes" />
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0" Text="Target Namespace : " Margin="4,0,1,0"
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="Target Namespace : " Margin="4,0,1,0"
                                    HorizontalAlignment="Right" VerticalAlignment="Center"/>
                     <ComboBox Grid.Column="1" ItemsSource="{Binding NamespacesList}"
                                   MaxWidth="200" Margin="1,0,4,0"
                                   SelectedItem="{Binding SelectedNameSpace}" />
-                    </Grid>
-                    <!--#endregion Namespace-->
-                </StackPanel>
+                </Grid>
+                <!--#endregion Namespace-->
+            </StackPanel>
             <!--endregion CodeTargetFolderPath-->
         </Grid>
         <!--middle (splitter) column-->
