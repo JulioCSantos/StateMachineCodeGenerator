@@ -62,6 +62,21 @@ namespace StateMachineCodeGenerator.Tests.Metadata
             Assert.AreEqual(6, eventsSet.Count);
         }
 
+        [DataTestMethod]
+        [DataRow("namespace Common", "Common")]
+        [DataRow("namespace StateMachineCodeGenerator.ViewModels", "StateMachineCodeGenerator.ViewModels")]
+        [DataRow(" namespace StateMachineCodeGenerator.ViewModels", "StateMachineCodeGenerator.ViewModels")]
+        [DataRow("namespace StateMachineCodeGenerator.ViewModels  ", "StateMachineCodeGenerator.ViewModels")]
+        [DataRow("namespace StateMachineCodeGenerator.ViewModels  {", "StateMachineCodeGenerator.ViewModels")]
+        [DataRow("  namespace StateMachineCodeGenerator.ViewModels  {", "StateMachineCodeGenerator.ViewModels")]
+        [DataRow("using system;", null)]
+        [DataRow("using system; namespace MyNamespace", "MyNamespace")]
+        public void GetNamespaceValueTest1(string line, string expected) {
+            var actual = TargetFilesDirectory.GetNamespaceValue(line);
+            //var actual = MainViewModel.GetNamespaceValue(line);
+            Assert.AreEqual(expected, actual);
+        }
+
         //[TestMethod]
         //public void TargetFilesNamesTest() {
         //    var target = new DerivedTargetFilesDirectory();

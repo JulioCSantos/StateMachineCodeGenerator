@@ -18,20 +18,6 @@ namespace StateMachineCodeGenerator.Tests.ViewModels
             Assert.IsNotNull(target);
         }
 
-        [DataTestMethod]
-        [DataRow("namespace Common", "Common")]
-        [DataRow("namespace StateMachineCodeGenerator.ViewModels", "StateMachineCodeGenerator.ViewModels")]
-        [DataRow(" namespace StateMachineCodeGenerator.ViewModels", "StateMachineCodeGenerator.ViewModels")]
-        [DataRow("namespace StateMachineCodeGenerator.ViewModels  ", "StateMachineCodeGenerator.ViewModels")]
-        [DataRow("namespace StateMachineCodeGenerator.ViewModels  {", "StateMachineCodeGenerator.ViewModels")]
-        [DataRow("  namespace StateMachineCodeGenerator.ViewModels  {", "StateMachineCodeGenerator.ViewModels")]
-        [DataRow("using system;", null)]
-        [DataRow("using system; namespace MyNamespace", "MyNamespace")]
-        public void GetNamespaceValueTest1(string line, string expected) {
-            //var target = new MainViewModel();
-            var actual = MainViewModel.GetNamespaceValue(line);
-            Assert.AreEqual(expected, actual);
-        }
 
         [TestMethod]
         public void HashSetTest() {
