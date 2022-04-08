@@ -22,20 +22,28 @@ namespace StateMachineCodeGenerator.ViewModels
         public RelayCommand OpenFileExplorerCommand => new RelayCommand(OpenFileExplorer);
         #endregion Commands
 
-        #region EAXMLFileName
-        public const string EAXMLFilePathLiteral = @"C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineMetadata new\Dependencies\LaserProcessing Model new.xml";
-        //public const string EAXMLFilePathLiteral = @"C:\Users\santosj25\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineMetadata\Dependencies\LaserProcessing Model new.xml";
-        //private string _eaxmlFileName = @"C:\Users\santosj25\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineMetadata\Dependencies\LaserProcessing Model new.xml";
-        private string _eaxmlFileName;
-        public string EAXMLFileName {
-            get => _eaxmlFileName;
-            set => SetProperty(ref _eaxmlFileName, value);
+        #region TargetFilesDirectory
+        private TargetFilesDirectory _targetFilesDirectory;
+        public TargetFilesDirectory TargetFilesDirectory {
+            get => _targetFilesDirectory ??= TargetFilesDirectory.Instance;
+            set => SetProperty(ref _targetFilesDirectory, value);
         }
-        #endregion EAXMLFileName
+        #endregion TargetFilesDirectory
 
-        #region EAXMLFileInfo
-        public FileInfo EAXMLFileInfo => EAXMLFileInfo == null ? null : new FileInfo(EAXMLFileName);
-        #endregion EAXMLFileInfo
+        //#region EAXMLFileName
+        //public const string EAXMLFilePathLiteral = @"C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineMetadata new\Dependencies\LaserProcessing Model new.xml";
+        ////public const string EAXMLFilePathLiteral = @"C:\Users\santosj25\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineMetadata\Dependencies\LaserProcessing Model new.xml";
+        ////private string _eaxmlFileName = @"C:\Users\santosj25\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineMetadata\Dependencies\LaserProcessing Model new.xml";
+        //private string _eaxmlFileName;
+        //public string EAXMLFileName {
+        //    get => _eaxmlFileName;
+        //    set => SetProperty(ref _eaxmlFileName, value);
+        //}
+        //#endregion EAXMLFileName
+
+        //#region EAXMLFileInfo
+        //public FileInfo EAXMLFileInfo => EAXMLFileName == null ? null : new FileInfo(EAXMLFileName);
+        //#endregion EAXMLFileInfo
 
         #region TargetSolutionFileName
         public const string TargetSolutionLiteral = @"C:\Users\julio\Documents\Visual Studio 2019\Projects\MyCompanies\Corning\TemplateGrid\TemplateGrid.sln";
@@ -52,21 +60,21 @@ namespace StateMachineCodeGenerator.ViewModels
         public FileInfo TargetSolutionFileInfo => TargetSolutionFileName == null ? null : new FileInfo(TargetSolutionFileName);
         #endregion TargetSolutionFileInfo
 
-        #region EAModelsList
-        private List<StateMachineMetadata.Model.MainModel> _eAModelsList;
-        public List<StateMachineMetadata.Model.MainModel> EAModelsList {
-            get => _eAModelsList;
-            set => SetProperty(ref _eAModelsList, value);
-        }
-        #endregion EAModelsList
+        //#region EAModelsList
+        //private List<StateMachineMetadata.Model.MainModel> _eAModelsList;
+        //public List<StateMachineMetadata.Model.MainModel> EAModelsList {
+        //    get => _eAModelsList;
+        //    set => SetProperty(ref _eAModelsList, value);
+        //}
+        //#endregion EAModelsList
 
-        #region SelectedEAModel
-        private StateMachineMetadata.Model.MainModel _selectedEAModel;
-        public StateMachineMetadata.Model.MainModel SelectedEAModel {
-            get => _selectedEAModel;
-            set => SetProperty(ref _selectedEAModel, value);
-        }
-        #endregion SelectedEAModel
+        //#region SelectedEAModel
+        //private StateMachineMetadata.Model.MainModel _selectedEAModel;
+        //public StateMachineMetadata.Model.MainModel SelectedEAModel {
+        //    get => _selectedEAModel;
+        //    set => SetProperty(ref _selectedEAModel, value);
+        //}
+        //#endregion SelectedEAModel
 
         #region NamespacesList
         private List<string> _namespacesList;
@@ -92,9 +100,9 @@ namespace StateMachineCodeGenerator.ViewModels
         }
         #endregion CsFiles
 
-        #region IsModelSelectable
-        public bool IsModelSelectable => (EAModelsList?.Count ?? 0) > 1;
-        #endregion IsModelSelectable
+        //#region IsModelSelectable
+        //public bool IsModelSelectable => (EAModelsList?.Count ?? 0) > 1;
+        //#endregion IsModelSelectable
 
         #region StateMachineBaseFileName
         private string _stateMachineBaseFileName;
@@ -130,23 +138,39 @@ namespace StateMachineCodeGenerator.ViewModels
 
         #region constructor
         public MainViewModel() {
-            this.PropertyChanged += MainViewModel_PropertyChanged;
+            //this.PropertyChanged += MainViewModel_PropertyChanged;
+            this.TargetFilesDirectory.PropertyChanged += TargetFilesDirectory_PropertyChanged;
         }
 
-        private void MainViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e) {
+        private void TargetFilesDirectory_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e) {
             switch (e.PropertyName) {
-                case nameof(EAXMLFileName):
-                    EAModelsList = Main.GetStateMachineModelFromEAXMLFile(EAXMLFileName);
-                    SelectedEAModel = EAModelsList?.FirstOrDefault();
+                case nameof(TargetFilesDirectory.EaXmlFileName):
+                    TargetFilesDirectory.EaModelsList = Main.GetStateMachineModelFromEAXMLFile(TargetFilesDirectory.EaXmlFileName);
+                    TargetFilesDirectory.SelectedEaModel = TargetFilesDirectory.EaModelsList?.FirstOrDefault();
                     break;
-                case nameof(EAModelsList):
-                    RaisePropertyChanged(nameof(IsModelSelectable));
-                    break;
-                case nameof(TargetSolutionFileName):
-                    NamespacesList = GetNameSpaces(TargetSolutionFileName).ToList();
-                    break;
+                //case nameof(TargetFilesDirectory.EaModelsList):
+                //    RaisePropertyChanged(nameof(IsModelSelectable));
+                //    break;
+                //case nameof(TargetFilesDirectory.TargetSolutionFileName):
+                //    NamespacesList = GetNameSpaces(TargetFilesDirectory.TargetSolutionFileName).ToList();
+                //    break;
             }
         }
+
+        //private void MainViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e) {
+        //    switch (e.PropertyName) {
+        //        case nameof(EAXMLFileName):
+        //            EAModelsList = Main.GetStateMachineModelFromEAXMLFile(EAXMLFileName);
+        //            SelectedEAModel = EAModelsList?.FirstOrDefault();
+        //            break;
+        //        case nameof(EAModelsList):
+        //            RaisePropertyChanged(nameof(IsModelSelectable));
+        //            break;
+        //        case nameof(TargetSolutionFileName):
+        //            NamespacesList = GetNameSpaces(TargetSolutionFileName).ToList();
+        //            break;
+        //    }
+        //}
         #endregion constructor
 
         #region GetNameSpaces
@@ -207,7 +231,6 @@ namespace StateMachineCodeGenerator.ViewModels
 
             //var namespacePattern = @"(?<=namespace )\b\w+\b";
             var match = Regex.Match(line, NamespacePatternLiteral);
-            var asdf = match.Value;
             return match.Success ? match.Value : null;
         }
         #endregion GetNamepaceAsync
@@ -224,11 +247,13 @@ namespace StateMachineCodeGenerator.ViewModels
 
         #region commands
         public void OpenFileExplorer(object path) {
-
-            if (string.IsNullOrEmpty(EAXMLFileName) == false && string.IsNullOrEmpty(TargetSolutionFileName)) {
-                TargetSolutionFileName = TargetSolutionLiteral;
+            if (string.IsNullOrEmpty(TargetFilesDirectory.EaXmlFileName) == false && string.IsNullOrEmpty(TargetFilesDirectory.TargetSolutionFileName)) {
+                TargetFilesDirectory.TargetSolutionFileName = TargetFilesDirectory.TargetSolutionLiteral;
             }
-            if (string.IsNullOrEmpty(EAXMLFileName)) { EAXMLFileName = EAXMLFilePathLiteral; }
+
+            if (string.IsNullOrEmpty(TargetFilesDirectory.EaXmlFileName)) {
+                TargetFilesDirectory.EaXmlFileName = TargetFilesDirectory.EaXmlFilePathLiteral;
+            }
 
         }
 

@@ -25,7 +25,7 @@ namespace StateMachineCodeGenerator.Tests.Metadata
             Assert.IsNull(target.StateMachineDerivedFileName);
             Assert.IsNull(target.MainModelBaseFileName);
             Assert.IsNull(target.MainModelDerivedFileName);
-            target.EAModelName = "MyModelName";
+            target.SelectedEaModelName = "MyModelName";
             target.TargetFilesPath =
                 new FileInfo(
                     @"C:\Users\julio\Documents\Visual Studio 2019\Projects\MyCompanies\Corning\TemplateGrid\TemplateGrid.sln").Directory;
@@ -41,7 +41,7 @@ namespace StateMachineCodeGenerator.Tests.Metadata
             var eventsSet = new HashSet<string>();
             target.PropertyChanged += (sender, args) => eventsSet.Add(args.PropertyName);
             Assert.AreEqual(0, eventsSet.Count);
-            target.EAModelName = "MyModelName";
+            target.SelectedEaModelName = "MyModelName";
             Assert.AreEqual(1, eventsSet.Count);
             target.TargetFilesPath =
                 new FileInfo(
@@ -58,7 +58,7 @@ namespace StateMachineCodeGenerator.Tests.Metadata
                 new FileInfo(
                     @"C:\Users\julio\Documents\Visual Studio 2019\Projects\MyCompanies\Corning\TemplateGrid\TemplateGrid.sln").Directory;
             Assert.AreEqual(1, eventsSet.Count);
-            target.EAModelName = "MyModelName";
+            target.SelectedEaModelName = "MyModelName";
             Assert.AreEqual(6, eventsSet.Count);
         }
 
@@ -71,11 +71,10 @@ namespace StateMachineCodeGenerator.Tests.Metadata
         //}
     }
 
-    public class DerivedTargetFilesDirectory : TargetFilesDirectory
-    {
-        public DerivedTargetFilesDirectory() :base() {
-            
+    public class DerivedTargetFilesDirectory : TargetFilesDirectory {
+        public new string SelectedEaModelName {
+            get => base.SelectedEaModelName;
+            set => base.SelectedEaModelName = value;
         }
-
     }
 }

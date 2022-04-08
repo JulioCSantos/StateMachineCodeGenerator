@@ -36,7 +36,7 @@
             <StackPanel Grid.Row="0" Orientation="Vertical">
                 <local:GroupBoxFileFolder Text="EA exported XML file" 
                         LocateFileFolderCommand="{Binding OpenFileExplorerCommand}">
-                    <TextBox  Text="{Binding EAXMLFileName}" 
+                    <TextBox  Text="{Binding TargetFilesDirectory.EaXmlFileName}" 
                               Style="{StaticResource FilepathStyle}" />
                 </local:GroupBoxFileFolder>
 
@@ -48,10 +48,10 @@
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Column="0" Text="EA Model : " Margin="4,0,1,0" 
                                VerticalAlignment="Center" HorizontalAlignment="Right"/>
-                    <ComboBox Grid.Column="1" ItemsSource="{Binding EAModelsList}"
+                    <ComboBox Grid.Column="1" ItemsSource="{Binding TargetFilesDirectory.EaModelsList}"
                               DisplayMemberPath="ProjectName" MaxWidth="200" Margin="1,0,4,0"
-                              IsReadOnly="{Binding IsModelSelectable}"
-                              SelectedItem="{Binding SelectedEAModel}" />
+                              IsReadOnly="{Binding TargetFilesDirectory.IsModelSelectable}"
+                              SelectedItem="{Binding TargetFilesDirectory.SelectedEaModel}" />
                 </Grid>
                 <!--#endregion EAModel-->
             </StackPanel>
@@ -61,7 +61,7 @@
             <StackPanel Grid.Row="1" Orientation="Vertical" >
                 <local:GroupBoxFileFolder Text="Target path (Generated files)" Height="Auto"
                                               LocateFileFolderCommand="{Binding OpenFileExplorerCommand}">
-                    <TextBox  Text="{Binding TargetSolutionFileName}"  
+                    <TextBox  Text="{Binding TargetFilesDirectory.TargetSolutionFileName}"  
                                   Style="{StaticResource FilepathStyle}" />
                 </local:GroupBoxFileFolder>
                 <!--#region Namespace-->
@@ -72,9 +72,9 @@
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Column="0" Text="Target Namespace : " Margin="4,0,1,0"
                                    HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                    <ComboBox Grid.Column="1" ItemsSource="{Binding NamespacesList}"
+                    <ComboBox Grid.Column="1" ItemsSource="{Binding TargetFilesDirectory.NamespacesList}"
                                   MaxWidth="200" Margin="1,0,4,0"
-                                  SelectedItem="{Binding SelectedNameSpace}" />
+                                  SelectedItem="{Binding TargetFilesDirectory.SelectedNameSpace}" />
                 </Grid>
                 <!--#endregion Namespace-->
             </StackPanel>
@@ -92,25 +92,25 @@
             </Grid.RowDefinitions>
             <local:GroupBoxFileFolder Grid.Row="0" Text="StateMachineBaseFileName" 
                                       LocateFileFolderCommand="{Binding OpenFileExplorerCommand}">
-                <TextBox  Text="{Binding StateMachineBaseFileName}" 
+                <TextBox  Text="{Binding TargetFilesDirectory.StateMachineBaseFileName}" 
                           Style="{StaticResource FilepathStyle}" />
             </local:GroupBoxFileFolder>
 
             <local:GroupBoxFileFolder Grid.Row="1" Text="StateMachineDerivedFileName" 
                                       LocateFileFolderCommand="{Binding OpenFileExplorerCommand}">
-                <TextBox  Text="{Binding StateMachineDerivedFileName}" 
+                <TextBox  Text="{Binding TargetFilesDirectory.StateMachineDerivedFileName}" 
                           Style="{StaticResource FilepathStyle}" />
             </local:GroupBoxFileFolder>
 
             <local:GroupBoxFileFolder Grid.Row="2" Text="MainModelBaseFilePathString" 
                                       LocateFileFolderCommand="{Binding OpenFileExplorerCommand}">
-                <TextBox  Text="{Binding MainModelBaseFilePathString}" 
+                <TextBox  Text="{Binding TargetFilesDirectory.MainModelBaseFileName}" 
                           Style="{StaticResource FilepathStyle}" />
             </local:GroupBoxFileFolder>
 
             <local:GroupBoxFileFolder Grid.Row="3" Text="MainModelDerivedFileName" 
                                       LocateFileFolderCommand="{Binding OpenFileExplorerCommand}">
-                <TextBox  Text="{Binding MainModelDerivedFileName}" 
+                <TextBox  Text="{Binding TargetFilesDirectory.MainModelDerivedFileName}" 
                           Style="{StaticResource FilepathStyle}" />
             </local:GroupBoxFileFolder>
         </Grid>
