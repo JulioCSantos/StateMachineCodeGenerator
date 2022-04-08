@@ -10,13 +10,13 @@ namespace StateMachineMetadata
 {
     public class TargetFilesDirectory : SetPropertyBase
     {
-        //#region singleton
-        //public static TargetFilesDirectory Instance { get; } = new TargetFilesDirectory();
+        #region singleton
+        public static TargetFilesDirectory Instance { get; } = new TargetFilesDirectory();
 
-        //public static TargetFilesDirectory GetInstance() { return Instance; }
+        public static TargetFilesDirectory GetInstance() { return Instance; }
 
         #region constructor
-        public TargetFilesDirectory() {
+        protected TargetFilesDirectory() {
             this.PropertyChanged += TargetFilesDirectory_PropertyChanged;
         }
 
@@ -24,64 +24,86 @@ namespace StateMachineMetadata
             switch (e.PropertyName) {
                 case nameof(EAModelName):
                 case nameof(TargetFilesPath):
-                case nameof(NamespaceValue):
-
+                    if (string.IsNullOrEmpty(EAModelName) || TargetFilesPath == null) {}
+                    else {
+                        RaisePropertyChanged(nameof(StateMachineBaseFileName));
+                        RaisePropertyChanged(nameof(StateMachineDerivedFileName));
+                        RaisePropertyChanged(nameof(MainModelBaseFileName));
+                        RaisePropertyChanged(nameof(MainModelDerivedFileName));
+                    }
                     break;
             }
         }
         #endregion constructor
 
-        //#endregion singleton
+        #endregion singleton
 
-        #region SolutionFileInfo
-        private FileInfo _solutionFileInfo;
-        public FileInfo SolutionFileInfo {
-            get => _solutionFileInfo;
-            set => SetProperty(ref _solutionFileInfo, value);
+        protected Func<string, string> GenrtdFileNamesFunc => new((sufix) => {
+            if (string.IsNullOrEmpty(EAModelName) || TargetFilesPath?.FullName == null) { return null;}
+            return TargetFilesPath.FullName + @$"\C{EAModelName}{sufix}";
+        });
+
+        #region StateMachineBaseFileName
+        private string _stateMachineBaseFileName;
+        public string StateMachineBaseFileName {
+            get => _stateMachineBaseFileName ??= GenrtdFileNamesFunc("StateMachineBase_gen.cs");
+            set { SetProperty(ref _stateMachineBaseFileName, value); RaisePropertyChanged(nameof(StateMachineBaseFileName));}
         }
-        #endregion SolutionFileInfo
-
-        #region StateMachineBaseFileInfo
-        private FileInfo _stateMachineBaseFileInfo;
         public FileInfo StateMachineBaseFileInfo {
-            get => _stateMachineBaseFileInfo ??= new FileInfo(TargetFilesPath.FullName + $".C{EAModelName}StateMachineBase_gen.cs");
-            set => SetProperty(ref _stateMachineBaseFileInfo, value);
+            get {
+                try { return new FileInfo(StateMachineBaseFileName); }
+                catch (Exception) { return null; }
+            }
         }
-        #endregion StateMachineBaseFileInfo
+        #endregion StateMachineBaseFileName
 
-        #region StateMachineDerivedFileInfo
-        private FileInfo _stateMachineDerivedFileInfo;
+
+        #region StateMachineDerivedFileName
+        private string _stateMachineDerivedFileName;
+        public string StateMachineDerivedFileName {
+            get => _stateMachineDerivedFileName ??= GenrtdFileNamesFunc("StateMachineBase.cs");
+            set { SetProperty(ref _stateMachineDerivedFileName, value); RaisePropertyChanged(nameof(StateMachineDerivedFileInfo)); }
+        }
         public FileInfo StateMachineDerivedFileInfo {
-            get => _stateMachineDerivedFileInfo ??= new FileInfo(TargetFilesPath.FullName + $".C{EAModelName}StateMachineBase.cs");
-            set => SetProperty(ref _stateMachineDerivedFileInfo, value);
+            get {
+                try { return new FileInfo(StateMachineDerivedFileName); }
+                catch (Exception) { return null; }
+            }
         }
-        #endregion StateMachineDerivedFileInfo
+        #endregion StateMachineDerivedFileName
 
-        #region MainModelBaseFileInfo
-        private FileInfo _mainModelBaseFileInfo;
-        public FileInfo MainModelBaseFileInfo {
-            get => _mainModelBaseFileInfo ??= new FileInfo(TargetFilesPath.FullName + $".C{EAModelName}ModelBase_gen.cs");
-            set => SetProperty(ref _mainModelBaseFileInfo, value);
+        #region MainModelBaseFileName
+        private string _mainModelBaseFileName;
+        public string MainModelBaseFileName {
+            get => _mainModelBaseFileName ??= GenrtdFileNamesFunc("ModelBase_gen.cs");
+            set => SetProperty(ref _mainModelBaseFileName, value);
         }
-        #endregion MainModelBaseFileInfo
+        #endregion MainModelBaseFileName
 
-        #region MainModelDerivedFileInfo
-        private FileInfo _mainModelDerivedFileInfo;
-        public FileInfo MainModelDerivedFileInfo {
-            get => _mainModelDerivedFileInfo ??= new FileInfo(TargetFilesPath.FullName + $".C{EAModelName}Model.cs");
-            set => SetProperty(ref _mainModelDerivedFileInfo, value);
+        #region MainModelDerivedFileName
+        private string _mainModelDerivedFileName;
+        public string MainModelDerivedFileName {
+            get => _mainModelDerivedFileName ??= GenrtdFileNamesFunc("EAModelName}Model.cs");
+            set => SetProperty(ref _mainModelDerivedFileName, value);
         }
-        #endregion MainModelDerivedFileInfo
+        #endregion MainModelDerivedFileName
 
 
 
-        #region TargetFilesPath
-        private DirectoryInfo _targetFilesPath;
-        public DirectoryInfo TargetFilesPath {
-            get => _targetFilesPath;
-            set => SetProperty(ref _targetFilesPath, value);
+        #region SolutionFileName
+        private string _solutionFileName;
+        public string SolutionFileName {
+            get => _solutionFileName;
+            set { SetProperty(ref _solutionFileName, value); RaisePropertyChanged(nameof(SolutionFileInfo)); }
         }
-        #endregion TargetFilesPath
+
+        public FileInfo SolutionFileInfo {
+            get {
+                try { return new FileInfo(SolutionFileName); }
+                catch (Exception) { return null; }
+            }
+        }
+        #endregion SolutionFileName
 
         #region EAModelName
         private string _eAModelName;
@@ -90,6 +112,14 @@ namespace StateMachineMetadata
             set => SetProperty(ref _eAModelName, value);
         }
         #endregion EAModelName
+
+        #region TargetFilesPath
+        private DirectoryInfo _targetFilesPath;
+        public DirectoryInfo TargetFilesPath {
+            get => _targetFilesPath;
+            set => SetProperty(ref _targetFilesPath, value);
+        }
+        #endregion TargetFilesPath
 
         #region NamespaceValue
         private string _namespaceValue;
@@ -103,27 +133,27 @@ namespace StateMachineMetadata
         {
             unkown,
             Solution,
-            StateMachineBaseFilePath,
+            StateMachineBaseFileName,
             StateMachineDerivedFilePath,
             MainModelBaseFilePath,
             MainModelDerivedFilePath
         }
 
-        public FileInfo this[TargetPath fileKey] {
+        public string this[TargetPath fileKey] {
             get {
                 switch (fileKey) {
                     case TargetPath.unkown:
                         return null;
                     case TargetPath.Solution:
-                        return SolutionFileInfo;
-                    case TargetPath.StateMachineBaseFilePath:
-                        return StateMachineBaseFileInfo;
+                        return SolutionFileName;
+                    case TargetPath.StateMachineBaseFileName:
+                        return StateMachineBaseFileName;
                     case TargetPath.StateMachineDerivedFilePath:
-                        return StateMachineDerivedFileInfo;
+                        return StateMachineDerivedFileName;
                     case TargetPath.MainModelBaseFilePath:
-                        return MainModelBaseFileInfo;
+                        return MainModelBaseFileName;
                     case TargetPath.MainModelDerivedFilePath:
-                        return MainModelDerivedFileInfo;
+                        return MainModelDerivedFileName;
                     default:
                         throw new ArgumentOutOfRangeException(nameof(fileKey), fileKey, null);
                 }
@@ -133,19 +163,19 @@ namespace StateMachineMetadata
                     case TargetPath.unkown:
                         break;
                     case TargetPath.Solution:
-                        SolutionFileInfo = value;
+                        SolutionFileName = value;
                         break;
-                    case TargetPath.StateMachineBaseFilePath:
-                        StateMachineBaseFileInfo = value;
+                    case TargetPath.StateMachineBaseFileName:
+                        StateMachineBaseFileName = value;
                         break;
                     case TargetPath.StateMachineDerivedFilePath:
-                        StateMachineDerivedFileInfo = value;
+                        StateMachineDerivedFileName = value;
                         break;
                     case TargetPath.MainModelBaseFilePath:
-                        MainModelBaseFileInfo = value;
+                        MainModelBaseFileName = value;
                         break;
                     case TargetPath.MainModelDerivedFilePath:
-                        MainModelDerivedFileInfo = value;
+                        MainModelDerivedFileName = value;
                         break;
                     default:
                         throw new ArgumentOutOfRangeException(nameof(fileKey), fileKey, null);
