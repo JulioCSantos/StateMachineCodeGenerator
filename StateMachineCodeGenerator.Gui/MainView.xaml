@@ -26,14 +26,13 @@
         <!--Left size column-->
         <Grid Grid.Row="0" Grid.IsSharedSizeScope="True">
             <Grid.RowDefinitions>
-                <RowDefinition />
-                <!--SourceFilePath-->
-                <RowDefinition />
-                <!--CodeTargetFolderPath-->
+                <RowDefinition /> <!--SourceFilePath-->
+                <RowDefinition /> <!--CodeTargetFolderPath-->
+                <RowDefinition /> <!--Start Parsing-->
             </Grid.RowDefinitions>
 
             <!--region SourceFilePath-->
-            <StackPanel Grid.Row="0" Orientation="Vertical">
+            <StackPanel Grid.Row="0" Orientation="Vertical" Height="225" VerticalAlignment="Top">
                 <local:GroupBoxFileFolder Text="EA exported XML file" 
                         LocateFileFolderCommand="{Binding OpenFileExplorerCommand}">
                     <TextBox  Text="{Binding TargetFilesDirectory.EaXmlFileName}" 
@@ -79,6 +78,10 @@
                 <!--#endregion Namespace-->
             </StackPanel>
             <!--endregion CodeTargetFolderPath-->
+
+            <Button Grid.Row="2" Content="Start Parsing" Margin="1,0,4,4" Height="23"
+                    Command="{Binding StartParsingCommand}"
+                    HorizontalAlignment="Right" VerticalAlignment="Bottom" />
         </Grid>
         <!--middle (splitter) column-->
         <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" Foreground="Black"  />

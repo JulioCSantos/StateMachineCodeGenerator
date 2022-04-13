@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using StateMachineMetadata.StateMachineCodeParts;
 using StateMachineMetadata.Model;
+using System.IO;
 
 namespace StateMachineMetadata
 {
@@ -17,6 +18,7 @@ namespace StateMachineMetadata
         {
             Model = model;
             var stateMachineCode = new FullCode();
+            Directory.CreateDirectory(toPath);
             var toStateMachine = $"{toPath}\\{model.StateMachineTypeName}.cs";
             System.IO.File.WriteAllLines(toStateMachine, stateMachineCode.ToCSharp(Model));
         }

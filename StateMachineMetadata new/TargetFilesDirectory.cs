@@ -162,7 +162,7 @@ namespace StateMachineMetadata
         public DirectoryInfo TargetFilesPath {
             get {
                 if (_targetFilesPath != null) { return _targetFilesPath;}
-                try { return new FileInfo(TargetSolutionFileName).Directory; }
+                try { return new DirectoryInfo(new FileInfo(TargetSolutionFileName).Directory?.FullName + @"\" + SelectedEaModelName) ; }
                 catch (Exception) { return null; }
             }
             set => SetProperty(ref _targetFilesPath, value);
