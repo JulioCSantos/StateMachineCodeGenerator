@@ -1,0 +1,279 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\..\packages\Costura.Fody.3.2.0\build\Costura.Fody.props" Condition="Exists('..\..\packages\Costura.Fody.3.2.0\build\Costura.Fody.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{9B4BA2C0-B60D-4BB6-839A-39BDD21ADCA7}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>StateMachineCodeGeneratorSystem</RootNamespace>
+    <AssemblyName>StateMachineCodeGeneratorSystem</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <PublishUrl>C:\VS Projects\ZacksStateMachineCodeGenerator\Publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>7</ApplicationRevision>
+    <ApplicationVersion>0.9.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>App.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>DF75FDAB8ACAB9C7DFA714AED9A05560AD87D149</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>StateMachineCodeGeneratorSystem_TemporaryKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>true</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>false</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>StateMachineCodeGeneratorSystem_TemporaryKey.pfx</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Corning.GenSys.Components">
+      <HintPath>..\..\Libs\Corning\GenSys\Corning.GenSys.Components.dll</HintPath>
+    </Reference>
+    <Reference Include="NorthStateFramework">
+      <HintPath>..\..\Libs\Commercial\NorthState\NorthStateFramework-csharp\NorthStateFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CFileUpdater.cs" />
+    <Compile Include="CStateMachineCodeGeneratorCalcs.cs" />
+    <Compile Include="CStateMachineCodeGeneratorStateMachine.cs" />
+    <Compile Include="CStateMachineCodeGeneratorSystem.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Templates\Parts\CopyrightHeader1.cs">
+      <DependentUpon>CopyrightHeader.t4</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="Templates\Parts\GensysQuickStartGuide1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GensysQuickStartGuide.t4</DependentUpon>
+    </Compile>
+    <Compile Include="Templates\Parts\InvokeEvent1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>InvokeEvent.t4</DependentUpon>
+    </Compile>
+    <Compile Include="Templates\StateMachineDerivedTemplate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>StateMachineDerivedTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Templates\StateMachineBaseTemplate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>StateMachineBaseTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Templates\StateMachineModelBaseTemplate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>StateMachineModelBaseTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Templates\StateMachineModelDerivedTemplate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>StateMachineModelDerivedTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Templates\TemplatesGenerator.cs" />
+    <Compile Include="Templates\Parts\TemplateExtensions.cs" />
+    <None Include="App.config" />
+    <None Include="NLog.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="StateMachineCodeGeneratorSystem_TemporaryKey.pfx" />
+    <None Include="Templates\Parts\CopyrightHeader.t4">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>CopyrightHeader1.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Components\StateMachineCodeGeneratorData\StateMachineCodeGeneratorData.csproj">
+      <Project>{ee0896d1-c001-4cc2-b8d9-b254d8306384}</Project>
+      <Name>StateMachineCodeGeneratorData</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Components\StateMachineCodeGeneratorIo\StateMachineCodeGeneratorIo.csproj">
+      <Project>{27fbe5ca-d936-45cc-9d0c-b6aa14faf286}</Project>
+      <Name>StateMachineCodeGeneratorIo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Components\StateMachineCodeGeneratorMotion\StateMachineCodeGeneratorMotion.csproj">
+      <Project>{2388e1b8-73d1-422c-b3e3-3dc16664a46f}</Project>
+      <Name>StateMachineCodeGeneratorMotion</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Components\StateMachineCodeGeneratorPoints\StateMachineCodeGeneratorPoints.csproj">
+      <Project>{f47fcf57-b066-49ff-ad1e-ea6b105ece35}</Project>
+      <Name>StateMachineCodeGeneratorPoints</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Components\StateMachineCodeGeneratorRuleEngine\StateMachineCodeGeneratorRuleEngine.csproj">
+      <Project>{46DBCF13-62A0-4123-A747-4FE8822AF7B0}</Project>
+      <Name>StateMachineCodeGeneratorRuleEngine</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Components\LanguageDummy\LanguageDummy.csproj">
+      <Project>{FA18F92E-7252-4C61-8725-5E22A6424BBA}</Project>
+      <Name>LanguageDummy</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Components\StateMachineCodeGeneratorImage\StateMachineCodeGeneratorImage.csproj">
+      <Project>{C8F140C2-DFD9-4440-A83A-D7B5A3598F91}</Project>
+      <Name>StateMachineCodeGeneratorImage</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Components\StateMachineMetadata\StateMachineMetadata.csproj">
+      <Project>{7d71fb16-ca6a-4bc7-b000-7d253df8115f}</Project>
+      <Name>StateMachineMetadata</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Gui\MainForm\StateMachineCodeGeneratorGui.csproj">
+      <Project>{b2232c6e-c052-4bec-90a8-34e7d1d41669}</Project>
+      <Name>StateMachineCodeGeneratorGui</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Interfaces\IStateMachineCodeGenerator\IStateMachineCodeGenerator.csproj">
+      <Project>{2ae4c0dc-845f-4c21-9465-3962e63e8854}</Project>
+      <Name>IStateMachineCodeGenerator</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App.ico" />
+    <Content Include="Templates\StateMachineDerivedTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>StateMachineDerivedTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="Templates\StateMachineModelBaseTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>StateMachineModelBaseTemplate.cs</LastGenOutput>
+    </Content>
+    <Content Include="Templates\StateMachineModelDerivedTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>StateMachineModelDerivedTemplate.cs</LastGenOutput>
+    </Content>
+    <None Include="Templates\Parts\GensysQuickStartGuide.t4">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>GensysQuickStartGuide1.cs</LastGenOutput>
+    </None>
+    <None Include="Templates\Parts\InvokeEvent.t4">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>InvokeEvent1.cs</LastGenOutput>
+    </None>
+    <Content Include="Templates\StateMachineBaseTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>StateMachineBaseTemplate.cs</LastGenOutput>
+    </Content>
+    <None Include="FodyWeavers.xml" />
+    <Content Include="RuleEngineXml\SampleRules.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="bin\Debug\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\packages\Costura.Fody.3.2.0\build\Costura.Fody.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Costura.Fody.3.2.0\build\Costura.Fody.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,76 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <RootNamespace>StateMachineCodeGenerator.Generator</RootNamespace>
+    <AssemblyName>StateMachineCodeGenerator.Generator</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Templates\StateMachineBaseTemplate.tt" />
+    <None Remove="Templates\StateMachineDerivedTemplate.tt" />
+    <None Remove="Templates\StateMachineModelBaseTemplate.tt" />
+    <None Remove="Templates\StateMachineModelDerivedTemplate.tt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Templates\StateMachineBaseTemplate.tt">
+      <LastGenOutput>StateMachineBaseTemplate.cs</LastGenOutput>
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+    </Content>
+    <Content Include="Templates\StateMachineDerivedTemplate.tt">
+      <LastGenOutput>StateMachineDerivedTemplate.cs</LastGenOutput>
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+    </Content>
+    <Content Include="Templates\StateMachineModelBaseTemplate.tt">
+      <LastGenOutput>StateMachineModelBaseTemplate.cs</LastGenOutput>
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+    </Content>
+    <Content Include="Templates\StateMachineModelDerivedTemplate.tt">
+      <LastGenOutput>StateMachineModelDerivedTemplate.cs</LastGenOutput>
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\StateMachineMetadata new\35 StateMachineMetadata.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Templates\Parts\CopyrightHeader.cs">
+      <DependentUpon>CopyrightHeader.t4</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Update="Templates\Parts\GensysQuickStartGuide.cs">
+      <DependentUpon>GensysQuickStartGuide.t4</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Update="Templates\Parts\InvokeEvent.cs">
+      <DependentUpon>InvokeEvent.t4</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Templates\Parts\CopyrightHeader.t4">
+      <LastGenOutput>CopyrightHeader.cs</LastGenOutput>
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+    </None>
+    <None Update="Templates\Parts\GensysQuickStartGuide.t4">
+      <LastGenOutput>GensysQuickStartGuide.cs</LastGenOutput>
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+    </None>
+    <None Update="Templates\Parts\InvokeEvent.t4">
+      <LastGenOutput>InvokeEvent.cs</LastGenOutput>
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+</Project>

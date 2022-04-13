@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Rule Engine Settings -->
+<CRule xmlns:yaxlib="http://www.sinairv.com/yaxlib/">
+  <Rules>
+     <CRule yaxlib:realtype="Corning.GenSys.RuleEngine.CRule">
+      <Name>SampleRule1</Name>
+      <Rule><![CDATA[true]]></Rule>
+      <Action><![CDATA[~]]></Action>
+    </CRule>
+    <CRule yaxlib:realtype="Corning.GenSys.RuleEngine.CRule">
+      <Name>CatchAllRule</Name>
+      <Rule><![CDATA[true]]></Rule>
+      <Action><![CDATA[~]]></Action>
+    </CRule>
+  </Rules>
+  <UsedNameSpaces />
+  <UsedAssemblies />
+</CRule>
