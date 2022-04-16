@@ -1,6 +1,9 @@
 ﻿using StateMachineCodeGenerator.Common;
+using StateMachineCodeGenerator.Generator;
+using StateMachineCodeGeneratorSystem.Templates;
 using StateMachineMetadata;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace StateMachineCodeGenerator.ViewModels
 {
@@ -51,12 +54,14 @@ namespace StateMachineCodeGenerator.ViewModels
 
         }
 
-        public void StartParsing() {
-            //Main.MainEntryPoint(new string[] { EAXMLFileName, TargetSolutionFileName });
-            //var models = Main.MainModels;
-            var codeGenerator = new StateMachineGenerator();
-            //codeGenerator.Generate(models.FirstOrDefault(), TargetSolutionFileName);
-            codeGenerator.Generate(TargetFilesDirectory.SelectedEaModel, TargetFilesDirectory.TargetFilesPath.FullName);
+        public async void StartParsing() {
+            ////Main.MainEntryPoint(new string[] { EAXMLFileName, TargetSolutionFileName });
+            ////var models = Main.MainModels;
+            //var codeGenerator = new StateMachineGenerator();
+            ////codeGenerator.Generate(models.FirstOrDefault(), TargetSolutionFileName);
+            //codeGenerator.Generate(TargetFilesDirectory.SelectedEaModel, TargetFilesDirectory.TargetFilesPath.FullName);
+            var CodeGenerator = new TemplatesGenerator(TargetFilesDirectory.EaXmlFileInfo);
+            var filesGenerated = await CodeGenerator.GenerateFiles();
         }
         #endregion commands
 

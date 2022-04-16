@@ -33,6 +33,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="System.CodeDom" Version="6.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\StateMachineMetadata new\35 StateMachineMetadata.csproj" />
   </ItemGroup>
 
@@ -51,6 +55,11 @@
       <DependentUpon>InvokeEvent.t4</DependentUpon>
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Update="Templates\StateMachineBaseTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>StateMachineBaseTemplate.tt</DependentUpon>
     </Compile>
   </ItemGroup>
 

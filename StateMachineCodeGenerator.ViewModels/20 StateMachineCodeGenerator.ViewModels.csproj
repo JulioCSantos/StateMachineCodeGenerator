@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\StateMachineCodeGenerator.Common\50 StateMachineCodeGenerator.Common.csproj" />
+    <ProjectReference Include="..\StateMachineCodeGenerator.Generator\30 StateMachineCodeGenerator.Generator.csproj" />
     <ProjectReference Include="..\StateMachineMetadata new\35 StateMachineMetadata.csproj" />
   </ItemGroup>
 

@@ -36,8 +36,7 @@ namespace StateMachineCodeGenerator.Generator
 
             return taskGen;
         }
-        // This task is called by the Thread Handler every 1000 mSec
-        private async Task<bool> ApplicationTask() {
+        public async Task<bool> ApplicationTask() {
             //var xmlFile = new FileInfo(@"C:\GenSys\GenSys projects\Shield T4\Models\Shield State Machine.xml");
             var xmlFile = new FileInfo(EaXmlFilePath);
 
