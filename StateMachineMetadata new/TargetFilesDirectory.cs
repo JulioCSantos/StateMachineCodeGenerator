@@ -102,6 +102,14 @@ namespace StateMachineMetadata
         }
         #endregion MainModelDerivedFileName
 
+        #region CodeGeneratedFileName
+        private string _codeGeneratedFileName;
+        public string CodeGeneratedFileName {
+            get => _codeGeneratedFileName;
+            set => SetProperty(ref _codeGeneratedFileName, value);
+        }
+        #endregion CodeGeneratedFileName
+
 
         #region EA XML Model
 
@@ -221,7 +229,8 @@ namespace StateMachineMetadata
         {
             unkown,
             Solution,
-            StateMachineBaseFileName,
+            CodeGeneratedPath,
+            StateMachineBaseFilePath,
             StateMachineDerivedFilePath,
             MainModelBaseFilePath,
             MainModelDerivedFilePath
@@ -236,7 +245,7 @@ namespace StateMachineMetadata
                         return null;
                     case TargetPath.Solution:
                         return TargetSolutionFileName;
-                    case TargetPath.StateMachineBaseFileName:
+                    case TargetPath.StateMachineBaseFilePath:
                         return StateMachineBaseFileName;
                     case TargetPath.StateMachineDerivedFilePath:
                         return StateMachineDerivedFileName;
@@ -244,6 +253,8 @@ namespace StateMachineMetadata
                         return MainModelBaseFileName;
                     case TargetPath.MainModelDerivedFilePath:
                         return MainModelDerivedFileName;
+                    case TargetPath.CodeGeneratedPath:
+                        return TargetFilesPath.FullName;
                     default:
                         throw new ArgumentOutOfRangeException(nameof(fileKey), fileKey, null);
                 }
@@ -255,7 +266,7 @@ namespace StateMachineMetadata
                     case TargetPath.Solution:
                         TargetSolutionFileName = value;
                         break;
-                    case TargetPath.StateMachineBaseFileName:
+                    case TargetPath.StateMachineBaseFilePath:
                         StateMachineBaseFileName = value;
                         break;
                     case TargetPath.StateMachineDerivedFilePath:
@@ -267,7 +278,9 @@ namespace StateMachineMetadata
                     case TargetPath.MainModelDerivedFilePath:
                         MainModelDerivedFileName = value;
                         break;
-                    default:
+                    case TargetPath.CodeGeneratedPath:
+                        break;
+                        default:
                         throw new ArgumentOutOfRangeException(nameof(fileKey), fileKey, null);
                 }
             }
@@ -337,6 +350,18 @@ namespace StateMachineMetadata
             return match.Success ? match.Value : null;
         }
         #endregion GetNamepaceAsync
+
+        public Dictionary<StateMachineMetadata.TargetPath, string> GetMetadataTargetPaths() {
+            var targetPaths = new Dictionary<StateMachineMetadata.TargetPath, string>();
+            targetPaths[StateMachineMetadata.TargetPath.Solution] = this[TargetPath.Solution];
+            targetPaths[StateMachineMetadata.TargetPath.CodeGeneratedPath] = this[TargetPath.CodeGeneratedPath];
+            targetPaths[StateMachineMetadata.TargetPath.StateMachineBaseFilePath] = this[TargetPath.StateMachineBaseFilePath];
+            targetPaths[StateMachineMetadata.TargetPath.StateMachineDerivedFilePath] = this[TargetPath.StateMachineDerivedFilePath];
+            targetPaths[StateMachineMetadata.TargetPath.MainModelBaseFilePath] = this[TargetPath.MainModelBaseFilePath];
+            targetPaths[StateMachineMetadata.TargetPath.MainModelDerivedFilePath] = this[TargetPath.MainModelDerivedFilePath];
+
+            return targetPaths;
+        }
 
         #endregion methods
     }

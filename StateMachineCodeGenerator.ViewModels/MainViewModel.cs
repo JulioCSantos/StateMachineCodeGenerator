@@ -61,7 +61,8 @@ namespace StateMachineCodeGenerator.ViewModels
             ////codeGenerator.Generate(models.FirstOrDefault(), TargetSolutionFileName);
             //codeGenerator.Generate(TargetFilesDirectory.SelectedEaModel, TargetFilesDirectory.TargetFilesPath.FullName);
             var CodeGenerator = new TemplatesGenerator(TargetFilesDirectory.EaXmlFileInfo);
-            var filesGenerated = await CodeGenerator.GenerateFiles();
+            //var filesGenerated = await CodeGenerator.GenerateFiles();
+            var filesGenerated = await CodeGenerator.GenerateFiles(TargetFilesDirectory.GetMetadataTargetPaths());
         }
         #endregion commands
 
