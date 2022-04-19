@@ -26,7 +26,7 @@ namespace StateMachineCodeGenerator.Tests.Metadata
             Assert.IsNull(target.MainModelBaseFileName);
             Assert.IsNull(target.MainModelDerivedFileName);
             target.SelectedEaModelName = "MyModelName";
-            target.TargetDirectoryName =
+            target.TargetFilesDirectoryName =
                     @"C:\Users\julio\Documents\Visual Studio 2019\Projects\MyCompanies\Corning\TemplateGrid\TemplateGrid.sln";
             Assert.IsNotNull(target.StateMachineBaseFileName);
             Assert.IsNotNull(target.StateMachineDerivedFileName);
@@ -42,7 +42,7 @@ namespace StateMachineCodeGenerator.Tests.Metadata
             Assert.AreEqual(0, eventsSet.Count);
             target.SelectedEaModelName = "MyModelName";
             Assert.AreEqual(1, eventsSet.Count);
-            target.TargetDirectoryName =
+            target.TargetFilesDirectoryName =
                 @"C:\Users\julio\Documents\Visual Studio 2019\Projects\MyCompanies\Corning\TemplateGrid\TemplateGrid.sln";
         }
 
@@ -51,7 +51,7 @@ namespace StateMachineCodeGenerator.Tests.Metadata
             var target = new DerivedTargetFilesDirectory();
             var eventsSet = new HashSet<string>();
             target.PropertyChanged += (sender, args) => eventsSet.Add(args.PropertyName);
-            target.TargetDirectoryName =
+            target.TargetFilesDirectoryName =
                 @"C:\Users\julio\Documents\Visual Studio 2019\Projects\MyCompanies\Corning\TemplateGrid\TemplateGrid.sln";
             target.SelectedEaModelName = "MyModelName";
         }
@@ -77,8 +77,8 @@ namespace StateMachineCodeGenerator.Tests.Metadata
             target.TargetSolutionFileName = @"C:\Folder\SolutionFileName.sln";
             Assert.IsNotNull(target.TargetSolutionFileName);
             Assert.IsNotNull(target.TargetSolutionFileInfo);
-            Assert.AreEqual(@"C:\Folder", target.TargetDirectoryName);
-            Assert.IsNotNull(target.TargetFilesPath);
+            Assert.AreEqual(@"C:\Folder", target.TargetFilesDirectoryName);
+            Assert.IsNotNull(target.TargetFilesDirectoryPath);
         }
 
         [TestMethod]
@@ -88,9 +88,9 @@ namespace StateMachineCodeGenerator.Tests.Metadata
             target.SelectedEaModelName = "ModelName";
             Assert.IsNotNull(target.TargetSolutionFileName);
             Assert.IsNotNull(target.TargetSolutionFileInfo);
-            Assert.AreEqual(@"C:\Folder\ModelName", target.TargetDirectoryName);
-            Assert.IsNotNull(target.TargetFilesPath);
-            Assert.AreEqual(@"C:\Folder\ModelName", target.TargetFilesPath.FullName);
+            Assert.AreEqual(@"C:\Folder\ModelName", target.TargetFilesDirectoryName);
+            Assert.IsNotNull(target.TargetFilesDirectoryPath);
+            Assert.AreEqual(@"C:\Folder\ModelName", target.TargetFilesDirectoryPath.FullName);
         }
 
         //[TestMethod]

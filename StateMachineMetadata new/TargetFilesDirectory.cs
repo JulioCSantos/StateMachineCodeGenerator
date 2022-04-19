@@ -27,8 +27,8 @@ namespace StateMachineMetadata
             switch (e.PropertyName) {
                 case nameof(SelectedEaModel):
                 case nameof(SelectedEaModelName):
-                case nameof(TargetFilesPath):
-                    if (string.IsNullOrEmpty(SelectedEaModelName) || TargetFilesPath == null) {}
+                case nameof(TargetFilesDirectoryPath):
+                    if (string.IsNullOrEmpty(SelectedEaModelName) || TargetFilesDirectoryPath == null) {}
                     else {
                         //NamespacesList = GetNameSpaces(TargetSolutionFileName).ToList();
                         SetTargetDirectoryName();
@@ -38,21 +38,17 @@ namespace StateMachineMetadata
                         RaisePropertyChanged(nameof(MainModelDerivedFileName));
                     }
                     break;
-                case nameof(TargetDirectoryName):
-                    RaisePropertyChanged(nameof(TargetFilesPath));
-                    //try { TargetFilesPath = new DirectoryInfo(Path.GetFullPath(TargetDirectoryName)); }
-                    //catch (Exception) { /* ignored */ }
-
+                case nameof(TargetFilesDirectoryName):
+                    RaisePropertyChanged(nameof(TargetFilesDirectoryPath));
                     break;
                 case nameof(TargetSolutionFileName):
                     if (string.IsNullOrEmpty(TargetSolutionFileName)) {
-                        TargetDirectoryName = null;
+                        TargetFilesDirectoryName = null;
                         NamespacesList = new List<string>();
                     }
                     SetTargetDirectoryName();
 
                     NamespacesList = GetNameSpaces(TargetSolutionFileInfo).ToList();
-                    //TargetFilesPath = new DirectoryInfo(new FileInfo(TargetSolutionFileName).Directory?.FullName + @"\" + SelectedEaModelName ?? "");
                     break;
             }
         }
@@ -61,11 +57,11 @@ namespace StateMachineMetadata
             if (TargetSolutionFileInfo?.DirectoryName == null) { return;}
             if (SelectedEaModelName == null)
             {
-                TargetDirectoryName = Path.GetDirectoryName(TargetSolutionFileName);
+                TargetFilesDirectoryName = Path.GetDirectoryName(TargetSolutionFileName);
             }
             else
             {
-                TargetDirectoryName = Path.Combine(TargetSolutionFileInfo.DirectoryName, SelectedEaModelName ?? "");
+                TargetFilesDirectoryName = Path.Combine(TargetSolutionFileInfo.DirectoryName, SelectedEaModelName ?? "");
             }
         }
 
@@ -75,8 +71,8 @@ namespace StateMachineMetadata
 
         #region GenrtdFileNamesFunc
         protected Func<string, string> GenrtdFileNamesFunc => new((sufix) => {
-            if (string.IsNullOrEmpty(SelectedEaModelName) || TargetFilesPath?.FullName == null) { return null;}
-            return TargetFilesPath.FullName + @$"\C{SelectedEaModelName}{sufix}";
+            if (string.IsNullOrEmpty(SelectedEaModelName) || TargetFilesDirectoryPath?.FullName == null) { return null;}
+            return TargetFilesDirectoryPath.FullName + @$"\C{SelectedEaModelName}{sufix}";
         });
         #endregion GenrtdFileNamesFunc
 
@@ -123,15 +119,6 @@ namespace StateMachineMetadata
             set => SetProperty(ref _mainModelDerivedFileName, value);
         }
         #endregion MainModelDerivedFileName
-
-        //#region CodeGeneratedFileName
-        //private string _codeGeneratedFileName;
-        //public string CodeGeneratedFileName {
-        //    get => TargetFilesPath?.FullName;
-        //    set => SetProperty(ref _codeGeneratedFileName, value);
-        //}
-        //#endregion CodeGeneratedFileName
-
 
         #region EA XML Model
 
@@ -191,31 +178,20 @@ namespace StateMachineMetadata
 
         #region Targetted Solution
 
-        #region TargetDirectoryName
-        private string _targetDirectoryName;
-        public string TargetDirectoryName {
-            get => _targetDirectoryName;
-            set => SetProperty(ref _targetDirectoryName, value);
+        #region TargetFilesDirectory & TargetFilesDirectoryPath
+        private string _targetFilesDirectoryName;
+        public string TargetFilesDirectoryName {
+            get => _targetFilesDirectoryName;
+            set => SetProperty(ref _targetFilesDirectoryName, value);
         }
-        #endregion TargetDirectoryName
-        
-        #region TargetFilesPath
-        private DirectoryInfo _targetFilesPath;
-        public DirectoryInfo TargetFilesPath {
+
+        public DirectoryInfo TargetFilesDirectoryPath {
             get {
-                try { _targetFilesPath = new DirectoryInfo(Path.GetFullPath(TargetDirectoryName)); }
-                catch (Exception) { _targetFilesPath = null; }
-
-                return _targetFilesPath;
-                //return _targetFilesPath;
-                ////if (_targetFilesPath != null) { return _targetFilesPath;}
-                ////try { return new DirectoryInfo(new FileInfo(TargetSolutionFileName).Directory?.FullName + @"\" + SelectedEaModelName) ; }
-                ////catch (Exception) { return null; }
+                try { return new DirectoryInfo(Path.GetFullPath(TargetFilesDirectoryName)); }
+                catch (Exception) { return null; }
             }
-            //set => SetProperty(ref _targetFilesPath, value);
         }
-
-        #endregion TargetFilesPath
+        #endregion TargetFilesDirectoryName & TargetFilesDirectoryPath
 
         #region SolutionFileName & TargetSolutionFileInfo
         public const string TargetSolutionLiteral = @"C:\Users\julio\Documents\Visual Studio 2019\Projects\MyCompanies\Corning\TemplateGrid\TemplateGrid.sln";
@@ -293,7 +269,7 @@ namespace StateMachineMetadata
                     case TargetPath.MainModelDerivedFilePath:
                         return MainModelDerivedFileName;
                     case TargetPath.CodeGeneratedPath:
-                        return TargetFilesPath.FullName;
+                        return TargetFilesDirectoryPath.FullName;
                     default:
                         throw new ArgumentOutOfRangeException(nameof(fileKey), fileKey, null);
                 }
