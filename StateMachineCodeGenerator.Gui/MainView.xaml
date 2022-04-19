@@ -26,12 +26,12 @@
         <!--Left size column-->
         <Grid Grid.Row="0" Grid.IsSharedSizeScope="True">
             <Grid.RowDefinitions>
-                <RowDefinition /> <!--SourceFilePath-->
-                <RowDefinition /> <!--CodeTargetFolderPath-->
+                <RowDefinition /> <!-- EaXmlFileName & ExModel-->
+                <RowDefinition /> <!-- SolutionFileName & Namespace-->
                 <RowDefinition /> <!--Start Parsing-->
             </Grid.RowDefinitions>
 
-            <!--region SourceFilePath-->
+            <!--region EaXmlFileName & ExModel -->
             <StackPanel Grid.Row="0" Orientation="Vertical" Height="225" VerticalAlignment="Top">
                 <local:GroupBoxFileFolder Text="EA exported XML file" 
                         LocateFileFolderCommand="{Binding OpenFileExplorerCommand}">
@@ -56,11 +56,11 @@
             </StackPanel>
             <!--endregion SourceFilePath-->
 
-            <!--region CodeTargetFolderPath-->
+            <!--region SolutionFileName & Namespace -->
             <StackPanel Grid.Row="1" Orientation="Vertical" >
                 <local:GroupBoxFileFolder Text="Target path (Generated files)" Height="Auto"
                                               LocateFileFolderCommand="{Binding OpenFileExplorerCommand}">
-                    <TextBox  Text="{Binding TargetFilesDirectory.TargetSolutionFileName}"  
+                    <TextBox  Text="{Binding TargetFilesDirectory.SolutionFileName}"  
                                   Style="{StaticResource FilepathStyle}" />
                 </local:GroupBoxFileFolder>
                 <!--#region Namespace-->
@@ -77,7 +77,7 @@
                 </Grid>
                 <!--#endregion Namespace-->
             </StackPanel>
-            <!--endregion CodeTargetFolderPath-->
+            <!--endregion SolutionFileName & Namespace-->
 
             <Button Grid.Row="2" Content="Start Parsing" Margin="1,0,4,4" Height="23"
                     Command="{Binding StartParsingCommand}"

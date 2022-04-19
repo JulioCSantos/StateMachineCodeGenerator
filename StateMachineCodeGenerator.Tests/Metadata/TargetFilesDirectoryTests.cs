@@ -74,9 +74,9 @@ namespace StateMachineCodeGenerator.Tests.Metadata
         [TestMethod]
         public void TargetSolutionFileNameValidTest1() {
             var target = new DerivedTargetFilesDirectory();
-            target.TargetSolutionFileName = @"C:\Folder\SolutionFileName.sln";
-            Assert.IsNotNull(target.TargetSolutionFileName);
-            Assert.IsNotNull(target.TargetSolutionFileInfo);
+            target.SolutionFileName = @"C:\Folder\SolutionFileName.sln";
+            Assert.IsNotNull(target.SolutionFileName);
+            Assert.IsNotNull(target.SolutionFileInfo);
             Assert.AreEqual(@"C:\Folder", target.TargetFilesDirectoryName);
             Assert.IsNotNull(target.TargetFilesDirectoryPath);
         }
@@ -84,10 +84,10 @@ namespace StateMachineCodeGenerator.Tests.Metadata
         [TestMethod]
         public void TargetFilesPathTest() {
             var target = new DerivedTargetFilesDirectory();
-            target.TargetSolutionFileName = @"C:\Folder\SolutionFileName.sln";
+            target.SolutionFileName = @"C:\Folder\SolutionFileName.sln";
             target.SelectedEaModelName = "ModelName";
-            Assert.IsNotNull(target.TargetSolutionFileName);
-            Assert.IsNotNull(target.TargetSolutionFileInfo);
+            Assert.IsNotNull(target.SolutionFileName);
+            Assert.IsNotNull(target.SolutionFileInfo);
             Assert.AreEqual(@"C:\Folder\ModelName", target.TargetFilesDirectoryName);
             Assert.IsNotNull(target.TargetFilesDirectoryPath);
             Assert.AreEqual(@"C:\Folder\ModelName", target.TargetFilesDirectoryPath.FullName);

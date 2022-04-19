@@ -44,8 +44,8 @@ namespace StateMachineCodeGenerator.ViewModels
         public RelayCommand OpenFileExplorerCommand => new RelayCommand(OpenFileExplorer);
 
         public void OpenFileExplorer(object path) {
-            if (string.IsNullOrEmpty(TargetFilesDirectory.EaXmlFileName) == false && string.IsNullOrEmpty(TargetFilesDirectory.TargetSolutionFileName)) {
-                TargetFilesDirectory.TargetSolutionFileName = TargetFilesDirectory.TargetSolutionLiteral;
+            if (string.IsNullOrEmpty(TargetFilesDirectory.EaXmlFileName) == false && string.IsNullOrEmpty(TargetFilesDirectory.SolutionFileName)) {
+                TargetFilesDirectory.SolutionFileName = TargetFilesDirectory.TargetSolutionLiteral;
             }
 
             if (string.IsNullOrEmpty(TargetFilesDirectory.EaXmlFileName)) {

@@ -41,27 +41,27 @@ namespace StateMachineMetadata
                 case nameof(TargetFilesDirectoryName):
                     RaisePropertyChanged(nameof(TargetFilesDirectoryPath));
                     break;
-                case nameof(TargetSolutionFileName):
-                    if (string.IsNullOrEmpty(TargetSolutionFileName)) {
+                case nameof(SolutionFileName):
+                    if (string.IsNullOrEmpty(SolutionFileName)) {
                         TargetFilesDirectoryName = null;
                         NamespacesList = new List<string>();
                     }
                     SetTargetDirectoryName();
 
-                    NamespacesList = GetNameSpaces(TargetSolutionFileInfo).ToList();
+                    NamespacesList = GetNameSpaces(SolutionFileInfo).ToList();
                     break;
             }
         }
 
         private void SetTargetDirectoryName() {
-            if (TargetSolutionFileInfo?.DirectoryName == null) { return;}
+            if (SolutionFileInfo?.DirectoryName == null) { return;}
             if (SelectedEaModelName == null)
             {
-                TargetFilesDirectoryName = Path.GetDirectoryName(TargetSolutionFileName);
+                TargetFilesDirectoryName = Path.GetDirectoryName(SolutionFileName);
             }
             else
             {
-                TargetFilesDirectoryName = Path.Combine(TargetSolutionFileInfo.DirectoryName, SelectedEaModelName ?? "");
+                TargetFilesDirectoryName = Path.Combine(SolutionFileInfo.DirectoryName, SelectedEaModelName ?? "");
             }
         }
 
@@ -198,15 +198,15 @@ namespace StateMachineMetadata
         //public const string TargetSolutionLiteral = @"C:\Users\santosj25\source\repos\JulioCSantos\StateMachineCodeGenerator\TestsSubject";
         //public const string TargetSolutionLiteral = @"C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\TestsSubject";
 
-        private string _targetSolutionFileName;
-        public string TargetSolutionFileName {
-            get => _targetSolutionFileName;
-            set { SetProperty(ref _targetSolutionFileName, value); RaisePropertyChanged(nameof(TargetSolutionFileInfo)); }
+        private string _solutionFileName;
+        public string SolutionFileName {
+            get => _solutionFileName;
+            set { SetProperty(ref _solutionFileName, value); RaisePropertyChanged(nameof(SolutionFileInfo)); }
         }
 
-        public FileInfo TargetSolutionFileInfo {
+        public FileInfo SolutionFileInfo {
             get {
-                try { return new FileInfo(TargetSolutionFileName); }
+                try { return new FileInfo(SolutionFileName); }
                 catch (Exception) { return null; }
             }
         }
@@ -259,7 +259,7 @@ namespace StateMachineMetadata
                     case TargetPath.unkown:
                         return null;
                     case TargetPath.Solution:
-                        return TargetSolutionFileName;
+                        return SolutionFileName;
                     case TargetPath.StateMachineBaseFilePath:
                         return StateMachineBaseFileName;
                     case TargetPath.StateMachineDerivedFilePath:
@@ -279,7 +279,7 @@ namespace StateMachineMetadata
                     case TargetPath.unkown:
                         break;
                     case TargetPath.Solution:
-                        TargetSolutionFileName = value;
+                        SolutionFileName = value;
                         break;
                     case TargetPath.StateMachineBaseFilePath:
                         StateMachineBaseFileName = value;
@@ -318,7 +318,7 @@ namespace StateMachineMetadata
             CsFiles = targetDir.EnumerateFiles("*.cs", SearchOption.AllDirectories)
                 .Select(f => new FileInfo(f.FullName)).ToList();
 
-            var solutionName = TargetSolutionFileInfo.Name.Split('.')[0]; //name without extensions
+            var solutionName = SolutionFileInfo.Name.Split('.')[0]; //name without extensions
             var namespaces = new HashSet<string>();
             namespaces.Add(solutionName);
             SelectedNameSpace = namespaces.First();
