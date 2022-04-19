@@ -31,22 +31,44 @@ namespace StateMachineMetadata
                     if (string.IsNullOrEmpty(SelectedEaModelName) || TargetFilesPath == null) {}
                     else {
                         //NamespacesList = GetNameSpaces(TargetSolutionFileName).ToList();
-
+                        SetTargetDirectoryName();
                         RaisePropertyChanged(nameof(StateMachineBaseFileName));
                         RaisePropertyChanged(nameof(StateMachineDerivedFileName));
                         RaisePropertyChanged(nameof(MainModelBaseFileName));
                         RaisePropertyChanged(nameof(MainModelDerivedFileName));
                     }
                     break;
-                case nameof(TargetSolutionFileName):
-                    if (TargetSolutionFileInfo == null) { break;}
-
-                    TargetFilesPath = null; // reset cache
-                    NamespacesList = GetNameSpaces(TargetSolutionFileName).ToList();
+                case nameof(TargetDirectoryName):
                     RaisePropertyChanged(nameof(TargetFilesPath));
+                    //try { TargetFilesPath = new DirectoryInfo(Path.GetFullPath(TargetDirectoryName)); }
+                    //catch (Exception) { /* ignored */ }
+
+                    break;
+                case nameof(TargetSolutionFileName):
+                    if (string.IsNullOrEmpty(TargetSolutionFileName)) {
+                        TargetDirectoryName = null;
+                        NamespacesList = new List<string>();
+                    }
+                    SetTargetDirectoryName();
+
+                    NamespacesList = GetNameSpaces(TargetSolutionFileInfo).ToList();
+                    //TargetFilesPath = new DirectoryInfo(new FileInfo(TargetSolutionFileName).Directory?.FullName + @"\" + SelectedEaModelName ?? "");
                     break;
             }
         }
+
+        private void SetTargetDirectoryName() {
+            if (TargetSolutionFileInfo?.DirectoryName == null) { return;}
+            if (SelectedEaModelName == null)
+            {
+                TargetDirectoryName = Path.GetDirectoryName(TargetSolutionFileName);
+            }
+            else
+            {
+                TargetDirectoryName = Path.Combine(TargetSolutionFileInfo.DirectoryName, SelectedEaModelName ?? "");
+            }
+        }
+
         #endregion constructor
 
         #endregion singleton
@@ -102,13 +124,13 @@ namespace StateMachineMetadata
         }
         #endregion MainModelDerivedFileName
 
-        #region CodeGeneratedFileName
-        private string _codeGeneratedFileName;
-        public string CodeGeneratedFileName {
-            get => _codeGeneratedFileName;
-            set => SetProperty(ref _codeGeneratedFileName, value);
-        }
-        #endregion CodeGeneratedFileName
+        //#region CodeGeneratedFileName
+        //private string _codeGeneratedFileName;
+        //public string CodeGeneratedFileName {
+        //    get => TargetFilesPath?.FullName;
+        //    set => SetProperty(ref _codeGeneratedFileName, value);
+        //}
+        //#endregion CodeGeneratedFileName
 
 
         #region EA XML Model
@@ -149,8 +171,12 @@ namespace StateMachineMetadata
         private Model.MainModel _selectedEaModel;
         public Model.MainModel SelectedEaModel {
             get => _selectedEaModel;
-            set => SetProperty(ref _selectedEaModel, value);
+            set {
+                SetProperty(ref _selectedEaModel, value);
+                SelectedEaModelName = null; // reset cache
+            }   
         }
+
         #endregion SelectedEaModel
 
         #region SelectedEaModelName
@@ -165,20 +191,33 @@ namespace StateMachineMetadata
 
         #region Targetted Solution
 
+        #region TargetDirectoryName
+        private string _targetDirectoryName;
+        public string TargetDirectoryName {
+            get => _targetDirectoryName;
+            set => SetProperty(ref _targetDirectoryName, value);
+        }
+        #endregion TargetDirectoryName
+        
         #region TargetFilesPath
         private DirectoryInfo _targetFilesPath;
         public DirectoryInfo TargetFilesPath {
             get {
-                if (_targetFilesPath != null) { return _targetFilesPath;}
-                try { return new DirectoryInfo(new FileInfo(TargetSolutionFileName).Directory?.FullName + @"\" + SelectedEaModelName) ; }
-                catch (Exception) { return null; }
+                try { _targetFilesPath = new DirectoryInfo(Path.GetFullPath(TargetDirectoryName)); }
+                catch (Exception) { _targetFilesPath = null; }
+
+                return _targetFilesPath;
+                //return _targetFilesPath;
+                ////if (_targetFilesPath != null) { return _targetFilesPath;}
+                ////try { return new DirectoryInfo(new FileInfo(TargetSolutionFileName).Directory?.FullName + @"\" + SelectedEaModelName) ; }
+                ////catch (Exception) { return null; }
             }
-            set => SetProperty(ref _targetFilesPath, value);
+            //set => SetProperty(ref _targetFilesPath, value);
         }
 
         #endregion TargetFilesPath
 
-        #region SolutionFileName. TBD if it is needed
+        #region SolutionFileName & TargetSolutionFileInfo
         public const string TargetSolutionLiteral = @"C:\Users\julio\Documents\Visual Studio 2019\Projects\MyCompanies\Corning\TemplateGrid\TemplateGrid.sln";
         //public const string TargetSolutionLiteral = @"C:\Users\santosj25\source\repos\JulioCSantos\StateMachineCodeGenerator\TestsSubject";
         //public const string TargetSolutionLiteral = @"C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\TestsSubject";
@@ -195,7 +234,7 @@ namespace StateMachineMetadata
                 catch (Exception) { return null; }
             }
         }
-        #endregion SolutionFileName. TBD if it is needed
+        #endregion SolutionFileName & TargetSolutionFileInfo
 
         #region CsFiles
         private List<FileInfo> _csFiles;
@@ -209,7 +248,7 @@ namespace StateMachineMetadata
         private List<string> _namespacesList;
         public List<string> NamespacesList {
             get => _namespacesList;
-            set => SetProperty(ref _namespacesList, value);
+            protected set => SetProperty(ref _namespacesList, value);
         }
         #endregion NamespacesList
 
@@ -292,11 +331,13 @@ namespace StateMachineMetadata
         #region GetNameSpaces
         private readonly ReaderWriterLockSlim _lock = new(LockRecursionPolicy.SupportsRecursion);
 
-        private HashSet<string> GetNameSpaces(string targetSolution) {
-            var solutionFileInfo = new FileInfo(targetSolution);
-            if (solutionFileInfo == null) { throw new ArgumentException(nameof(targetSolution)); }
+        protected HashSet<string> GetNameSpaces(FileInfo solutionFileInfo) { 
+            if (solutionFileInfo?.Exists != true) { return new HashSet<string>(); }
+
+            //var solutionFileInfo = new FileInfo(targetSolution); //TODO replace with TargetSolutionFileInfo
+            //if (solutionFileInfo == null) { throw new ArgumentException(nameof(targetSolution)); }
             var targetDir = solutionFileInfo.Directory;
-            if (targetDir == null) { throw new ArgumentException(nameof(targetSolution)); }
+            if (targetDir == null) { return new HashSet<string>(); }
 
             CsFiles = targetDir.EnumerateFiles("*.cs", SearchOption.AllDirectories)
                 .Select(f => new FileInfo(f.FullName)).ToList();
