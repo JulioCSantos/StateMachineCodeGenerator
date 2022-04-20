@@ -44,6 +44,14 @@ namespace StateMachineCodeGenerator.ViewModels
         public RelayCommand OpenFileExplorerCommand => new RelayCommand(OpenFileExplorer);
 
         public void OpenFileExplorer(object path) {
+
+            IPopupView view = DialogServices.Instance.Dialogs[nameof(LocateFileViewModel)];
+            var result = view.Vm.ShowDialog() ?? view.Vm.ClosingResult;
+            var dialogResult = result?.ToString() ?? "null";
+            //if (result == false) /* If Clear Button pressed set all columns to visible */ {
+            //    System.Diagnostics.Debugger.Break();
+            //}
+
             if (string.IsNullOrEmpty(TargetFilesDirectory.EaXmlFileName) == false && string.IsNullOrEmpty(TargetFilesDirectory.SolutionFileName)) {
                 TargetFilesDirectory.SolutionFileName = TargetFilesDirectory.TargetSolutionLiteral;
             }
@@ -55,14 +63,11 @@ namespace StateMachineCodeGenerator.ViewModels
         }
 
         public async void StartParsing() {
-            ////Main.MainEntryPoint(new string[] { EAXMLFileName, TargetSolutionFileName });
-            ////var models = Main.MainModels;
-            //var codeGenerator = new StateMachineGenerator();
-            ////codeGenerator.Generate(models.FirstOrDefault(), TargetSolutionFileName);
-            //codeGenerator.Generate(TargetFilesDirectory.SelectedEaModel, TargetFilesDirectory.TargetFilesPath.FullName);
+            CursorHandler.Instance.AddBusyMember();
             var CodeGenerator = new TemplatesGenerator(TargetFilesDirectory.EaXmlFileInfo);
             //var filesGenerated = await CodeGenerator.GenerateFiles();
             var filesGenerated = await CodeGenerator.GenerateFiles(TargetFilesDirectory.GetMetadataTargetPaths());
+            CursorHandler.Instance.RemoveBusyMember();
         }
         #endregion commands
 

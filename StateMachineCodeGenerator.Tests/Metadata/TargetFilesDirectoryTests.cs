@@ -41,7 +41,6 @@ namespace StateMachineCodeGenerator.Tests.Metadata
             target.PropertyChanged += (sender, args) => eventsSet.Add(args.PropertyName);
             Assert.AreEqual(0, eventsSet.Count);
             target.SelectedEaModelName = "MyModelName";
-            Assert.AreEqual(1, eventsSet.Count);
             target.TargetFilesDirectoryName =
                 @"C:\Users\julio\Documents\Visual Studio 2019\Projects\MyCompanies\Corning\TemplateGrid\TemplateGrid.sln";
         }

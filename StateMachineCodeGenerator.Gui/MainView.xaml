@@ -58,7 +58,7 @@
 
             <!--region SolutionFileName & Namespace -->
             <StackPanel Grid.Row="1" Orientation="Vertical" >
-                <local:GroupBoxFileFolder Text="Target path (Generated files)" Height="Auto"
+                <local:GroupBoxFileFolder Text="Solution (.sln) file" Height="Auto"
                                               LocateFileFolderCommand="{Binding OpenFileExplorerCommand}">
                     <TextBox  Text="{Binding TargetFilesDirectory.SolutionFileName}"  
                                   Style="{StaticResource FilepathStyle}" />
@@ -77,6 +77,15 @@
                 </Grid>
                 <!--#endregion Namespace-->
             </StackPanel>
+            <!--endregion SolutionFileName & Namespace-->
+
+            <!--region SolutionFileName & Namespace -->
+            <local:GroupBoxFileFolder Grid.Row="2" Text="Solution (.sln) file" Height="Auto"
+                                      LocateFileFolderCommand="{Binding OpenFileExplorerCommand}">
+                <TextBox  Text="{Binding TargetFilesDirectory.TargetFilesDirectoryName
+                    , UpdateSourceTrigger=PropertyChanged}"  
+                    Style="{StaticResource FilepathStyle}" />
+            </local:GroupBoxFileFolder>
             <!--endregion SolutionFileName & Namespace-->
 
             <Button Grid.Row="2" Content="Start Parsing" Margin="1,0,4,4" Height="23"

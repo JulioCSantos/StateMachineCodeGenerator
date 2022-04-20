@@ -25,21 +25,19 @@ namespace StateMachineMetadata
 
         private void TargetFilesDirectory_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e) {
             switch (e.PropertyName) {
-                case nameof(SelectedEaModel):
                 case nameof(SelectedEaModelName):
-                case nameof(TargetFilesDirectoryPath):
-                    if (string.IsNullOrEmpty(SelectedEaModelName) || TargetFilesDirectoryPath == null) {}
-                    else {
-                        //NamespacesList = GetNameSpaces(TargetSolutionFileName).ToList();
-                        SetTargetDirectoryName();
-                        RaisePropertyChanged(nameof(StateMachineBaseFileName));
-                        RaisePropertyChanged(nameof(StateMachineDerivedFileName));
-                        RaisePropertyChanged(nameof(MainModelBaseFileName));
-                        RaisePropertyChanged(nameof(MainModelDerivedFileName));
-                    }
+                    StateMachineBaseFileName = GenrtdFileNamesFunc("StateMachineBase_gen.cs");
+                    StateMachineDerivedFileName = GenrtdFileNamesFunc("StateMachine.cs");
+                    MainModelBaseFileName = GenrtdFileNamesFunc("ModelBase_gen.cs");
+                    MainModelDerivedFileName = GenrtdFileNamesFunc("Model.cs");
                     break;
                 case nameof(TargetFilesDirectoryName):
                     RaisePropertyChanged(nameof(TargetFilesDirectoryPath));
+                    //Reset Target files names
+                    StateMachineBaseFileName = GenrtdFileNamesFunc("StateMachineBase_gen.cs");
+                    StateMachineDerivedFileName = GenrtdFileNamesFunc("StateMachine.cs");
+                    MainModelBaseFileName = GenrtdFileNamesFunc("ModelBase_gen.cs");
+                    MainModelDerivedFileName = GenrtdFileNamesFunc("Model.cs");
                     break;
                 case nameof(SolutionFileName):
                     if (string.IsNullOrEmpty(SolutionFileName)) {
@@ -58,6 +56,7 @@ namespace StateMachineMetadata
             if (SelectedEaModelName == null)
             {
                 TargetFilesDirectoryName = Path.GetDirectoryName(SolutionFileName);
+                TargetFilesDirectoryName = SolutionFileInfo.DirectoryName;
             }
             else
             {
@@ -69,17 +68,19 @@ namespace StateMachineMetadata
 
         #endregion singleton
 
+        #region properties
         #region GenrtdFileNamesFunc
         protected Func<string, string> GenrtdFileNamesFunc => new((sufix) => {
-            if (string.IsNullOrEmpty(SelectedEaModelName) || TargetFilesDirectoryPath?.FullName == null) { return null;}
-            return TargetFilesDirectoryPath.FullName + @$"\C{SelectedEaModelName}{sufix}";
+            if (TargetFilesDirectoryName == null) return @$"\C{SelectedEaModelName}{sufix}";
+            
+            return TargetFilesDirectoryName + @$"\C{SelectedEaModelName}{sufix}";
         });
         #endregion GenrtdFileNamesFunc
 
         #region StateMachineBaseFileName
         private string _stateMachineBaseFileName;
         public string StateMachineBaseFileName {
-            get => _stateMachineBaseFileName ??= GenrtdFileNamesFunc("StateMachineBase_gen.cs");
+            get => _stateMachineBaseFileName;
             set { SetProperty(ref _stateMachineBaseFileName, value); RaisePropertyChanged(nameof(StateMachineBaseFileName));}
         }
         public FileInfo StateMachineBaseFileInfo {
@@ -93,7 +94,7 @@ namespace StateMachineMetadata
         #region StateMachineDerivedFileName
         private string _stateMachineDerivedFileName;
         public string StateMachineDerivedFileName {
-            get => _stateMachineDerivedFileName ??= GenrtdFileNamesFunc("StateMachine.cs");
+            get => _stateMachineDerivedFileName;
             set { SetProperty(ref _stateMachineDerivedFileName, value); RaisePropertyChanged(nameof(StateMachineDerivedFileInfo)); }
         }
         public FileInfo StateMachineDerivedFileInfo {
@@ -107,7 +108,7 @@ namespace StateMachineMetadata
         #region MainModelBaseFileName
         private string _mainModelBaseFileName;
         public string MainModelBaseFileName {
-            get => _mainModelBaseFileName ??= GenrtdFileNamesFunc("ModelBase_gen.cs");
+            get => _mainModelBaseFileName;
             set => SetProperty(ref _mainModelBaseFileName, value);
         }
         #endregion MainModelBaseFileName
@@ -115,7 +116,7 @@ namespace StateMachineMetadata
         #region MainModelDerivedFileName
         private string _mainModelDerivedFileName;
         public string MainModelDerivedFileName {
-            get => _mainModelDerivedFileName ??= GenrtdFileNamesFunc("Model.cs");
+            get => _mainModelDerivedFileName;
             set => SetProperty(ref _mainModelDerivedFileName, value);
         }
         #endregion MainModelDerivedFileName
@@ -170,8 +171,19 @@ namespace StateMachineMetadata
         private string _selectedEaModelName;
         public string SelectedEaModelName {
             get => _selectedEaModelName ??= SelectedEaModel?.Name;
-            protected set => SetProperty(ref _selectedEaModelName, value);
+            protected set {
+                if (_selectedEaModelName != null && TargetFilesDirectoryName.EndsWith(_selectedEaModelName)) {
+                    var suffixLength = TargetFilesDirectoryName.Length;
+                    var suffixStart = TargetFilesDirectoryName.Length - suffixLength - 1;
+                    TargetFilesDirectoryName = TargetFilesDirectoryName.Substring(suffixStart, suffixLength);
+                }
+                SetProperty(ref _selectedEaModelName, value);
+                if (string.IsNullOrEmpty(_selectedEaModelName) == false) {
+                    TargetFilesDirectoryName += $@"\{_selectedEaModelName}";
+                }
+            }
         }
+
         #endregion SelectedEaModelName
 
         #endregion EA XML Model
@@ -193,7 +205,7 @@ namespace StateMachineMetadata
         }
         #endregion TargetFilesDirectoryName & TargetFilesDirectoryPath
 
-        #region SolutionFileName & TargetSolutionFileInfo
+        #region SolutionFileName & SolutionFileInfo
         public const string TargetSolutionLiteral = @"C:\Users\julio\Documents\Visual Studio 2019\Projects\MyCompanies\Corning\TemplateGrid\TemplateGrid.sln";
         //public const string TargetSolutionLiteral = @"C:\Users\santosj25\source\repos\JulioCSantos\StateMachineCodeGenerator\TestsSubject";
         //public const string TargetSolutionLiteral = @"C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\TestsSubject";
@@ -210,7 +222,7 @@ namespace StateMachineMetadata
                 catch (Exception) { return null; }
             }
         }
-        #endregion SolutionFileName & TargetSolutionFileInfo
+        #endregion SolutionFileName & SolutionFileInfo
 
         #region CsFiles
         private List<FileInfo> _csFiles;
@@ -237,7 +249,7 @@ namespace StateMachineMetadata
         #endregion SelectedNameSpace
 
         #endregion Targetted Solution
-
+        #endregion properties
 
         #region TargetPath enum
         public enum TargetPath
