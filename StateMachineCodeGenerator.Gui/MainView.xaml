@@ -34,7 +34,7 @@
             <!--region EaXmlFileName & ExModel -->
             <StackPanel Grid.Row="0" Orientation="Vertical" Height="225" VerticalAlignment="Top">
                 <local:GroupBoxFileFolder Text="EA exported XML file" 
-                        LocateFileFolderCommand="{Binding OpenFileExplorerCommand}">
+                        LocateFileFolderCommand="{Binding LocateEaXmlFileCommand}">
                     <TextBox  Text="{Binding TargetFilesDirectory.EaXmlFileName}" 
                               Style="{StaticResource FilepathStyle}" />
                 </local:GroupBoxFileFolder>
@@ -59,7 +59,7 @@
             <!--region SolutionFileName & Namespace -->
             <StackPanel Grid.Row="1" Orientation="Vertical" >
                 <local:GroupBoxFileFolder Text="Solution (.sln) file" Height="Auto"
-                                              LocateFileFolderCommand="{Binding OpenFileExplorerCommand}">
+                                              LocateFileFolderCommand="{Binding LocateSolutionFileCommand}">
                     <TextBox  Text="{Binding TargetFilesDirectory.SolutionFileName}"  
                                   Style="{StaticResource FilepathStyle}" />
                 </local:GroupBoxFileFolder>
@@ -81,7 +81,7 @@
 
             <!--region SolutionFileName & Namespace -->
             <local:GroupBoxFileFolder Grid.Row="2" Text="Solution (.sln) file" Height="Auto"
-                                      LocateFileFolderCommand="{Binding OpenFileExplorerCommand}">
+                                      LocateFileFolderCommand="{Binding LocateEaXmlFileCommand}">
                 <TextBox  Text="{Binding TargetFilesDirectory.TargetFilesDirectoryName
                     , UpdateSourceTrigger=PropertyChanged}"  
                     Style="{StaticResource FilepathStyle}" />
@@ -103,25 +103,25 @@
                 <RowDefinition />
             </Grid.RowDefinitions>
             <local:GroupBoxFileFolder Grid.Row="0" Text="StateMachineBaseFileName" 
-                                      LocateFileFolderCommand="{Binding OpenFileExplorerCommand}">
+                                      LocateFileFolderCommand="{Binding LocateEaXmlFileCommand}">
                 <TextBox  Text="{Binding TargetFilesDirectory.StateMachineBaseFileName}" 
                           Style="{StaticResource FilepathStyle}" />
             </local:GroupBoxFileFolder>
 
             <local:GroupBoxFileFolder Grid.Row="1" Text="StateMachineDerivedFileName" 
-                                      LocateFileFolderCommand="{Binding OpenFileExplorerCommand}">
+                                      LocateFileFolderCommand="{Binding LocateEaXmlFileCommand}">
                 <TextBox  Text="{Binding TargetFilesDirectory.StateMachineDerivedFileName}" 
                           Style="{StaticResource FilepathStyle}" />
             </local:GroupBoxFileFolder>
 
             <local:GroupBoxFileFolder Grid.Row="2" Text="MainModelBaseFilePathString" 
-                                      LocateFileFolderCommand="{Binding OpenFileExplorerCommand}">
+                                      LocateFileFolderCommand="{Binding LocateEaXmlFileCommand}">
                 <TextBox  Text="{Binding TargetFilesDirectory.MainModelBaseFileName}" 
                           Style="{StaticResource FilepathStyle}" />
             </local:GroupBoxFileFolder>
 
             <local:GroupBoxFileFolder Grid.Row="3" Text="MainModelDerivedFileName" 
-                                      LocateFileFolderCommand="{Binding OpenFileExplorerCommand}">
+                                      LocateFileFolderCommand="{Binding LocateEaXmlFileCommand}">
                 <TextBox  Text="{Binding TargetFilesDirectory.MainModelDerivedFileName}" 
                           Style="{StaticResource FilepathStyle}" />
             </local:GroupBoxFileFolder>

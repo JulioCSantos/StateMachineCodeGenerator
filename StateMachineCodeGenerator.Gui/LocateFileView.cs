@@ -19,9 +19,11 @@ namespace StateMachineCodeGenerator.Gui
         public LocateFileViewModel LocateFileViewModel => Vm as LocateFileViewModel;
         #endregion Vm
 
+
         public LocateFileView(LocateFileViewModel vm) {
             Vm = vm;
             LocateFileViewModel.ShowDialogFunc = ShowDialog;
+            LocateFileViewModel.ShowDialogFuncWithArgs = ShowDialog;
         }
 
         public bool? ShowDialog() {
@@ -34,5 +36,26 @@ namespace StateMachineCodeGenerator.Gui
             return false;
         }
 
+        public bool? ShowDialog(string fullFilename, string filter = null, int filterIndex = 1) {
+            var openFileDialog = new OpenFileDialog();
+            if (string.IsNullOrEmpty(filter) == false) {
+                openFileDialog.Filter = filter;
+                openFileDialog.FilterIndex = filterIndex;
+            }
+
+            if (string.IsNullOrEmpty(fullFilename) == false) {
+                var filename = Path.GetFileName(fullFilename);
+                openFileDialog.FileName = fullFilename;
+                var initialDirectory = Path.GetDirectoryName(fullFilename);
+                if (initialDirectory != null) {openFileDialog.InitialDirectory = initialDirectory;}
+            }
+
+            if (openFileDialog.ShowDialog() == true) {
+                LocateFileViewModel.LocatedFileName = openFileDialog.FileName;
+                return true;
+            }
+
+            return false;
+        }
     }
 }

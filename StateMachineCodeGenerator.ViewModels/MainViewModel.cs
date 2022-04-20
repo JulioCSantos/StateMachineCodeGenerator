@@ -2,6 +2,7 @@
 using StateMachineCodeGenerator.Generator;
 using StateMachineCodeGeneratorSystem.Templates;
 using StateMachineMetadata;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -9,9 +10,6 @@ namespace StateMachineCodeGenerator.ViewModels
 {
     public class MainViewModel : SetPropertyBase
     {
-        #region Commands
- 
-        #endregion Commands
 
         #region TargetFilesDirectory
         private TargetFilesDirectory _targetFilesDirectory;
@@ -41,25 +39,33 @@ namespace StateMachineCodeGenerator.ViewModels
         #region commands
 
         public RelayCommand StartParsingCommand => new RelayCommand((o) => StartParsing());
-        public RelayCommand OpenFileExplorerCommand => new RelayCommand(OpenFileExplorer);
+        public RelayCommand LocateEaXmlFileCommand => new RelayCommand(LocateEaXmlFile);
+        public RelayCommand LocateSolutionFileCommand => new RelayCommand(LocateSolutionFile);
 
-        public void OpenFileExplorer(object path) {
+        public const string EnterpriseArchitectFilterLiteral = "EA files (*.xml)|*.xml|All files (*.*)|*.*";
+
+        public void LocateEaXmlFile(object path) {
 
             IPopupView view = DialogServices.Instance.Dialogs[nameof(LocateFileViewModel)];
-            var result = view.Vm.ShowDialog() ?? view.Vm.ClosingResult;
-            var dialogResult = result?.ToString() ?? "null";
-            //if (result == false) /* If Clear Button pressed set all columns to visible */ {
-            //    System.Diagnostics.Debugger.Break();
-            //}
-
-            if (string.IsNullOrEmpty(TargetFilesDirectory.EaXmlFileName) == false && string.IsNullOrEmpty(TargetFilesDirectory.SolutionFileName)) {
-                TargetFilesDirectory.SolutionFileName = TargetFilesDirectory.TargetSolutionLiteral;
+            var vm = view.Vm as LocateFileViewModel;
+            if (vm == null) throw new Exception(); // will not happen
+            var fileLocated = vm.ShowDialog(TargetFilesDirectory.EaXmlFileNameLiteral
+                , EnterpriseArchitectFilterLiteral) ?? view.Vm.ClosingResult;
+            if (fileLocated == true) {
+                TargetFilesDirectory.EaXmlFileName = vm.LocatedFileName;
             }
+        }
 
-            if (string.IsNullOrEmpty(TargetFilesDirectory.EaXmlFileName)) {
-                TargetFilesDirectory.EaXmlFileName = TargetFilesDirectory.EaXmlFilePathLiteral;
+        public const string SolutionFilterLiteral = "solution files (*.sln)|*.sln|All files (*.*)|*.*";
+        public void LocateSolutionFile(object path) {
+            IPopupView view = DialogServices.Instance.Dialogs[nameof(LocateFileViewModel)];
+            var vm = view.Vm as LocateFileViewModel;
+            if (vm == null) throw new Exception(); // will not happen
+            var fileLocated = vm.ShowDialog(TargetFilesDirectory.TargetSolutionLiteral
+                , SolutionFilterLiteral) ?? view.Vm.ClosingResult;
+            if (fileLocated == true) {
+                TargetFilesDirectory.SolutionFileName = vm.LocatedFileName;
             }
-
         }
 
         public async void StartParsing() {
