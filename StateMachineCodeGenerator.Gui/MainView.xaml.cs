@@ -36,13 +36,21 @@ namespace StateMachineCodeGenerator.Gui
         }
 
         private void MainView_Loaded(object sender, RoutedEventArgs e) {
-            var locateFileViewModel = new LocateFileViewModel();
             var parentWindow = this.FindParent<Window>();
             if (parentWindow == null) { return; }
 
+            // LocateFile service
+            var locateFileViewModel = new LocateFileViewModel();
             if (DialogServices.Instance.Dialogs.ContainsKey(nameof(LocateFileViewModel)) == false) {
-                var popupView1 = new LocateFileView(locateFileViewModel);
-                DialogServices.Instance.Dialogs.Add(nameof(LocateFileViewModel), popupView1);
+                var locateFileView = new LocateFileView(locateFileViewModel);
+                DialogServices.Instance.Dialogs.Add(nameof(LocateFileViewModel), locateFileView);
+            }
+
+            //LocateFolder service
+            var locateFolderViewModel = new LocateFolderViewModel();
+            if (DialogServices.Instance.Dialogs.ContainsKey(nameof(LocateFolderViewModel)) == false) {
+                var locateFolderView = new LocateFolderView(locateFolderViewModel);
+                DialogServices.Instance.Dialogs.Add(nameof(LocateFolderViewModel), locateFolderView);
             }
         }
     }

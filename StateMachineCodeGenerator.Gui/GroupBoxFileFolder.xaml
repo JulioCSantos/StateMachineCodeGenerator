@@ -12,9 +12,12 @@
             <TextBox Text="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:GroupBoxFileFolder}}
                         , Path=Text}" 
                      BorderThickness="0" Margin="0,0,2,0" />
-            <Button Content=". . ." BorderThickness="0" Padding="2"
+            <Button Content="  . . .  " BorderThickness="0" Padding="2"
                     Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:GroupBoxFileFolder}}
-                        , Path=LocateFileFolderCommand}"
+                        , Path=LocateFileFolderCommand}" 
+                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:GroupBoxFileFolder}}
+                        , Path=CommandParameter}"
+                        
                     Background="Gainsboro"/>
         </StackPanel>
     </GroupBox.Header>

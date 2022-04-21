@@ -41,6 +41,8 @@ namespace StateMachineCodeGenerator.ViewModels
         public RelayCommand StartParsingCommand => new RelayCommand((o) => StartParsing());
         public RelayCommand LocateEaXmlFileCommand => new RelayCommand(LocateEaXmlFile);
         public RelayCommand LocateSolutionFileCommand => new RelayCommand(LocateSolutionFile);
+        public RelayCommand LocateTargetFolderCommand => new RelayCommand(LocateTargetFolder);
+        public RelayCommand LocateCSharpFilesCommand => new RelayCommand(LocateCSharpFiles);
 
         public const string EnterpriseArchitectFilterLiteral = "EA files (*.xml)|*.xml|All files (*.*)|*.*";
 
@@ -65,6 +67,28 @@ namespace StateMachineCodeGenerator.ViewModels
                 , SolutionFilterLiteral) ?? view.Vm.ClosingResult;
             if (fileLocated == true) {
                 TargetFilesDirectory.SolutionFileName = vm.LocatedFileName;
+            }
+        }
+
+        public void LocateTargetFolder(object path) {
+            IPopupView view = DialogServices.Instance.Dialogs[nameof(LocateFolderViewModel)];
+            var vm = view.Vm as LocateFolderViewModel;
+            if (vm == null) throw new Exception(); // will not happen
+            var fileLocated = vm.ShowDialog(TargetFilesDirectory.TargetFilesDirectoryName) ?? view.Vm.ClosingResult;
+            if (fileLocated == true) {
+                TargetFilesDirectory.TargetFilesDirectoryName = vm.LocatedFolderName;
+            }
+        }
+
+        public const string CSharpFilterLiteral = "C# files (*.cs)|*.cs|All files (*.*)|*.*";
+        public void LocateCSharpFiles(object fileFullname) {
+            IPopupView view = DialogServices.Instance.Dialogs[nameof(LocateFileViewModel)];
+            var vm = view.Vm as LocateFileViewModel;
+            if (vm == null) throw new Exception(); // will not happen
+            var fileLocated = vm.ShowDialog(fileFullname.ToString()
+                , CSharpFilterLiteral) ?? view.Vm.ClosingResult;
+            if (fileLocated == true) {
+                TargetFilesDirectory.StateMachineBaseFileName = vm.LocatedFileName;
             }
         }
 

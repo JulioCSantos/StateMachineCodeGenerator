@@ -51,5 +51,18 @@ namespace StateMachineCodeGenerator.Gui
         }
         #endregion LocateFileFolderCommandProperty
 
+        #region CommandParameterProperty
+        public static DependencyProperty CommandParameterProperty = DependencyProperty.Register("CommandParameter"
+            , typeof(object), typeof(GroupBoxFileFolder),
+            new PropertyMetadata(null, CommandParameterCallBack)); 
+        public object CommandParameter {
+            get { return GetValue(CommandParameterProperty); }
+            set { SetValue(CommandParameterProperty, value); }
+        }
+
+        private static void CommandParameterCallBack(DependencyObject d, DependencyPropertyChangedEventArgs e) {
+            var view = d as GroupBoxFileFolder;
+        }
+        #endregion CommandParameterProperty
     }
 }
