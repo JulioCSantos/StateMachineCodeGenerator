@@ -10,6 +10,14 @@ namespace StateMachineCodeGenerator.ViewModels
 {
     public class MainViewModel : SetPropertyBase
     {
+        #region properties
+
+        #region file labels properties
+        public string StateMachineBaseFileLbl => "State Machine base file";
+        public string StateMachineDerivedFileLbl => "State Machine derived file";
+        public string MainModelBaseFileLbl => "Main Model base file";
+        public string MainModelDerivedFileLbl => "Main Model derived file";
+        #endregion file labels properties
 
         #region TargetFilesDirectory
         private TargetFilesDirectory _targetFilesDirectory;
@@ -18,6 +26,9 @@ namespace StateMachineCodeGenerator.ViewModels
             set => SetProperty(ref _targetFilesDirectory, value);
         }
         #endregion TargetFilesDirectory
+
+        #endregion properties
+
 
         #region constructor
         public MainViewModel() {
@@ -81,15 +92,25 @@ namespace StateMachineCodeGenerator.ViewModels
         }
 
         public const string CSharpFilterLiteral = "C# files (*.cs)|*.cs|All files (*.*)|*.*";
-        public void LocateCSharpFiles(object fileFullname) {
+        public void LocateCSharpFiles(object fileLabel) {
             IPopupView view = DialogServices.Instance.Dialogs[nameof(LocateFileViewModel)];
             var vm = view.Vm as LocateFileViewModel;
             if (vm == null) throw new Exception(); // will not happen
-            var fileLocated = vm.ShowDialog(fileFullname.ToString()
+            var fileLocated = vm.ShowDialog(TargetFilesDirectory[GetFileIx(fileLabel.ToString())]
                 , CSharpFilterLiteral) ?? view.Vm.ClosingResult;
             if (fileLocated == true) {
-                TargetFilesDirectory.StateMachineBaseFileName = vm.LocatedFileName;
+                TargetFilesDirectory[GetFileIx(fileLabel.ToString())] = vm.LocatedFileName;
             }
+        }
+
+        public TargetFilesDirectory.TargetPath GetFileIx(string fileLabel) {
+            TargetFilesDirectory.TargetPath fileIx = TargetFilesDirectory.TargetPath.unkown;
+            if (fileLabel == StateMachineBaseFileLbl) { fileIx = TargetFilesDirectory.TargetPath.StateMachineBaseFilePath; }
+            if (fileLabel == StateMachineDerivedFileLbl) { fileIx = TargetFilesDirectory.TargetPath.StateMachineDerivedFilePath; }
+            if (fileLabel == MainModelBaseFileLbl) { fileIx = TargetFilesDirectory.TargetPath.MainModelBaseFilePath; }
+            if (fileLabel == MainModelDerivedFileLbl) { fileIx = TargetFilesDirectory.TargetPath.MainModelDerivedFilePath; }
+
+            return fileIx;
         }
 
         public async void StartParsing() {
