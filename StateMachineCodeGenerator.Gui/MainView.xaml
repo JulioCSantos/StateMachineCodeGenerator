@@ -88,7 +88,7 @@
             <!--region Target folder for generated files -->
             <local:GroupBoxFileFolder Grid.Row="2" Text="Target folder for gen'd files" Height="Auto"  BorderThickness="2"
                                       BorderBrush="{Binding Path=TargetFilesDirectory.TargetFilesDirectoryCueColor, Mode=OneWay}"
-                                      LocateFileFolderCommand="{Binding TargetFilesDirectory.TargetFilesDirectoryCueColor}">
+                                      LocateFileFolderCommand="{Binding LocateTargetFolderCommand}">
                 <TextBox  Text="{Binding TargetFilesDirectory.TargetFilesDirectoryName
                     , UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource FilepathStyle}" />
             </local:GroupBoxFileFolder>
@@ -113,30 +113,38 @@
                 <RowDefinition />
             </Grid.RowDefinitions>
             <local:GroupBoxFileFolder Grid.Row="0" Text="{Binding StateMachineBaseFileLbl}" 
+                                      BorderBrush="{Binding TargetFilesDirectory.StateMachineBaseFileCueColor, Mode=OneWay}"
                                       LocateFileFolderCommand="{Binding LocateCSharpFilesCommand}"
                                       CommandParameter="{Binding StateMachineBaseFileLbl}" >
-                <TextBox Text="{Binding TargetFilesDirectory.StateMachineBaseFileName}" 
+                <TextBox Text="{Binding TargetFilesDirectory.StateMachineBaseFileName
+                                , UpdateSourceTrigger=PropertyChanged}" 
                           Style="{StaticResource FilepathStyle}" />
             </local:GroupBoxFileFolder>
 
             <local:GroupBoxFileFolder Grid.Row="1" Text="{Binding StateMachineDerivedFileLbl}" 
+                                      BorderBrush="{Binding TargetFilesDirectory.StateMachineDerivedFileCueColor, Mode=OneWay}"
                                       LocateFileFolderCommand="{Binding LocateCSharpFilesCommand}"
                                       CommandParameter="{Binding StateMachineDerivedFileLbl}" >
-                <TextBox  Text="{Binding TargetFilesDirectory.StateMachineDerivedFileName}" 
+                <TextBox  Text="{Binding TargetFilesDirectory.StateMachineDerivedFileName
+                                , UpdateSourceTrigger=PropertyChanged}" 
                           Style="{StaticResource FilepathStyle}" />
             </local:GroupBoxFileFolder>
 
             <local:GroupBoxFileFolder Grid.Row="2" Text="{Binding MainModelBaseFileLbl}" 
+                                      BorderBrush="{Binding TargetFilesDirectory.MainModelBaseFileCueColor, Mode=OneWay}"
                                       LocateFileFolderCommand="{Binding LocateCSharpFilesCommand}"
                                       CommandParameter="{Binding MainModelBaseFileLbl}" >
-                <TextBox  Text="{Binding TargetFilesDirectory.MainModelBaseFileName}" 
+                <TextBox  Text="{Binding TargetFilesDirectory.MainModelBaseFileName
+                                , UpdateSourceTrigger=PropertyChanged}"
                           Style="{StaticResource FilepathStyle}" />
             </local:GroupBoxFileFolder>
 
             <local:GroupBoxFileFolder Grid.Row="3" Text="{Binding MainModelDerivedFileLbl}" 
+                                      BorderBrush="{Binding TargetFilesDirectory.MainModelDerivedFileCueColor, Mode=OneWay}"
                                       LocateFileFolderCommand="{Binding LocateCSharpFilesCommand}"
                                       CommandParameter="{Binding MainModelDerivedFileLbl}" >
-                <TextBox  Text="{Binding TargetFilesDirectory.MainModelDerivedFileName}" 
+                <TextBox  Text="{Binding TargetFilesDirectory.MainModelDerivedFileName
+                                , UpdateSourceTrigger=PropertyChanged}" 
                           Style="{StaticResource FilepathStyle}" />
             </local:GroupBoxFileFolder>
         </Grid>

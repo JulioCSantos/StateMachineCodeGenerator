@@ -189,9 +189,12 @@ namespace StateMachineMetadata
             }
         }
         #endregion SolutionFileCueColor
+
         #endregion SolutionFileName & SolutionFileInfo
 
         #region TargetFilesDirectory & TargetFilesDirectoryPath
+
+        #region TargetFilesDirectoryName
         private string _targetFilesDirectoryName;
         public string TargetFilesDirectoryName {
             get => _targetFilesDirectoryName;
@@ -201,13 +204,16 @@ namespace StateMachineMetadata
                 RaisePropertyChanged(nameof(TargetFilesDirectoryCueColor));
             }
         }
+        #endregion TargetFilesDirectoryName
 
+        #region TargetFilesDirectoryPath
         public DirectoryInfo TargetFilesDirectoryPath {
             get {
                 try { return new DirectoryInfo(Path.GetFullPath(TargetFilesDirectoryName)); }
                 catch (Exception) { return null; }
             }
         }
+        #endregion TargetFilesDirectoryPath
 
         #region TargetFilesDirectoryCueColor
         public string TargetFilesDirectoryCueColor {
@@ -218,6 +224,7 @@ namespace StateMachineMetadata
             }
         }
         #endregion TargetFilesDirectoryCueColor
+
         #endregion TargetFilesDirectoryName & TargetFilesDirectoryPath
 
         #region CsFiles
@@ -248,49 +255,145 @@ namespace StateMachineMetadata
 
         #region generated files
 
+        #region StateMachineBaseFileName & StateMachineBaseFileInfo
+
         #region StateMachineBaseFileName
         private string _stateMachineBaseFileName;
         public string StateMachineBaseFileName {
             get => _stateMachineBaseFileName;
-            set { SetProperty(ref _stateMachineBaseFileName, value); RaisePropertyChanged(nameof(StateMachineBaseFileName));}
+            set {
+                SetProperty(ref _stateMachineBaseFileName, value); 
+                RaisePropertyChanged(nameof(StateMachineBaseFileName));
+                RaisePropertyChanged(nameof(StateMachineBaseFileCueColor));
+            }
         }
+        #endregion StateMachineBaseFileName
+
+        #region StateMachineBaseFileInfo
         public FileInfo StateMachineBaseFileInfo {
             get {
                 try { return new FileInfo(StateMachineBaseFileName); }
                 catch (Exception) { return null; }
             }
         }
-        #endregion StateMachineBaseFileName
+        #endregion StateMachineBaseFileInfo
+
+        #region StateMachineBaseFileCueColor
+        public string StateMachineBaseFileCueColor {
+            get {
+                if (TargetFilesDirectoryPath == null) { return "Black"; }
+                if (StateMachineBaseFileInfo == null) { return "LightCoral"; }
+                else { return "LightGreen"; }
+            }
+        }
+        #endregion StateMachineBaseFileCueColor
+
+        #endregion StateMachineBaseFileName & StateMachineBaseFileInfo
+
+        #region StateMachineDerivedFileName & StateMachineDerivedFileInfo
 
         #region StateMachineDerivedFileName
         private string _stateMachineDerivedFileName;
         public string StateMachineDerivedFileName {
             get => _stateMachineDerivedFileName;
-            set { SetProperty(ref _stateMachineDerivedFileName, value); RaisePropertyChanged(nameof(StateMachineDerivedFileInfo)); }
+            set {
+                SetProperty(ref _stateMachineDerivedFileName, value); 
+                RaisePropertyChanged(nameof(StateMachineDerivedFileInfo));
+                RaisePropertyChanged(nameof(StateMachineDerivedFileCueColor));
+            }
         }
+        #endregion StateMachineDerivedFileName
+
+        #region StateMachineDerivedFileInfo
         public FileInfo StateMachineDerivedFileInfo {
             get {
                 try { return new FileInfo(StateMachineDerivedFileName); }
                 catch (Exception) { return null; }
             }
         }
-        #endregion StateMachineDerivedFileName
+        #endregion StateMachineDerivedFileInfo
+
+        #region StateMachineDerivedFileCueColor
+        public string StateMachineDerivedFileCueColor {
+            get {
+                if (TargetFilesDirectoryPath == null) { return "Black"; }
+                if (StateMachineDerivedFileInfo == null) { return "LightCoral"; }
+                else { return "LightGreen"; }
+            }
+        }
+        #endregion StateMachineDerivedFileCueColor
+
+        #endregion StateMachineDerivedFileName & StateMachineDerivedFileInfo
+
+        #region MainModelBaseFileName & MainModelBaseFileInfo
 
         #region MainModelBaseFileName
         private string _mainModelBaseFileName;
         public string MainModelBaseFileName {
             get => _mainModelBaseFileName;
-            set => SetProperty(ref _mainModelBaseFileName, value);
+            set {
+                SetProperty(ref _mainModelBaseFileName, value);
+                RaisePropertyChanged(nameof(MainModelBaseFileInfo));
+                RaisePropertyChanged(nameof(MainModelBaseFileCueColor));
+            }
         }
         #endregion MainModelBaseFileName
+
+        #region MainModelBaseFileInfo
+        public FileInfo MainModelBaseFileInfo {
+            get {
+                try { return new FileInfo(MainModelBaseFileName); }
+                catch (Exception) { return null; }
+            }
+        }
+        #endregion MainModelBaseFileInfo
+
+        #region MainModelBaseFileCueColor
+        public string MainModelBaseFileCueColor {
+            get {
+                if (TargetFilesDirectoryPath == null) { return "Black"; }
+                if (MainModelBaseFileInfo == null) { return "LightCoral"; }
+                else { return "LightGreen"; }
+            }
+        }
+        #endregion MainModelBaseFileCueColor
+
+        #endregion MainModelBaseFileName  & MainModelBaseFileInfo
+
+        #region MainModelDerivedFileName & MainModelDerivedFileInfo
 
         #region MainModelDerivedFileName
         private string _mainModelDerivedFileName;
         public string MainModelDerivedFileName {
             get => _mainModelDerivedFileName;
-            set => SetProperty(ref _mainModelDerivedFileName, value);
+            set {
+                SetProperty(ref _mainModelDerivedFileName, value);
+                RaisePropertyChanged(nameof(MainModelDerivedFileInfo));
+                RaisePropertyChanged(nameof(MainModelDerivedFileCueColor));
+            }
         }
         #endregion MainModelDerivedFileName
+
+        #region MainModelDerivedFileInfo
+        public FileInfo MainModelDerivedFileInfo {
+            get {
+                try { return new FileInfo(MainModelDerivedFileName); }
+                catch (Exception) { return null; }
+            }
+        }
+        #endregion MainModelDerivedFileInfo
+
+        #region MainModelDerivedFileCueColor
+        public string MainModelDerivedFileCueColor {
+            get {
+                if (TargetFilesDirectoryPath == null) { return "Black"; }
+                if (MainModelDerivedFileInfo == null) { return "LightCoral"; }
+                else { return "LightGreen"; }
+            }
+        }
+        #endregion MainModelDerivedFileCueColor
+
+        #endregion MainModelDerivedFileName & MainModelDerivedFileInfo
 
         #region GenrtdFileNamesFunc
         protected Func<string, string> GenrtdFileNamesFunc => new((sufix) => {
