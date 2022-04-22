@@ -69,13 +69,184 @@ namespace StateMachineMetadata
         #endregion singleton
 
         #region properties
-        #region GenrtdFileNamesFunc
-        protected Func<string, string> GenrtdFileNamesFunc => new((sufix) => {
-            if (TargetFilesDirectoryName == null) return @$"\C{SelectedEaModelName}{sufix}";
-            
-            return TargetFilesDirectoryName + @$"\C{SelectedEaModelName}{sufix}";
-        });
-        #endregion GenrtdFileNamesFunc
+
+        #region Input files
+
+        #region EA XML Model
+
+        #region EaXmlFileName
+        public const string EaXmlFileNameLiteral = @"C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineMetadata new\Dependencies\LaserProcessing Model new.xml";
+        //public const string EAXMLFilePathLiteral = @"C:\Users\santosj25\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineMetadata\Dependencies\LaserProcessing Model new.xml";
+        //private string _eaxmlFileName = @"C:\Users\santosj25\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineMetadata\Dependencies\LaserProcessing Model new.xml";
+        private string _eaXmlFileName;
+        public string EaXmlFileName {
+            get => _eaXmlFileName;
+            set {
+                SetProperty(ref _eaXmlFileName, value);
+                RaisePropertyChanged(nameof(EaXmlFileInfo));
+                RaisePropertyChanged(nameof(EaXmlFileCueColor));
+            }
+        }
+        #endregion EaXmlFileName
+
+        #region EaXmlFileInfo
+        public FileInfo EaXmlFileInfo {
+            get {
+                try { return new FileInfo(EaXmlFileName); }
+                catch (Exception) { return null; }
+            }
+        }
+        #endregion EaXmlFileInfo
+
+        #region EaXmlFileCueColor
+        public string EaXmlFileCueColor {
+            get {
+                if (EaXmlFileInfo == null) { return "Black"; }
+
+                return EaXmlFileInfo.Exists ? "LightGreen" : "Red";
+            }
+        }
+        #endregion EaXmlFileCueColor
+
+        #region EaModelsList
+        private List<StateMachineMetadata.Model.MainModel> _eaModelsList;
+        public List<StateMachineMetadata.Model.MainModel> EaModelsList {
+            get => _eaModelsList;
+            set { SetProperty(ref _eaModelsList, value); RaisePropertyChanged(nameof(IsModelSelectable)); }
+        }
+        #endregion EaModelsList
+
+        #region IsModelSelectable
+        public bool IsModelSelectable => (EaModelsList?.Count ?? 0) > 1;
+        #endregion IsModelSelectable
+
+        #region SelectedEaModel
+        private Model.MainModel _selectedEaModel;
+        public Model.MainModel SelectedEaModel {
+            get => _selectedEaModel;
+            set {
+                SetProperty(ref _selectedEaModel, value);
+                SelectedEaModelName = null; // reset cache
+            }
+        }
+
+        #endregion SelectedEaModel
+
+        #region SelectedEaModelName
+        private string _selectedEaModelName;
+        public string SelectedEaModelName {
+            get => _selectedEaModelName ??= SelectedEaModel?.Name;
+            protected set {
+                if (_selectedEaModelName != null && TargetFilesDirectoryName.EndsWith(_selectedEaModelName)) {
+                    var suffixLength = TargetFilesDirectoryName.Length;
+                    var suffixStart = TargetFilesDirectoryName.Length - suffixLength - 1;
+                    TargetFilesDirectoryName = TargetFilesDirectoryName.Substring(suffixStart, suffixLength);
+                }
+                SetProperty(ref _selectedEaModelName, value);
+                if (string.IsNullOrEmpty(_selectedEaModelName) == false) {
+                    TargetFilesDirectoryName += $@"\{_selectedEaModelName}";
+                }
+            }
+        }
+
+        #endregion SelectedEaModelName
+
+        #endregion EA XML Model
+
+        #region SolutionFileName & SolutionFileInfo
+
+        #region SolutionFileName
+        public const string TargetSolutionLiteral = @"C:\Users\julio\Documents\Visual Studio 2019\Projects\MyCompanies\Corning\TemplateGrid\TemplateGrid.sln";
+        //public const string TargetSolutionLiteral = @"C:\Users\santosj25\source\repos\JulioCSantos\StateMachineCodeGenerator\TestsSubject";
+        //public const string TargetSolutionLiteral = @"C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\TestsSubject";
+
+        private string _solutionFileName;
+        public string SolutionFileName {
+            get => _solutionFileName;
+            set {
+                SetProperty(ref _solutionFileName, value);
+                RaisePropertyChanged(nameof(SolutionFileInfo));
+                RaisePropertyChanged(nameof(SolutionFileCueColor));
+            }
+        }
+        #endregion SolutionFileName
+
+        #region SolutionFileInfo
+        public FileInfo SolutionFileInfo {
+            get {
+                try { return new FileInfo(SolutionFileName); }
+                catch (Exception) { return null; }
+            }
+        }
+        #endregion SolutionFileInfo
+
+        #region SolutionFileCueColor
+        public string SolutionFileCueColor {
+            get {
+                if (SolutionFileInfo == null) { return "Black"; }
+
+                return SolutionFileInfo.Exists ? "LightGreen" : "Red";
+            }
+        }
+        #endregion SolutionFileCueColor
+        #endregion SolutionFileName & SolutionFileInfo
+
+        #region TargetFilesDirectory & TargetFilesDirectoryPath
+        private string _targetFilesDirectoryName;
+        public string TargetFilesDirectoryName {
+            get => _targetFilesDirectoryName;
+            set {
+                SetProperty(ref _targetFilesDirectoryName, value);
+                RaisePropertyChanged(nameof(TargetFilesDirectoryName));
+                RaisePropertyChanged(nameof(TargetFilesDirectoryCueColor));
+            }
+        }
+
+        public DirectoryInfo TargetFilesDirectoryPath {
+            get {
+                try { return new DirectoryInfo(Path.GetFullPath(TargetFilesDirectoryName)); }
+                catch (Exception) { return null; }
+            }
+        }
+
+        #region TargetFilesDirectoryCueColor
+        public string TargetFilesDirectoryCueColor {
+            get {
+                if (TargetFilesDirectoryPath == null) { return "Black"; }
+
+                return TargetFilesDirectoryPath.Exists ? "LightGreen" : "Yellow";
+            }
+        }
+        #endregion TargetFilesDirectoryCueColor
+        #endregion TargetFilesDirectoryName & TargetFilesDirectoryPath
+
+        #region CsFiles
+        private List<FileInfo> _csFiles;
+        public List<FileInfo> CsFiles {
+            get => _csFiles;
+            set => SetProperty(ref _csFiles, value);
+        }
+        #endregion CsFiles
+
+        #region NamespacesList
+        private List<string> _namespacesList;
+        public List<string> NamespacesList {
+            get => _namespacesList;
+            protected set => SetProperty(ref _namespacesList, value);
+        }
+        #endregion NamespacesList
+
+        #region SelectedNameSpace
+        private string _selectedNameSpace;
+        public string SelectedNameSpace {
+            get => _selectedNameSpace;
+            set => SetProperty(ref _selectedNameSpace, value);
+        }
+        #endregion SelectedNameSpace
+
+        #endregion Input files
+
+        #region generated files
 
         #region StateMachineBaseFileName
         private string _stateMachineBaseFileName;
@@ -121,134 +292,16 @@ namespace StateMachineMetadata
         }
         #endregion MainModelDerivedFileName
 
-        #region EA XML Model
+        #region GenrtdFileNamesFunc
+        protected Func<string, string> GenrtdFileNamesFunc => new((sufix) => {
+            if (TargetFilesDirectoryName == null) return @$"\C{SelectedEaModelName}{sufix}";
 
-        #region EaXmlFileName
-        public const string EaXmlFileNameLiteral = @"C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineMetadata new\Dependencies\LaserProcessing Model new.xml";
-        //public const string EAXMLFilePathLiteral = @"C:\Users\santosj25\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineMetadata\Dependencies\LaserProcessing Model new.xml";
-        //private string _eaxmlFileName = @"C:\Users\santosj25\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineMetadata\Dependencies\LaserProcessing Model new.xml";
-        private string _eaXmlFileName;
-        public string EaXmlFileName {
-            get => _eaXmlFileName;
-            set { SetProperty(ref _eaXmlFileName, value); RaisePropertyChanged(nameof(EaXmlFileInfo));  }
-        }
-        #endregion EaXmlFileName
+            return TargetFilesDirectoryName + @$"\C{SelectedEaModelName}{sufix}";
+        });
+        #endregion GenrtdFileNamesFunc
 
-        #region EaXmlFileInfo
-        public FileInfo EaXmlFileInfo {
-            get {
-                try { return new FileInfo(EaXmlFileName); }
-                catch (Exception) { return null; }
-            }
-        }
-        #endregion EaXmlFileInfo
-        
-        #region EaModelsList
-        private List<StateMachineMetadata.Model.MainModel> _eaModelsList;
-        public List<StateMachineMetadata.Model.MainModel> EaModelsList {
-            get => _eaModelsList;
-            set { SetProperty(ref _eaModelsList, value); RaisePropertyChanged(nameof(IsModelSelectable)); }
-        }
-        #endregion EaModelsList
+        #endregion generated files
 
-        #region IsModelSelectable
-        public bool IsModelSelectable => (EaModelsList?.Count ?? 0) > 1;
-        #endregion IsModelSelectable
-
-        #region SelectedEaModel
-        private Model.MainModel _selectedEaModel;
-        public Model.MainModel SelectedEaModel {
-            get => _selectedEaModel;
-            set {
-                SetProperty(ref _selectedEaModel, value);
-                SelectedEaModelName = null; // reset cache
-            }   
-        }
-
-        #endregion SelectedEaModel
-
-        #region SelectedEaModelName
-        private string _selectedEaModelName;
-        public string SelectedEaModelName {
-            get => _selectedEaModelName ??= SelectedEaModel?.Name;
-            protected set {
-                if (_selectedEaModelName != null && TargetFilesDirectoryName.EndsWith(_selectedEaModelName)) {
-                    var suffixLength = TargetFilesDirectoryName.Length;
-                    var suffixStart = TargetFilesDirectoryName.Length - suffixLength - 1;
-                    TargetFilesDirectoryName = TargetFilesDirectoryName.Substring(suffixStart, suffixLength);
-                }
-                SetProperty(ref _selectedEaModelName, value);
-                if (string.IsNullOrEmpty(_selectedEaModelName) == false) {
-                    TargetFilesDirectoryName += $@"\{_selectedEaModelName}";
-                }
-            }
-        }
-
-        #endregion SelectedEaModelName
-
-        #endregion EA XML Model
-
-        #region Targetted Solution
-
-        #region TargetFilesDirectory & TargetFilesDirectoryPath
-        private string _targetFilesDirectoryName;
-        public string TargetFilesDirectoryName {
-            get => _targetFilesDirectoryName;
-            set => SetProperty(ref _targetFilesDirectoryName, value);
-        }
-
-        public DirectoryInfo TargetFilesDirectoryPath {
-            get {
-                try { return new DirectoryInfo(Path.GetFullPath(TargetFilesDirectoryName)); }
-                catch (Exception) { return null; }
-            }
-        }
-        #endregion TargetFilesDirectoryName & TargetFilesDirectoryPath
-
-        #region SolutionFileName & SolutionFileInfo
-        public const string TargetSolutionLiteral = @"C:\Users\julio\Documents\Visual Studio 2019\Projects\MyCompanies\Corning\TemplateGrid\TemplateGrid.sln";
-        //public const string TargetSolutionLiteral = @"C:\Users\santosj25\source\repos\JulioCSantos\StateMachineCodeGenerator\TestsSubject";
-        //public const string TargetSolutionLiteral = @"C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\TestsSubject";
-
-        private string _solutionFileName;
-        public string SolutionFileName {
-            get => _solutionFileName;
-            set { SetProperty(ref _solutionFileName, value); RaisePropertyChanged(nameof(SolutionFileInfo)); }
-        }
-
-        public FileInfo SolutionFileInfo {
-            get {
-                try { return new FileInfo(SolutionFileName); }
-                catch (Exception) { return null; }
-            }
-        }
-        #endregion SolutionFileName & SolutionFileInfo
-
-        #region CsFiles
-        private List<FileInfo> _csFiles;
-        public List<FileInfo> CsFiles {
-            get => _csFiles;
-            set => SetProperty(ref _csFiles, value);
-        }
-        #endregion CsFiles
-
-        #region NamespacesList
-        private List<string> _namespacesList;
-        public List<string> NamespacesList {
-            get => _namespacesList;
-            protected set => SetProperty(ref _namespacesList, value);
-        }
-        #endregion NamespacesList
-
-        #region SelectedNameSpace
-        private string _selectedNameSpace;
-        public string SelectedNameSpace {
-            get => _selectedNameSpace;
-            set => SetProperty(ref _selectedNameSpace, value);
-        }
-        #endregion SelectedNameSpace
-
-        #endregion Targetted Solution
         #endregion properties
 
         #region TargetPath enum

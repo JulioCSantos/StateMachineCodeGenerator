@@ -64,5 +64,19 @@ namespace StateMachineCodeGenerator.Gui
             var view = d as GroupBoxFileFolder;
         }
         #endregion CommandParameterProperty
+
+        //#region BorderBrushProperty
+        //public static new DependencyProperty BorderBrushProperty = DependencyProperty.Register("BorderBrush", typeof(Brush), typeof(GroupBoxFileFolder),
+        //    new PropertyMetadata(null, BorderBrushCallBack)); 
+        //public new Brush BorderBrush {
+        //    get { return (Brush)this.GetValue(BorderBrushProperty); }
+        //    set { SetValue(BorderBrushProperty, value); }
+        //}
+
+        //private static void BorderBrushCallBack(DependencyObject d, DependencyPropertyChangedEventArgs e) {
+        //    var view = d as GroupBoxFileFolder;
+        //}
+        //#endregion BorderBrushProperty
+
     }
 }

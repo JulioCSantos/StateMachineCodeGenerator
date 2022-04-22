@@ -24,7 +24,7 @@ namespace StateMachineCodeGenerator.Common
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        //[DebuggerStepThrough]
+        [DebuggerStepThrough]
         public virtual bool SetProperty<T>(ref T backingField, T value, [CallerMemberName] string propertyName = null)
         {
             if (Equals(value, backingField)) { return false; }
