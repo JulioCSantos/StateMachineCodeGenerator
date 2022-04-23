@@ -4,7 +4,6 @@ using StateMachineCodeGeneratorSystem.Templates;
 using StateMachineMetadata;
 using System;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace StateMachineCodeGenerator.ViewModels
 {
@@ -42,6 +41,11 @@ namespace StateMachineCodeGenerator.ViewModels
                     TargetFilesDirectory.EaModelsList = Main.GetStateMachineModelFromEAXMLFile(TargetFilesDirectory.EaXmlFileName);
                     TargetFilesDirectory.SelectedEaModel = TargetFilesDirectory.EaModelsList?.FirstOrDefault();
                     break;
+                case nameof(TargetFilesDirectory.EaXmlFileInfo):
+                case nameof(TargetFilesDirectory.TargetFilesDirectoryPath):
+                    RaisePropertyChanged(nameof(CanGenerateCode));
+                    RaisePropertyChanged(nameof(GenerateCodeTooltip));
+                    break;
             }
         }
 
@@ -49,7 +53,7 @@ namespace StateMachineCodeGenerator.ViewModels
 
         #region commands
 
-        public RelayCommand StartParsingCommand => new RelayCommand((o) => StartParsing());
+        public RelayCommand GenerateCodeCommand => new RelayCommand((o) => GenerateCode());
         public RelayCommand LocateEaXmlFileCommand => new RelayCommand(LocateEaXmlFile);
         public RelayCommand LocateSolutionFileCommand => new RelayCommand(LocateSolutionFile);
         public RelayCommand LocateTargetFolderCommand => new RelayCommand(LocateTargetFolder);
@@ -113,11 +117,27 @@ namespace StateMachineCodeGenerator.ViewModels
             return fileIx;
         }
 
-        public async void StartParsing() {
+        #region CanGenerateCode
+        public bool CanGenerateCode {
+            get => TargetFilesDirectory.EaXmlFileInfo?.Exists == true && TargetFilesDirectory.TargetFilesDirectoryPath != null;
+        }
+
+        public string GenerateCodeTooltip {
+            get {
+                if (CanGenerateCode) {
+                    //return "Generate code in the 'Target Folder for generated files'";
+                    return "Generate State Machine code in the 'Target Folder ...'";
+                }
+                return "Must select 'EA Exported xml file' and 'Solution (.sln) file' to enable button";
+            }
+        }
+
+        #endregion CanGenerateCode
+
+        public async void GenerateCode() {
             CursorHandler.Instance.AddBusyMember();
-            var CodeGenerator = new TemplatesGenerator(TargetFilesDirectory.EaXmlFileInfo);
-            //var filesGenerated = await CodeGenerator.GenerateFiles();
-            var filesGenerated = await CodeGenerator.GenerateFiles(TargetFilesDirectory.GetMetadataTargetPaths());
+            var codeGenerator = new TemplatesGenerator(TargetFilesDirectory.EaXmlFileInfo);
+            var filesGenerated = await codeGenerator.GenerateFiles(TargetFilesDirectory.GetMetadataTargetPaths());
             CursorHandler.Instance.RemoveBusyMember();
         }
         #endregion commands

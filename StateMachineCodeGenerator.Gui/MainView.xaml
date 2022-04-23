@@ -86,17 +86,25 @@
             <!--endregion SolutionFileName & Namespace-->
 
             <!--region Target folder for generated files -->
-            <local:GroupBoxFileFolder Grid.Row="2" Text="Target folder for gen'd files" Height="Auto"  BorderThickness="2"
+            <StackPanel Grid.Row="2" Orientation="Vertical" >
+
+                <local:GroupBoxFileFolder Text="Target folder for gen'd files" Height="Auto"  BorderThickness="2"
                                       BorderBrush="{Binding Path=TargetFilesDirectory.TargetFilesDirectoryCueColor, Mode=OneWay}"
                                       LocateFileFolderCommand="{Binding LocateTargetFolderCommand}">
                 <TextBox  Text="{Binding TargetFilesDirectory.TargetFilesDirectoryName
                     , UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource FilepathStyle}" />
             </local:GroupBoxFileFolder>
+            </StackPanel>
+
             <!--endregion Target folder for generated files -->
 
-            <Button Grid.Row="3" Content="Start Parsing" Margin="1,0,4,4" Height="23"
-                    Command="{Binding StartParsingCommand}"
-                    HorizontalAlignment="Right" VerticalAlignment="Bottom" />
+            <Grid Grid.Row="3" ToolTip="{Binding GenerateCodeTooltip, Mode=OneWay}">
+                <Button  Content="Generate code" Margin="1,0,4,4" Height="23"
+                         IsEnabled="{Binding CanGenerateCode}"
+                         Command="{Binding GenerateCodeCommand}"
+                         HorizontalAlignment="Right" VerticalAlignment="Bottom" />
+            </Grid>
+
         </Grid>
         <!--#endregion left side column-->
 
