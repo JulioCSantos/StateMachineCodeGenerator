@@ -26,16 +26,19 @@ namespace StateMachineMetadata
 
         public XElement XmlRootElement {
             get {
+                using var reader = new StreamReader(XmlFilePath);
+                return xmlRootElement ??= XElement.Load(reader);
 
-                //XmlDocument xmlDocument = new XmlDocument();
-                StreamReader reader = new StreamReader(XmlFilePath);
-                //xmlDocument.Load(reader);
-                //reader.Close();
+                ////XmlDocument xmlDocument = new XmlDocument();
+                //StreamReader reader = new StreamReader(XmlFilePath);
+                ////xmlDocument.Load(reader);
+                ////reader.Close();
 
 
-                return xmlRootElement ?? (xmlRootElement = XElement.Load(reader));
-                //return xmlRootElement ?? (xmlRootElement = XElement.Load(XmlFilePath));
+                //return xmlRootElement ?? (xmlRootElement = XElement.Load(reader));
+                ////return xmlRootElement ?? (xmlRootElement = XElement.Load(XmlFilePath));
             }
+            protected set { xmlRootElement = value; }
         }
 
         public XNamespace UML { get; private set; } = "omg.org/UML1.3";

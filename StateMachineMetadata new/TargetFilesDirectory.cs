@@ -75,27 +75,75 @@ namespace StateMachineMetadata
         #region EA XML Model
 
         #region EaXmlFileName
+        public const string EaXmlFileNameLiteral = @"C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\InputTestsFiles\LaserProcessing Model new test.xml";
         //public const string EaXmlFileNameLiteral = @"C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineMetadata new\Dependencies\LaserProcessing Model new.xml";
-        public const string EaXmlFileNameLiteral = @"C:\Users\santosj25\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineMetadata\Dependencies\LaserProcessing Model new.xml";
-        //private string _eaxmlFileName = @"C:\Users\santosj25\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineMetadata\Dependencies\LaserProcessing Model new.xml";
+        //public const string EaXmlFileNameLiteral = @"C:\Users\santosj25\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineMetadata\Dependencies\LaserProcessing Model new.xml";
         private string _eaXmlFileName;
         public string EaXmlFileName {
             get => _eaXmlFileName;
             set {
                 SetProperty(ref _eaXmlFileName, value);
-                RaisePropertyChanged(nameof(EaXmlFileInfo));
+                EaXmlFileInfo = null;
                 RaisePropertyChanged(nameof(EaXmlFileCueColor));
+                if (EaXmlFileInfo?.Exists == true) { EaModelsList = Main.GetStateMachineModelFromEAXMLFile(EaXmlFileName); }
+                else { EaModelsList = null; }
             }
         }
         #endregion EaXmlFileName
 
+        //#region EaXmlFileWatcher
+        //private FileSystemWatcher _eaXmlFileWatcher;
+        //public FileSystemWatcher EaXmlFileWatcher
+        //{
+        //    get { return _eaXmlFileWatcher ??= new FileSystemWatcher(); }
+        //    set { _eaXmlFileWatcher = value; }
+        //}
+        //#endregion EaXmlFileWatcher
+
         #region EaXmlFileInfo
+        public FileInfo _eaXmlFileInfo;
         public FileInfo EaXmlFileInfo {
             get {
-                try { return new FileInfo(EaXmlFileName); }
-                catch (Exception) { return null; }
+                if (_eaXmlFileInfo != null) { return _eaXmlFileInfo; }
+
+                try { EaXmlFileInfo = new FileInfo(EaXmlFileName); }
+                catch (Exception) { return _eaXmlFileInfo = null; }
+
+                return _eaXmlFileInfo;
+            }
+            protected set {
+                //if (_eaXmlFileInfo?.Directory?.Exists == true) {
+                //    EaXmlFileWatcher.Changed -= EaXmlFileWatcher_Changed;
+                //}
+                SetProperty( ref _eaXmlFileInfo, value);
+                //if (_eaXmlFileInfo?.Directory?.Exists == true && EaXmlFileWatcher.Path != EaXmlFileInfo.DirectoryName) {
+                //    //EaXmlFileWatcher = new FileSystemWatcher(_eaXmlFileInfo.DirectoryName, "*.*");
+                //    EaXmlFileWatcher.EnableRaisingEvents = false;
+                //    EaXmlFileWatcher.Path = _eaXmlFileInfo.DirectoryName;
+                //    EaXmlFileWatcher.NotifyFilter = NotifyFilters.Attributes
+                //                                    | NotifyFilters.CreationTime
+                //                                    | NotifyFilters.DirectoryName
+                //                                    | NotifyFilters.FileName
+                //                                    | NotifyFilters.LastAccess
+                //                                    | NotifyFilters.LastWrite
+                //                                    | NotifyFilters.Security
+                //                                    | NotifyFilters.Size;
+                //    //EaXmlFileWatcher.NotifyFilter = NotifyFilters.FileName;
+                //    EaXmlFileWatcher.Changed += EaXmlFileWatcher_Changed;
+                //    EaXmlFileWatcher.Created += EaXmlFileWatcher_Changed;
+                //    EaXmlFileWatcher.Deleted += EaXmlFileWatcher_Changed;
+                //    EaXmlFileWatcher.EnableRaisingEvents = true;
+                //}
             }
         }
+
+        //private void EaXmlFileWatcher_Changed(object sender, FileSystemEventArgs e) {
+        //    if (e.Name != EaXmlFileInfo.Name) { return; }
+        //    if (e.ChangeType != WatcherChangeTypes.Changed) { return; }
+        //    var eaXmlFileName = EaXmlFileName;
+        //    EaXmlFileName = null;
+        //    EaXmlFileName = eaXmlFileName;
+        //}
         #endregion EaXmlFileInfo
 
         #region EaXmlFileCueColor
@@ -112,7 +160,11 @@ namespace StateMachineMetadata
         private List<StateMachineMetadata.Model.MainModel> _eaModelsList;
         public List<StateMachineMetadata.Model.MainModel> EaModelsList {
             get => _eaModelsList;
-            set { SetProperty(ref _eaModelsList, value); RaisePropertyChanged(nameof(IsModelSelectable)); }
+            protected set { SetProperty(ref _eaModelsList, value); 
+                RaisePropertyChanged(nameof(IsModelSelectable));
+                if (_eaModelsList?.Any() == true) { SelectedEaModel = EaModelsList.FirstOrDefault(); }
+                else { SelectedEaModel = null; }
+            }
         }
         #endregion EaModelsList
 
@@ -137,6 +189,7 @@ namespace StateMachineMetadata
         public string SelectedEaModelName {
             get => _selectedEaModelName ??= SelectedEaModel?.Name;
             protected set {
+                if (value == null) { SetProperty(ref _selectedEaModelName, null); }
                 if (_selectedEaModelName != null && TargetFilesDirectoryName.EndsWith(_selectedEaModelName)) {
                     var suffixLength = TargetFilesDirectoryName.Length;
                     var suffixStart = TargetFilesDirectoryName.Length - suffixLength - 1;
@@ -156,8 +209,8 @@ namespace StateMachineMetadata
         #region SolutionFileName & SolutionFileInfo
 
         #region SolutionFileName
-        //public const string TargetSolutionLiteral = @"C:\Users\julio\Documents\Visual Studio 2019\Projects\MyCompanies\Corning\TemplateGrid\TemplateGrid.sln";
-        public const string TargetSolutionLiteral = @"C:\Users\santosj25\source\repos\JulioCSantos\StateMachineCodeGenerator\TestsSubject\TestsSubject.sln";
+        public const string TargetSolutionLiteral = @"C:\Users\julio\Documents\Visual Studio 2019\Projects\MyCompanies\Corning\TemplateGrid\TemplateGrid.sln";
+        //public const string TargetSolutionLiteral = @"C:\Users\santosj25\source\repos\JulioCSantos\StateMachineCodeGenerator\TestsSubject\TestsSubject.sln";
         //public const string TargetSolutionLiteral = @"C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\TestsSubject";
 
         private string _solutionFileName;

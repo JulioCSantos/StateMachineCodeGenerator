@@ -11,7 +11,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "InputTestsFiles", "InputTes
 		InputTestsFiles\California Model.xml = InputTestsFiles\California Model.xml
 		InputTestsFiles\CCaliforniaStateMachine.cs = InputTestsFiles\CCaliforniaStateMachine.cs
 		InputTestsFiles\CGuideStateMachine.cs = InputTestsFiles\CGuideStateMachine.cs
+		InputTestsFiles\LaserProcessing Model new test.xml = InputTestsFiles\LaserProcessing Model new test.xml
 		InputTestsFiles\LaserProcessing Model new.xml = InputTestsFiles\LaserProcessing Model new.xml
+		InputTestsFiles\LaserProcessing Model test.xml = InputTestsFiles\LaserProcessing Model test.xml
 		InputTestsFiles\LaserProcessing Model#.eap = InputTestsFiles\LaserProcessing Model#.eap
 		InputTestsFiles\LaserProcessing Model#.xml = InputTestsFiles\LaserProcessing Model#.xml
 		InputTestsFiles\LaserProcessing Model.eap = InputTestsFiles\LaserProcessing Model.eap
@@ -22,6 +24,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "InputTestsFiles", "InputTes
 		InputTestsFiles\Waist SW Design Bad.xml = InputTestsFiles\Waist SW Design Bad.xml
 		InputTestsFiles\Waist SW Design Incomplete.eap = InputTestsFiles\Waist SW Design Incomplete.eap
 		InputTestsFiles\Waist SW Design Incomplete.xml = InputTestsFiles\Waist SW Design Incomplete.xml
+		InputTestsFiles\WocGuide Model test.xml = InputTestsFiles\WocGuide Model test.xml
 		InputTestsFiles\WocGuide Model.eap = InputTestsFiles\WocGuide Model.eap
 		InputTestsFiles\WocGuide Model.xml = InputTestsFiles\WocGuide Model.xml
 	EndProjectSection
@@ -38,7 +41,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "90 StateMachineCodeGenerato
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StateMachineCodeGeneratorSystem", "System\StateMachineCodeGeneratorSystem.csproj", "{9B4BA2C0-B60D-4BB6-839A-39BDD21ADCA7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "30 StateMachineCodeGenerator.Generator", "StateMachineCodeGenerator.Generator\30 StateMachineCodeGenerator.Generator.csproj", "{36DE00C7-C3A6-4C1A-848E-E12E2E62AA89}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "30 StateMachineCodeGenerator.Generator", "StateMachineCodeGenerator.Generator\30 StateMachineCodeGenerator.Generator.csproj", "{36DE00C7-C3A6-4C1A-848E-E12E2E62AA89}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

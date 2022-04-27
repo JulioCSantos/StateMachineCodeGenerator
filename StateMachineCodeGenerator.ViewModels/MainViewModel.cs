@@ -37,10 +37,10 @@ namespace StateMachineCodeGenerator.ViewModels
 
         private void TargetFilesDirectory_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e) {
             switch (e.PropertyName) {
-                case nameof(TargetFilesDirectory.EaXmlFileName):
-                    TargetFilesDirectory.EaModelsList = Main.GetStateMachineModelFromEAXMLFile(TargetFilesDirectory.EaXmlFileName);
-                    TargetFilesDirectory.SelectedEaModel = TargetFilesDirectory.EaModelsList?.FirstOrDefault();
-                    break;
+                //case nameof(TargetFilesDirectory.EaXmlFileName):
+                //    TargetFilesDirectory.EaModelsList = Main.GetStateMachineModelFromEAXMLFile(TargetFilesDirectory.EaXmlFileName);
+                //    TargetFilesDirectory.SelectedEaModel = TargetFilesDirectory.EaModelsList?.FirstOrDefault();
+                //    break;
                 case nameof(TargetFilesDirectory.EaXmlFileInfo):
                 case nameof(TargetFilesDirectory.TargetFilesDirectoryPath):
                     RaisePropertyChanged(nameof(CanGenerateCode));
@@ -66,7 +66,9 @@ namespace StateMachineCodeGenerator.ViewModels
             IPopupView view = DialogServices.Instance.Dialogs[nameof(LocateFileViewModel)];
             var vm = view.Vm as LocateFileViewModel;
             if (vm == null) throw new Exception(); // will not happen
-            var fileLocated = vm.ShowDialog(TargetFilesDirectory.EaXmlFileNameLiteral
+            var eaXmlFileName = string.IsNullOrEmpty(TargetFilesDirectory.EaXmlFileName) ? 
+                TargetFilesDirectory.EaXmlFileNameLiteral : TargetFilesDirectory.EaXmlFileName;
+            var fileLocated = vm.ShowDialog(eaXmlFileName
                 , EnterpriseArchitectFilterLiteral) ?? view.Vm.ClosingResult;
             if (fileLocated == true) {
                 TargetFilesDirectory.EaXmlFileName = vm.LocatedFileName;
