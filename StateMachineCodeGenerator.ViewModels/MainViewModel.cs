@@ -3,7 +3,10 @@ using StateMachineCodeGenerator.Generator;
 using StateMachineCodeGeneratorSystem.Templates;
 using StateMachineMetadata;
 using System;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace StateMachineCodeGenerator.ViewModels
 {
@@ -25,6 +28,83 @@ namespace StateMachineCodeGenerator.ViewModels
             set => SetProperty(ref _targetFilesDirectory, value);
         }
         #endregion TargetFilesDirectory
+
+        #region Messages animation
+
+        #region Messages
+        private ObservableCollection<string> _messages;
+        public ObservableCollection<string> Messages
+        {
+            get { return _messages ?? (Messages = new ObservableCollection<string>()); }
+            set {
+                if (_messages != null) {_messages.CollectionChanged -= MessagesOnCollectionChanged; }
+                SetProperty(ref _messages, value);
+                if (_messages != null) { _messages.CollectionChanged += MessagesOnCollectionChanged; }
+            }
+        }
+        #endregion Messages
+
+        #region MessagesOnCollectionChanged
+        private async void MessagesOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e) {
+            await ShowVanishingMessages();
+        }
+        #endregion MessagesOnCollectionChanged
+
+        #region ShowVanishingMessages
+        public async Task ShowVanishingMessages() {
+            MessagesHeight = Messages.Count * 25;
+            var refreshRate = 75;
+            var showDurMilliseconds = 3000;
+            var iterations = showDurMilliseconds / refreshRate;
+            for (int i = 1; i <= iterations; i++) {
+                await Task.Delay(refreshRate);
+                MessagesOpacity = (iterations - (double)i) / iterations;
+                if (i == iterations/ 4 * 3) {
+                    await StartCollapsingMessages(iterations / 4 * refreshRate);
+
+                }
+            }
+            MessagesHeight = 0;
+        }
+        #endregion ShowVanishingMessages
+
+        #region StartCollapsingMessages
+        public async Task StartCollapsingMessages(double durationInMilliseconds) {
+            var interval = (int)durationInMilliseconds / 10;
+            var origHeight = MessagesHeight;
+            for (int i = 1; i <= 10; i++) {
+                await Task.Delay(interval);
+                MessagesHeight = origHeight / 10 * (10 - i);
+            }
+        }
+        #endregion StartCollapsingMessages
+
+        #region LogMessage
+        public void LogMessage(string message) {
+            var msgNbr = Messages.Count.ToString().PadLeft(3, '0');
+            var messageWithPrefix = msgNbr + ": " + message;
+            if (Messages.Any() && Messages[0].Contains(message)) { Messages[0] = messageWithPrefix; }
+            else {Messages.Insert(0, messageWithPrefix);}
+        }
+        #endregion LogMessage
+
+        #region MessagesHeight
+        private double _messagesHeight;
+        public double MessagesHeight {
+            get => _messagesHeight;
+            set => SetProperty(ref _messagesHeight, value);
+        }
+        #endregion MessagesHeight
+
+        #region MessagesOpacity
+        private double _messagesOpacity;
+        public double MessagesOpacity {
+            get => _messagesOpacity;
+            set => SetProperty(ref _messagesOpacity, value);
+        }
+        #endregion MessagesOpacity
+
+        #endregion Messages animation
 
         #endregion properties
 
@@ -140,6 +220,9 @@ namespace StateMachineCodeGenerator.ViewModels
             CursorHandler.Instance.AddBusyMember();
             var codeGenerator = new TemplatesGenerator(TargetFilesDirectory.EaXmlFileInfo);
             var filesGenerated = await codeGenerator.GenerateFiles(TargetFilesDirectory.GetMetadataTargetPaths());
+            //Messages.Insert(0, "State machine files generated");
+            LogMessage("State machine files generated");
+            await Task.Delay(300);
             CursorHandler.Instance.RemoveBusyMember();
         }
         #endregion commands

@@ -106,55 +106,6 @@ namespace StateMachineCodeGenerator.Tests.Metadata
             Assert.IsFalse(target.EaXmlFileInfo?.Exists == true);
         }
 
-        //[TestMethod]
-        //public async Task EaXmlFileRefreshTest() {
-        //    var target = new DerivedTargetFilesDirectory();
-        //    var origFile = new FileInfo(
-        //            @"C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\InputTestsFiles\LaserProcessing Model new.xml");
-        //    var testFile = new FileInfo(Path.Combine(origFile.DirectoryName ?? "", "LaserProcessing Model test.xml"));
-        //    var otherFile = new FileInfo(Path.Combine(origFile.DirectoryName ?? "", "WocGuide Model.xml"));
-        //    File.Copy(origFile.FullName, testFile.FullName, true);
-        //    Assert.IsNull(target.SelectedEaModel);
-        //    target.EaXmlFileName = testFile.FullName;
-        //    Assert.IsNotNull(target.SelectedEaModel);
-        //    var prevModelName = target.SelectedEaModelName;
-        //    //File.Delete(testFile.FullName);
-        //    target.PropertyChanged += Target_PropertyChanged;
-        //    testFile.CreationTime = DateTime.Now;
-        //    var propSet = false;
-        //    do {
-        //        var pceArgs =  await PropertyChangedAsync(target);
-        //        if (pceArgs.PropertyName == nameof(target.SelectedEaModelName)) { propSet = true; }
-
-        //    } while (propSet == false);
-        //    File.Copy(otherFile.FullName, testFile.FullName, true);
-        //    var newModelName = target.SelectedEaModelName;
-        //    Assert.AreNotEqual(prevModelName, newModelName);
-        //}
-
-        //public Task<PropertyChangedEventArgs> PropertyChangedAsync(INotifyPropertyChanged sender) {
-
-        //    var tcs = new TaskCompletionSource<PropertyChangedEventArgs>();
-        //    var handler = new Action<object, PropertyChangedEventArgs>(
-        //        (s, p) => {
-        //            tcs.TrySetResult(p);
-        //        }
-                
-        //    );
-        //    sender.PropertyChanged += (s, p) => handler(s, p);
-        //    return tcs.Task.ContinueWith(p => {
-        //        sender.PropertyChanged -= (s, p) => handler(s, p); 
-        //        return p.Result;
-        //    });
-        //}
-
-        //[TestMethod]
-        //public void TargetFilesNamesTest() {
-        //    var target = new DerivedTargetFilesDirectory();
-        //    var eAXMLFilePathLiteral = @"C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineMetadata new\Dependencies\LaserProcessing Model new.xml";
-        //    target.SolutionFileName = eAXMLFilePathLiteral;
-        //    Assert.IsNotNull(target);
-        //}
     }
 
     public class DerivedTargetFilesDirectory : TargetFilesDirectory {

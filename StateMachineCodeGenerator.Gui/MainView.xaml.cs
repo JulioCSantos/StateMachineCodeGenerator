@@ -25,13 +25,13 @@ namespace StateMachineCodeGenerator.Gui
         public MainView() {
             InitializeComponent();
             this.Loaded += MainView_Loaded;
+            CursorHandler.Instance.PropertyChanged += Instance_PropertyChanged;
         }
 
         private void Instance_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e) {
             if (e.PropertyName == nameof(CursorHandler.IsBusy)) {
                 Cursor previousCursor = this.Cursor;
                 this.Cursor = CursorHandler.Instance.IsBusy ? Cursors.AppStarting : Cursors.Arrow;
-                this.Loaded += MainView_Loaded;
             }
         }
 

@@ -19,144 +19,169 @@
     </UserControl.Resources>
 
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="50*" />
-            <ColumnDefinition Width="5" />
-            <ColumnDefinition Width="50*" />
-        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
 
-        <!--#region left side column-->
-        <Grid Grid.Row="0" Grid.IsSharedSizeScope="True">
-            <Grid.RowDefinitions>
-                <RowDefinition /> <!-- EaXmlFileName & ExModel-->
-                <RowDefinition /> <!-- SolutionFileName & Namespace-->
-                <RowDefinition /> <!--Start Parsing-->
-                <RowDefinition Height="30" /> <!--Start Parsing-->
-            </Grid.RowDefinitions>
+        <!--#region upper side row-->
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="50*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="50*" />
+            </Grid.ColumnDefinitions>
 
-            <!--region EaXmlFileName & ExModel -->
-            <StackPanel Grid.Row="0" Orientation="Vertical" Height="225" VerticalAlignment="Top">
-                <local:GroupBoxFileFolder Text="EA exported XML file" BorderThickness="2"
+            <!--#region left side column-->
+            <Grid Grid.Row="0" Grid.IsSharedSizeScope="True">
+                <Grid.RowDefinitions>
+                    <RowDefinition /> <!-- EaXmlFileName & ExModel-->
+                    <RowDefinition /> <!-- SolutionFileName & Namespace-->
+                    <RowDefinition /> <!--Start Parsing-->
+                    <RowDefinition Height="30" /> <!--Start Parsing-->
+                </Grid.RowDefinitions>
+
+                <!--region EaXmlFileName & ExModel -->
+                <StackPanel Grid.Row="0" Orientation="Vertical" Height="225" VerticalAlignment="Top">
+                    <local:GroupBoxFileFolder Text="EA exported XML file" BorderThickness="2"
                         BorderBrush="{Binding TargetFilesDirectory.EaXmlFileCueColor, Mode=OneWay}"
                         LocateFileFolderCommand="{Binding LocateEaXmlFileCommand}">
-                    <TextBox  Text="{Binding TargetFilesDirectory.EaXmlFileName
+                        <TextBox  Text="{Binding TargetFilesDirectory.EaXmlFileName
                         , UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource FilepathStyle}" />
-                </local:GroupBoxFileFolder>
+                    </local:GroupBoxFileFolder>
 
-                <!--#region EAModel-->
-                <Grid HorizontalAlignment="Right" MinWidth="200" Margin="2">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" SharedSizeGroup="ComboBoxLabels" />
-                        <ColumnDefinition Width="*" SharedSizeGroup="ComboBoxes" />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" Text="EA Model : " Margin="4,0,1,0" 
+                    <!--#region EAModel-->
+                    <Grid HorizontalAlignment="Right" MinWidth="200" Margin="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="ComboBoxLabels" />
+                            <ColumnDefinition Width="*" SharedSizeGroup="ComboBoxes" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="EA Model : " Margin="4,0,1,0" 
                                VerticalAlignment="Center" HorizontalAlignment="Right"/>
-                    <ComboBox Grid.Column="1" ItemsSource="{Binding TargetFilesDirectory.EaModelsList}"
+                        <ComboBox Grid.Column="1" ItemsSource="{Binding TargetFilesDirectory.EaModelsList}"
                               DisplayMemberPath="ProjectName" MaxWidth="200" Margin="1,0,4,0"
                               IsReadOnly="{Binding TargetFilesDirectory.IsModelSelectable}"
                               SelectedItem="{Binding TargetFilesDirectory.SelectedEaModel}" />
-                </Grid>
-                <!--#endregion EAModel-->
-            </StackPanel>
-            <!--endregion SourceFilePath-->
+                    </Grid>
+                    <!--#endregion EAModel-->
+                </StackPanel>
+                <!--endregion SourceFilePath-->
 
-            <!--region SolutionFileName & Namespace -->
-            <StackPanel Grid.Row="1" Orientation="Vertical" >
-                <local:GroupBoxFileFolder Text="Solution (.sln) file" Height="Auto" BorderThickness="2"
+                <!--region SolutionFileName & Namespace -->
+                <StackPanel Grid.Row="1" Orientation="Vertical" >
+                    <local:GroupBoxFileFolder Text="Solution (.sln) file" Height="Auto" BorderThickness="2"
                     BorderBrush="{Binding TargetFilesDirectory.SolutionFileCueColor, Mode=OneWay}"
                     LocateFileFolderCommand="{Binding LocateSolutionFileCommand}">
-                    <TextBox  Text="{Binding TargetFilesDirectory.SolutionFileName
+                        <TextBox  Text="{Binding TargetFilesDirectory.SolutionFileName
                         , UpdateSourceTrigger=PropertyChanged}"  
                                   Style="{StaticResource FilepathStyle}" />
-                </local:GroupBoxFileFolder>
-                <!--#region Namespace-->
-                <Grid  HorizontalAlignment="Right" MinWidth="200" Margin="2">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" SharedSizeGroup="ComboBoxLabels" />
-                        <ColumnDefinition Width="*" SharedSizeGroup="ComboBoxes" />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" Text="Target Namespace : " Margin="4,0,1,0"
+                    </local:GroupBoxFileFolder>
+                    <!--#region Namespace-->
+                    <Grid  HorizontalAlignment="Right" MinWidth="200" Margin="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="ComboBoxLabels" />
+                            <ColumnDefinition Width="*" SharedSizeGroup="ComboBoxes" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Target Namespace : " Margin="4,0,1,0"
                                    HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                    <ComboBox Grid.Column="1" ItemsSource="{Binding TargetFilesDirectory.NamespacesList}"
+                        <ComboBox Grid.Column="1" ItemsSource="{Binding TargetFilesDirectory.NamespacesList}"
                                   MaxWidth="200" Margin="1,0,4,0"
                                   SelectedItem="{Binding TargetFilesDirectory.SelectedNameSpace}" />
-                </Grid>
-                <!--#endregion Namespace-->
-            </StackPanel>
-            <!--endregion SolutionFileName & Namespace-->
+                    </Grid>
+                    <!--#endregion Namespace-->
+                </StackPanel>
+                <!--endregion SolutionFileName & Namespace-->
 
-            <!--region Target folder for generated files -->
-            <StackPanel Grid.Row="2" Orientation="Vertical" >
+                <!--region Target folder for generated files -->
+                <StackPanel Grid.Row="2" Orientation="Vertical" >
 
-                <local:GroupBoxFileFolder Text="Target folder for gen'd files" Height="Auto"  BorderThickness="2"
+                    <local:GroupBoxFileFolder Text="Target folder for gen'd files" Height="Auto"  BorderThickness="2"
                                       BorderBrush="{Binding Path=TargetFilesDirectory.TargetFilesDirectoryCueColor, Mode=OneWay}"
                                       LocateFileFolderCommand="{Binding LocateTargetFolderCommand}">
-                <TextBox  Text="{Binding TargetFilesDirectory.TargetFilesDirectoryName
+                        <TextBox  Text="{Binding TargetFilesDirectory.TargetFilesDirectoryName
                     , UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource FilepathStyle}" />
-            </local:GroupBoxFileFolder>
-            </StackPanel>
+                    </local:GroupBoxFileFolder>
+                </StackPanel>
 
-            <!--endregion Target folder for generated files -->
+                <!--endregion Target folder for generated files -->
 
-            <Grid Grid.Row="3" ToolTip="{Binding GenerateCodeTooltip, Mode=OneWay}">
-                <Button  Content="Generate code" Margin="1,0,4,4" Height="23"
+                <Grid Grid.Row="3" ToolTip="{Binding GenerateCodeTooltip, Mode=OneWay}">
+                    <Button  Content="Generate code" Margin="1,0,4,4" Height="23"
                          IsEnabled="{Binding CanGenerateCode}"
                          Command="{Binding GenerateCodeCommand}"
                          HorizontalAlignment="Right" VerticalAlignment="Bottom" />
+                </Grid>
+
             </Grid>
+            <!--#endregion left side column-->
 
-        </Grid>
-        <!--#endregion left side column-->
+            <!--#region middle (splitter) column-->
+            <GridSplitter Grid.Column="1" Width="3" HorizontalAlignment="Stretch" Background="LightGray" Margin="2,0"/>
+            <!--#endregion middle (splitter) column-->
 
-        <!--#region middle (splitter) column-->
-        <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" Foreground="Black"  />
-        <!--#endregion middle (splitter) column-->
-
-        <!--#region Right size column-->
-        <Grid Grid.Column="2">
-            <Grid.RowDefinitions>
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-            </Grid.RowDefinitions>
-            <local:GroupBoxFileFolder Grid.Row="0" Text="{Binding StateMachineBaseFileLbl}" 
+            <!--#region Right size column-->
+            <Grid Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <local:GroupBoxFileFolder Grid.Row="0" Text="{Binding StateMachineBaseFileLbl}" 
                                       BorderBrush="{Binding TargetFilesDirectory.StateMachineBaseFileCueColor, Mode=OneWay}"
                                       LocateFileFolderCommand="{Binding LocateCSharpFilesCommand}"
                                       CommandParameter="{Binding StateMachineBaseFileLbl}" >
-                <TextBox Text="{Binding TargetFilesDirectory.StateMachineBaseFileName
+                    <TextBox Text="{Binding TargetFilesDirectory.StateMachineBaseFileName
                                 , UpdateSourceTrigger=PropertyChanged}" 
                           Style="{StaticResource FilepathStyle}" />
-            </local:GroupBoxFileFolder>
+                </local:GroupBoxFileFolder>
 
-            <local:GroupBoxFileFolder Grid.Row="1" Text="{Binding StateMachineDerivedFileLbl}" 
+                <local:GroupBoxFileFolder Grid.Row="1" Text="{Binding StateMachineDerivedFileLbl}" 
                                       BorderBrush="{Binding TargetFilesDirectory.StateMachineDerivedFileCueColor, Mode=OneWay}"
                                       LocateFileFolderCommand="{Binding LocateCSharpFilesCommand}"
                                       CommandParameter="{Binding StateMachineDerivedFileLbl}" >
-                <TextBox  Text="{Binding TargetFilesDirectory.StateMachineDerivedFileName
+                    <TextBox  Text="{Binding TargetFilesDirectory.StateMachineDerivedFileName
                                 , UpdateSourceTrigger=PropertyChanged}" 
                           Style="{StaticResource FilepathStyle}" />
-            </local:GroupBoxFileFolder>
+                </local:GroupBoxFileFolder>
 
-            <local:GroupBoxFileFolder Grid.Row="2" Text="{Binding MainModelBaseFileLbl}" 
+                <local:GroupBoxFileFolder Grid.Row="2" Text="{Binding MainModelBaseFileLbl}" 
                                       BorderBrush="{Binding TargetFilesDirectory.MainModelBaseFileCueColor, Mode=OneWay}"
                                       LocateFileFolderCommand="{Binding LocateCSharpFilesCommand}"
                                       CommandParameter="{Binding MainModelBaseFileLbl}" >
-                <TextBox  Text="{Binding TargetFilesDirectory.MainModelBaseFileName
+                    <TextBox  Text="{Binding TargetFilesDirectory.MainModelBaseFileName
                                 , UpdateSourceTrigger=PropertyChanged}"
                           Style="{StaticResource FilepathStyle}" />
-            </local:GroupBoxFileFolder>
+                </local:GroupBoxFileFolder>
 
-            <local:GroupBoxFileFolder Grid.Row="3" Text="{Binding MainModelDerivedFileLbl}" 
+                <local:GroupBoxFileFolder Grid.Row="3" Text="{Binding MainModelDerivedFileLbl}" 
                                       BorderBrush="{Binding TargetFilesDirectory.MainModelDerivedFileCueColor, Mode=OneWay}"
                                       LocateFileFolderCommand="{Binding LocateCSharpFilesCommand}"
                                       CommandParameter="{Binding MainModelDerivedFileLbl}" >
-                <TextBox  Text="{Binding TargetFilesDirectory.MainModelDerivedFileName
+                    <TextBox  Text="{Binding TargetFilesDirectory.MainModelDerivedFileName
                                 , UpdateSourceTrigger=PropertyChanged}" 
                           Style="{StaticResource FilepathStyle}" />
-            </local:GroupBoxFileFolder>
-        </Grid>
-        <!--#endregion Right size column-->
+                </local:GroupBoxFileFolder>
+            </Grid>
+            <!--#endregion Right size column-->
 
+        </Grid>
+        <!--#endregion upper side row-->
+
+        <!--#region horizontal (splitter) column-->
+        <GridSplitter Grid.Row="1" Height="3"  HorizontalAlignment="Stretch" Background="LightGray" Margin="0,2" />
+        <!--#endregion horizontal (splitter) column-->
+
+        <!--#region lower side row-->
+        <ListBox Grid.Row="2" ItemsSource="{Binding Messages}" 
+                 Height="{Binding MessagesHeight}" 
+                 Opacity="{Binding MessagesOpacity}" 
+                 BorderThickness="0" >
+
+        </ListBox>
+        <!--#endregion lower side row-->
     </Grid>
+
+
 </UserControl>
