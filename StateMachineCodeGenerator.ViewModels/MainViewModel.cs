@@ -3,6 +3,7 @@ using StateMachineCodeGenerator.Generator;
 using StateMachineCodeGeneratorSystem.Templates;
 using StateMachineMetadata;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
@@ -13,6 +14,42 @@ namespace StateMachineCodeGenerator.ViewModels
     public class MainViewModel : SetPropertyBase
     {
         #region properties
+
+        #region PreviousInputFiles
+        private ObservableCollection<string> _previousInputFiles;
+        public ObservableCollection<string> PreviousInputFiles
+        {
+            get { return _previousInputFiles ?? (PreviousInputFiles = new ObservableCollection<string>()); }
+            protected set {
+                if (_previousInputFiles != null) { PreviousInputFiles.CollectionChanged -= PreviousInputFiles_CollectionChanged; }
+                SetProperty( ref _previousInputFiles, value);
+                if (_previousInputFiles != null) { PreviousInputFiles.CollectionChanged += PreviousInputFiles_CollectionChanged; }
+            }
+        }
+
+        public Dictionary<string, TargetFilesDirectory> InputFilesDirectory { get; } = new ();
+
+        public void PreviousInputFiles_CollectionChanged(object sender, NotifyCollectionChangedEventArgs args) {
+            if (args.Action == NotifyCollectionChangedAction.Add) {
+                var key = TargetFilesDirectory.EaXmlFileInfo.Name;
+                if (InputFilesDirectory.ContainsKey(key)) { InputFilesDirectory[key] = TargetFilesDirectory.Clone; }
+                else { InputFilesDirectory.Add(key, TargetFilesDirectory.Clone); }
+            }
+        }
+
+        #endregion PreviousInputFiles
+
+        #region SelectedInputFiles
+        private string _selectedInputFileKey;
+        public string SelectedInputFileKey {
+            get => _selectedInputFileKey;
+            set {
+                TargetFilesDirectory = InputFilesDirectory[value];
+                SetProperty(ref _selectedInputFileKey, value);
+            }
+        }
+
+        #endregion SelectedInputFiles
 
         #region file labels properties
         public string StateMachineBaseFileLbl => "State Machine base file";
@@ -220,9 +257,12 @@ namespace StateMachineCodeGenerator.ViewModels
             CursorHandler.Instance.AddBusyMember();
             var codeGenerator = new TemplatesGenerator(TargetFilesDirectory.EaXmlFileInfo);
             var filesGenerated = await codeGenerator.GenerateFiles(TargetFilesDirectory.GetMetadataTargetPaths());
-            //Messages.Insert(0, "State machine files generated");
-            LogMessage("State machine files generated");
-            await Task.Delay(300);
+            if (filesGenerated) {
+                var key = TargetFilesDirectory.EaXmlFileInfo.Name;
+                PreviousInputFiles.Add(key);
+                LogMessage("State machine files generated for " + key);
+                await Task.Delay(300);
+            }
             CursorHandler.Instance.RemoveBusyMember();
         }
         #endregion commands

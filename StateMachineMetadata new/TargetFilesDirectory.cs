@@ -421,6 +421,10 @@ namespace StateMachineMetadata
 
         #endregion generated files
 
+        #region TargetFilesDirectory
+        public TargetFilesDirectory Clone => (TargetFilesDirectory)MemberwiseClone();
+        #endregion TargetFilesDirectory
+
         #endregion properties
 
         #region TargetPath enum

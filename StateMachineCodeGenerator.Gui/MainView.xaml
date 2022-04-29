@@ -51,9 +51,11 @@
                         <ColumnDefinition Width="70*" />
                         <ColumnDefinition Width="30*" />
                     </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0" Text="Input files: " FontSize="16" Margin="4.2"
+                        <TextBlock Grid.Column="0" Text="Previous Input files: " FontSize="16" Margin="4.2"
                                    FontWeight="Bold" VerticalAlignment="Center" />
-                        <ComboBox Grid.Column="1"  >
+                        <ComboBox Grid.Column="1" 
+                                  ItemsSource="{Binding PreviousInputFiles}" 
+                                  SelectedItem="{Binding SelectedInputFileKey}" >
 
                         </ComboBox>
                 </Grid>
