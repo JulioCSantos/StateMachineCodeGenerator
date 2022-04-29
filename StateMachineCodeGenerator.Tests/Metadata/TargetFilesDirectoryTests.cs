@@ -70,7 +70,6 @@ namespace StateMachineCodeGenerator.Tests.Metadata
             //var actual = MainViewModel.GetNamespaceValue(line);
             Assert.AreEqual(expected, actual);
         }
-
  
         [TestMethod]
         public void TargetSolutionFileNameValidTest2() {
@@ -79,7 +78,7 @@ namespace StateMachineCodeGenerator.Tests.Metadata
             Assert.IsNotNull(target.SolutionFileName);
             Assert.IsNotNull(target.SolutionFileInfo);
             Assert.AreEqual(@"C:\Folder", target.TargetFilesDirectoryName);
-            Assert.IsNotNull(target.TargetFilesDirectoryPath);
+            Assert.IsNotNull(target.TargetFilesDirectoryInfo);
         }
 
         [TestMethod]
@@ -90,8 +89,8 @@ namespace StateMachineCodeGenerator.Tests.Metadata
             Assert.IsNotNull(target.SolutionFileName);
             Assert.IsNotNull(target.SolutionFileInfo);
             Assert.AreEqual(@"C:\Folder\ModelName", target.TargetFilesDirectoryName);
-            Assert.IsNotNull(target.TargetFilesDirectoryPath);
-            Assert.AreEqual(@"C:\Folder\ModelName", target.TargetFilesDirectoryPath.FullName);
+            Assert.IsNotNull(target.TargetFilesDirectoryInfo);
+            Assert.AreEqual(@"C:\Folder\ModelName", target.TargetFilesDirectoryInfo.FullName);
         }
 
         [TestMethod]
@@ -102,14 +101,11 @@ namespace StateMachineCodeGenerator.Tests.Metadata
             Assert.IsNotNull(target.SolutionFileName);
             Assert.IsNotNull(target.SolutionFileInfo);
             Assert.AreEqual(@"C:\Folder\ModelName", target.TargetFilesDirectoryName);
-            Assert.IsNotNull(target.TargetFilesDirectoryPath);
-            Assert.AreEqual(@"C:\Folder\ModelName", target.TargetFilesDirectoryPath.FullName);
+            Assert.IsNotNull(target.TargetFilesDirectoryInfo);
+            Assert.AreEqual(@"C:\Folder\ModelName", target.TargetFilesDirectoryInfo.FullName);
             target.SelectedEaModelName = "ModelName2";
             Assert.AreEqual(@"C:\Folder\ModelName2", target.TargetFilesDirectoryName);
-            Assert.AreEqual(@"C:\Folder\ModelName2", target.TargetFilesDirectoryPath.FullName);
-
-
-
+            Assert.AreEqual(@"C:\Folder\ModelName2", target.TargetFilesDirectoryInfo.FullName);
         }
 
         [TestMethod]

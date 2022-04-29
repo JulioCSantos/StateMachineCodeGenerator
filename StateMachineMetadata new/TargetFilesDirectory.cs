@@ -35,7 +35,7 @@ namespace StateMachineMetadata
                     MainModelDerivedFileName = GenrtdFileNamesFunc("Model.cs");
                     break;
                 case nameof(TargetFilesDirectoryName):
-                    RaisePropertyChanged(nameof(TargetFilesDirectoryPath));
+                    RaisePropertyChanged(nameof(TargetFilesDirectoryInfo));
                     //Reset Target files names
                     StateMachineBaseFileName = GenrtdFileNamesFunc("StateMachineBase_gen.cs");
                     StateMachineDerivedFileName = GenrtdFileNamesFunc("StateMachine.cs");
@@ -220,14 +220,14 @@ namespace StateMachineMetadata
             get => _targetFilesDirectoryName;
             set {
                 SetProperty(ref _targetFilesDirectoryName, value);
-                RaisePropertyChanged(nameof(TargetFilesDirectoryName));
+                RaisePropertyChanged(nameof(TargetFilesDirectoryInfo));
                 RaisePropertyChanged(nameof(TargetFilesDirectoryCueColor));
             }
         }
         #endregion TargetFilesDirectoryName
 
         #region TargetFilesDirectoryPath
-        public DirectoryInfo TargetFilesDirectoryPath {
+        public DirectoryInfo TargetFilesDirectoryInfo {
             get {
                 try { return new DirectoryInfo(Path.GetFullPath(TargetFilesDirectoryName)); }
                 catch (Exception) { return null; }
@@ -238,9 +238,9 @@ namespace StateMachineMetadata
         #region TargetFilesDirectoryCueColor
         public string TargetFilesDirectoryCueColor {
             get {
-                if (TargetFilesDirectoryPath == null) { return "Black"; }
+                if (TargetFilesDirectoryInfo == null) { return "Black"; }
 
-                return TargetFilesDirectoryPath.Exists ? "LightGreen" : "Yellow";
+                return TargetFilesDirectoryInfo.Exists ? "LightGreen" : "Yellow";
             }
         }
         #endregion TargetFilesDirectoryCueColor
@@ -301,7 +301,7 @@ namespace StateMachineMetadata
         #region StateMachineBaseFileCueColor
         public string StateMachineBaseFileCueColor {
             get {
-                if (TargetFilesDirectoryPath == null) { return "Black"; }
+                if (TargetFilesDirectoryInfo == null) { return "Black"; }
                 if (StateMachineBaseFileInfo == null) { return "LightCoral"; }
                 else { return "LightGreen"; }
             }
@@ -336,7 +336,7 @@ namespace StateMachineMetadata
         #region StateMachineDerivedFileCueColor
         public string StateMachineDerivedFileCueColor {
             get {
-                if (TargetFilesDirectoryPath == null) { return "Black"; }
+                if (TargetFilesDirectoryInfo == null) { return "Black"; }
                 if (StateMachineDerivedFileInfo == null) { return "LightCoral"; }
                 else { return "LightGreen"; }
             }
@@ -371,7 +371,7 @@ namespace StateMachineMetadata
         #region MainModelBaseFileCueColor
         public string MainModelBaseFileCueColor {
             get {
-                if (TargetFilesDirectoryPath == null) { return "Black"; }
+                if (TargetFilesDirectoryInfo == null) { return "Black"; }
                 if (MainModelBaseFileInfo == null) { return "LightCoral"; }
                 else { return "LightGreen"; }
             }
@@ -406,7 +406,7 @@ namespace StateMachineMetadata
         #region MainModelDerivedFileCueColor
         public string MainModelDerivedFileCueColor {
             get {
-                if (TargetFilesDirectoryPath == null) { return "Black"; }
+                if (TargetFilesDirectoryInfo == null) { return "Black"; }
                 if (MainModelDerivedFileInfo == null) { return "LightCoral"; }
                 else { return "LightGreen"; }
             }
@@ -461,7 +461,7 @@ namespace StateMachineMetadata
                     case TargetPath.MainModelDerivedFilePath:
                         return MainModelDerivedFileName;
                     case TargetPath.CodeGeneratedPath:
-                        return TargetFilesDirectoryPath.FullName;
+                        return TargetFilesDirectoryInfo.FullName;
                     default:
                         throw new ArgumentOutOfRangeException(nameof(fileKey), fileKey, null);
                 }

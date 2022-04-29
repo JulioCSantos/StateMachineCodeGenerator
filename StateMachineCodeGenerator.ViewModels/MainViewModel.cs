@@ -159,7 +159,7 @@ namespace StateMachineCodeGenerator.ViewModels
                 //    TargetFilesDirectory.SelectedEaModel = TargetFilesDirectory.EaModelsList?.FirstOrDefault();
                 //    break;
                 case nameof(TargetFilesDirectory.EaXmlFileInfo):
-                case nameof(TargetFilesDirectory.TargetFilesDirectoryPath):
+                case nameof(TargetFilesDirectory.TargetFilesDirectoryInfo):
                     RaisePropertyChanged(nameof(CanGenerateCode));
                     RaisePropertyChanged(nameof(GenerateCodeTooltip));
                     break;
@@ -238,7 +238,7 @@ namespace StateMachineCodeGenerator.ViewModels
 
         #region CanGenerateCode
         public bool CanGenerateCode {
-            get => TargetFilesDirectory.EaXmlFileInfo?.Exists == true && TargetFilesDirectory.TargetFilesDirectoryPath != null;
+            get => TargetFilesDirectory.EaXmlFileInfo?.Exists == true && TargetFilesDirectory.TargetFilesDirectoryInfo != null;
         }
 
         public string GenerateCodeTooltip {
@@ -260,6 +260,8 @@ namespace StateMachineCodeGenerator.ViewModels
             if (filesGenerated) {
                 var key = TargetFilesDirectory.EaXmlFileInfo.Name;
                 PreviousInputFiles.Add(key);
+                TargetFilesDirectory.TargetFilesDirectoryName = 
+                    TargetFilesDirectory.TargetFilesDirectoryName; // refresh derived files cache
                 LogMessage("State machine files generated for " + key);
                 await Task.Delay(300);
             }
