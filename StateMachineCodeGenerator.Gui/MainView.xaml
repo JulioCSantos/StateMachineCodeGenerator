@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:StateMachineCodeGenerator.Gui"
              xmlns:viewModels="clr-namespace:StateMachineCodeGenerator.ViewModels;assembly=StateMachineCodeGenerator.ViewModels"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="500" d:DesignWidth="800">
     <UserControl.DataContext>
         <viewModels:MainViewModel />
     </UserControl.DataContext>
@@ -36,14 +36,31 @@
             <!--#region left side column-->
             <Grid Grid.Row="0" Grid.IsSharedSizeScope="True">
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="50" /> <!-- input files List -->
                     <RowDefinition /> <!-- EaXmlFileName & ExModel-->
                     <RowDefinition /> <!-- SolutionFileName & Namespace-->
                     <RowDefinition /> <!--Start Parsing-->
                     <RowDefinition Height="30" /> <!--Start Parsing-->
                 </Grid.RowDefinitions>
 
+                <!--#region input files List-->
+                <Grid Grid.Row="0" Height="26" HorizontalAlignment="Stretch"
+                      Margin="2,4,2, 10" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"  />
+                        <ColumnDefinition Width="70*" />
+                        <ColumnDefinition Width="30*" />
+                    </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Input files: " FontSize="16" Margin="4.2"
+                                   FontWeight="Bold" VerticalAlignment="Center" />
+                        <ComboBox Grid.Column="1"  >
+
+                        </ComboBox>
+                </Grid>
+                <!--#endregion input files List-->
+
                 <!--region EaXmlFileName & ExModel -->
-                <StackPanel Grid.Row="0" Orientation="Vertical" Height="225" VerticalAlignment="Top">
+                <StackPanel Grid.Row="1" Orientation="Vertical" Height="225" VerticalAlignment="Top">
                     <local:GroupBoxFileFolder Text="EA exported XML file" BorderThickness="2"
                         BorderBrush="{Binding TargetFilesDirectory.EaXmlFileCueColor, Mode=OneWay}"
                         LocateFileFolderCommand="{Binding LocateEaXmlFileCommand}">
@@ -69,7 +86,7 @@
                 <!--endregion SourceFilePath-->
 
                 <!--region SolutionFileName & Namespace -->
-                <StackPanel Grid.Row="1" Orientation="Vertical" >
+                <StackPanel Grid.Row="2" Orientation="Vertical" >
                     <local:GroupBoxFileFolder Text="Solution (.sln) file" Height="Auto" BorderThickness="2"
                     BorderBrush="{Binding TargetFilesDirectory.SolutionFileCueColor, Mode=OneWay}"
                     LocateFileFolderCommand="{Binding LocateSolutionFileCommand}">
@@ -94,7 +111,7 @@
                 <!--endregion SolutionFileName & Namespace-->
 
                 <!--region Target folder for generated files -->
-                <StackPanel Grid.Row="2" Orientation="Vertical" >
+                <StackPanel Grid.Row="3" Orientation="Vertical" >
 
                     <local:GroupBoxFileFolder Text="Target folder for gen'd files" Height="Auto"  BorderThickness="2"
                                       BorderBrush="{Binding Path=TargetFilesDirectory.TargetFilesDirectoryCueColor, Mode=OneWay}"
@@ -106,12 +123,14 @@
 
                 <!--endregion Target folder for generated files -->
 
-                <Grid Grid.Row="3" ToolTip="{Binding GenerateCodeTooltip, Mode=OneWay}">
+                <!--#region Generate code-->
+                <Grid Grid.Row="4" ToolTip="{Binding GenerateCodeTooltip, Mode=OneWay}">
                     <Button  Content="Generate code" Margin="1,0,4,4" Height="23"
                          IsEnabled="{Binding CanGenerateCode}"
                          Command="{Binding GenerateCodeCommand}"
                          HorizontalAlignment="Right" VerticalAlignment="Bottom" />
                 </Grid>
+                <!--#endregion Generate code-->
 
             </Grid>
             <!--#endregion left side column-->
@@ -173,14 +192,14 @@
         <GridSplitter Grid.Row="1" Height="3"  HorizontalAlignment="Stretch" Background="LightGray" Margin="0,2" />
         <!--#endregion horizontal (splitter) column-->
 
-        <!--#region lower side row-->
+        <!-- #region Messages -->
         <ListBox Grid.Row="2" ItemsSource="{Binding Messages}" 
                  Height="{Binding MessagesHeight}" 
                  Opacity="{Binding MessagesOpacity}" 
                  BorderThickness="0" >
 
         </ListBox>
-        <!--#endregion lower side row-->
+        <!--#endregion Messages -->
     </Grid>
 
 
