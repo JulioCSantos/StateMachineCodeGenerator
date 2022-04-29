@@ -95,6 +95,24 @@ namespace StateMachineCodeGenerator.Tests.Metadata
         }
 
         [TestMethod]
+        public void TargetFilesPathTest2() {
+            var target = new DerivedTargetFilesDirectory();
+            target.SolutionFileName = @"C:\Folder\SolutionFileName.sln";
+            target.SelectedEaModelName = "ModelName";
+            Assert.IsNotNull(target.SolutionFileName);
+            Assert.IsNotNull(target.SolutionFileInfo);
+            Assert.AreEqual(@"C:\Folder\ModelName", target.TargetFilesDirectoryName);
+            Assert.IsNotNull(target.TargetFilesDirectoryPath);
+            Assert.AreEqual(@"C:\Folder\ModelName", target.TargetFilesDirectoryPath.FullName);
+            target.SelectedEaModelName = "ModelName2";
+            Assert.AreEqual(@"C:\Folder\ModelName2", target.TargetFilesDirectoryName);
+            Assert.AreEqual(@"C:\Folder\ModelName2", target.TargetFilesDirectoryPath.FullName);
+
+
+
+        }
+
+        [TestMethod]
         public void EaXmlFileSetTest() {
             var target = new DerivedTargetFilesDirectory();
             Assert.IsFalse(target.EaXmlFileInfo?.Exists == true);

@@ -26,6 +26,9 @@ namespace StateMachineMetadata
         private void TargetFilesDirectory_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e) {
             switch (e.PropertyName) {
                 case nameof(SelectedEaModelName):
+                    if (string.IsNullOrEmpty(SelectedEaModelName)) { break;}
+                    StateMachineBaseFileName = StateMachineDerivedFileName = 
+                        MainModelBaseFileName = MainModelDerivedFileName = null;
                     StateMachineBaseFileName = GenrtdFileNamesFunc("StateMachineBase_gen.cs");
                     StateMachineDerivedFileName = GenrtdFileNamesFunc("StateMachine.cs");
                     MainModelBaseFileName = GenrtdFileNamesFunc("ModelBase_gen.cs");
@@ -141,10 +144,9 @@ namespace StateMachineMetadata
             get => _selectedEaModel;
             set {
                 SetProperty(ref _selectedEaModel, value);
-                SelectedEaModelName = null; // reset cache
+                SelectedEaModelName = SelectedEaModel?.Name; // reset cache
             }
         }
-
         #endregion SelectedEaModel
 
         #region SelectedEaModelName
@@ -152,15 +154,17 @@ namespace StateMachineMetadata
         public string SelectedEaModelName {
             get => _selectedEaModelName ??= SelectedEaModel?.Name;
             protected set {
-                if (value == null) { SetProperty(ref _selectedEaModelName, null); }
-                if (_selectedEaModelName != null && TargetFilesDirectoryName.EndsWith(_selectedEaModelName)) {
-                    var suffixLength = TargetFilesDirectoryName.Length;
-                    var suffixStart = TargetFilesDirectoryName.Length - suffixLength - 1;
-                    TargetFilesDirectoryName = TargetFilesDirectoryName.Substring(suffixStart, suffixLength);
+                // remove previous model name from Target Files' directory name
+                if (_selectedEaModelName != null && TargetFilesDirectoryName?.EndsWith(_selectedEaModelName) == true) {
+                    var targetDirectoryName = new DirectoryInfo(TargetFilesDirectoryName);
+                    TargetFilesDirectoryName = targetDirectoryName?.Parent?.FullName;
                 }
+
                 SetProperty(ref _selectedEaModelName, value);
-                if (string.IsNullOrEmpty(_selectedEaModelName) == false) {
-                    TargetFilesDirectoryName += $@"\{_selectedEaModelName}";
+
+                // append new model name to Target Files' directory name
+                if (string.IsNullOrEmpty(TargetFilesDirectoryName) == false && string.IsNullOrEmpty(_selectedEaModelName) == false) {
+                    TargetFilesDirectoryName = Path.Combine(TargetFilesDirectoryName, _selectedEaModelName);
                 }
             }
         }
