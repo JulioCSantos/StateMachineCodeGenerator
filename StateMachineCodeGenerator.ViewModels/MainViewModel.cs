@@ -19,6 +19,8 @@ namespace StateMachineCodeGenerator.ViewModels
     {
         #region properties
 
+        #region PreviousInputFiles asssociated properties
+
         #region PreviousInputFiles
         private ObservableCollection<string> _previousInputFiles;
         public ObservableCollection<string> PreviousInputFiles {
@@ -26,12 +28,17 @@ namespace StateMachineCodeGenerator.ViewModels
             protected set {
                 if (_previousInputFiles != null) { PreviousInputFiles.CollectionChanged -= PreviousInputFiles_CollectionChanged; }
                 SetProperty( ref _previousInputFiles, value);
+                RaisePropertyChanged(nameof(PreviousInputFilesVisibility));
                 if (_previousInputFiles != null) { PreviousInputFiles.CollectionChanged += PreviousInputFiles_CollectionChanged; }
             }
         }
+        #endregion PreviousInputFiles
 
+        #region InputFilesDirectory
         public Dictionary<string, TargetFilesDirectory> InputFilesDirectory { get; } = new ();
+        #endregion InputFilesDirectory
 
+        #region PreviousInputFiles_CollectionChanged
         public void PreviousInputFiles_CollectionChanged(object sender, NotifyCollectionChangedEventArgs args) {
             if (args.Action == NotifyCollectionChangedAction.Add) {
                 var key = (string)args.NewItems?[0];
@@ -45,13 +52,27 @@ namespace StateMachineCodeGenerator.ViewModels
                     , WriteIndented = true
                 };
                 var serializedInputFiles = JsonSerializer.Serialize(InputFilesDirectory, options);
-                File.WriteAllText(SerializedinputFilesPath, serializedInputFiles);
+                File.WriteAllText(SerializedInputFilesPath, serializedInputFiles);
                 _selectedInputFileKey = key;
                 RaisePropertyChanged(nameof(SelectedInputFileKey));
             }
         }
+        #endregion PreviousInputFiles_CollectionChanged
 
-        #endregion PreviousInputFiles
+        #region PreviousInputFilesVisibility
+        public string PreviousInputFilesVisibility {
+            get {
+                if (PreviousInputFiles == null) { return "Collapsed"; }
+                if (PreviousInputFiles.Any() == false) { return "Collapsed"; }
+
+                return "Visible";
+
+            }
+        }
+
+        #endregion PreviousInputFilesVisibility
+
+        #endregion PreviousInputFiles asssociated properties
 
         #region SelectedInputFiles
         private string _selectedInputFileKey;
@@ -66,18 +87,17 @@ namespace StateMachineCodeGenerator.ViewModels
         #endregion SelectedInputFiles
 
         #region SerializedinputFilesPath
-        private string _serializedinputFilesPath;
-        public string SerializedinputFilesPath {
+        private string _serializedInputFilesPath;
+        public string SerializedInputFilesPath {
             get {
-                if (string.IsNullOrEmpty(_serializedinputFilesPath) == false) { return _serializedinputFilesPath;}
+                if (string.IsNullOrEmpty(_serializedInputFilesPath) == false) { return _serializedInputFilesPath;}
 
                 var directoryName = new FileInfo(Assembly.GetEntryAssembly()?.Location ?? string.Empty).DirectoryName;
-                _serializedinputFilesPath = Path.Combine(directoryName ?? string.Empty, nameof(InputFilesDirectory) + ".json");
+                _serializedInputFilesPath = Path.Combine(directoryName ?? string.Empty, nameof(InputFilesDirectory) + ".json");
 
-                return _serializedinputFilesPath;
+                return _serializedInputFilesPath;
             }
         }
-
         #endregion SerializedinputFilesPath
 
         #region file labels properties
@@ -146,7 +166,6 @@ namespace StateMachineCodeGenerator.ViewModels
         #endregion StartCollapsingMessages
 
         #region MsgNbr
-
         private static int _messagesCount;
         public string MsgNbr {
             get {
@@ -161,7 +180,10 @@ namespace StateMachineCodeGenerator.ViewModels
         public void LogMessage(string message) {
             var messageWithPrefix = MsgNbr + message;
             if (Messages.Any() && Messages[0].Contains(message)) { Messages[0] = messageWithPrefix; }
-            else {Messages.Insert(0, messageWithPrefix);}
+            else {
+                if (Messages.Count >= 5) { Messages.Remove(Messages.Last()); }
+                Messages.Insert(0, messageWithPrefix);
+            }
         }
         #endregion LogMessage
 
@@ -185,17 +207,18 @@ namespace StateMachineCodeGenerator.ViewModels
 
         #endregion properties
 
-
         #region constructor
         public MainViewModel() {
-            if (new FileInfo(SerializedinputFilesPath).Exists) {
-                var serializedInputFiles = File.ReadAllText(SerializedinputFilesPath);
+            if (new FileInfo(SerializedInputFilesPath).Exists) {
+                var serializedInputFiles = File.ReadAllText(SerializedInputFilesPath);
                 InputFilesDirectory = JsonSerializer.Deserialize<Dictionary<string, TargetFilesDirectory>>(serializedInputFiles);
                 if (InputFilesDirectory != null) {
-                    _previousInputFiles = new ObservableCollection<string>();
+                    //instantiate through backing field to avoid collection Changed handling
+                    _previousInputFiles = new ObservableCollection<string>(); 
                     InputFilesDirectory.Keys.ToList().ForEach(k => _previousInputFiles.Add(k));
                     PreviousInputFiles = _previousInputFiles; //this activates CollectionChanged event
                 }
+                RaisePropertyChanged(nameof(PreviousInputFilesVisibility));
             }
 
             this.TargetFilesDirectory.PropertyChanged += TargetFilesDirectory_PropertyChanged;
@@ -224,6 +247,7 @@ namespace StateMachineCodeGenerator.ViewModels
 
         public const string EnterpriseArchitectFilterLiteral = "EA files (*.xml)|*.xml|All files (*.*)|*.*";
 
+        #region LocateEaXmlFile
         public void LocateEaXmlFile(object path) {
 
             IPopupView view = DialogServices.Instance.Dialogs[nameof(LocateFileViewModel)];
@@ -237,7 +261,9 @@ namespace StateMachineCodeGenerator.ViewModels
                 TargetFilesDirectory.EaXmlFileName = vm.LocatedFileName;
             }
         }
+        #endregion LocateEaXmlFile
 
+        #region LocateSolutionFile
         public const string SolutionFilterLiteral = "solution files (*.sln)|*.sln|All files (*.*)|*.*";
         public void LocateSolutionFile(object path) {
             IPopupView view = DialogServices.Instance.Dialogs[nameof(LocateFileViewModel)];
@@ -249,7 +275,9 @@ namespace StateMachineCodeGenerator.ViewModels
                 TargetFilesDirectory.SolutionFileName = vm.LocatedFileName;
             }
         }
+        #endregion LocateSolutionFile
 
+        #region LocateTargetFolder
         public void LocateTargetFolder(object path) {
             IPopupView view = DialogServices.Instance.Dialogs[nameof(LocateFolderViewModel)];
             var vm = view.Vm as LocateFolderViewModel;
@@ -259,7 +287,9 @@ namespace StateMachineCodeGenerator.ViewModels
                 TargetFilesDirectory.TargetFilesDirectoryName = vm.LocatedFolderName;
             }
         }
+        #endregion LocateTargetFolder
 
+        #region LocateCSharpFiles
         public const string CSharpFilterLiteral = "C# files (*.cs)|*.cs|All files (*.*)|*.*";
         public void LocateCSharpFiles(object fileLabel) {
             IPopupView view = DialogServices.Instance.Dialogs[nameof(LocateFileViewModel)];
@@ -271,7 +301,9 @@ namespace StateMachineCodeGenerator.ViewModels
                 TargetFilesDirectory[GetFileIx(fileLabel.ToString())] = vm.LocatedFileName;
             }
         }
+        #endregion LocateCSharpFiles
 
+        #region GetFileIx
         public TargetFilesDirectory.TargetPath GetFileIx(string fileLabel) {
             TargetFilesDirectory.TargetPath fileIx = TargetFilesDirectory.TargetPath.unkown;
             if (fileLabel == StateMachineBaseFileLbl) { fileIx = TargetFilesDirectory.TargetPath.StateMachineBaseFilePath; }
@@ -281,12 +313,17 @@ namespace StateMachineCodeGenerator.ViewModels
 
             return fileIx;
         }
+        #endregion GetFileIx
+
+        #region GenerateCode properties
 
         #region CanGenerateCode
         public bool CanGenerateCode {
             get => TargetFilesDirectory.EaXmlFileInfo?.Exists == true && TargetFilesDirectory.TargetFilesDirectoryInfo != null;
         }
+        #endregion CanGenerateCode
 
+        #region GenerateCodeTooltip
         public string GenerateCodeTooltip {
             get {
                 if (CanGenerateCode) {
@@ -296,24 +333,33 @@ namespace StateMachineCodeGenerator.ViewModels
                 return "Must select 'EA Exported xml file' and 'Solution (.sln) file' to enable button";
             }
         }
+        #endregion GenerateCodeTooltip
 
-        #endregion CanGenerateCode
-
+        #region GenerateCode
         public async void GenerateCode() {
             CursorHandler.Instance.AddBusyMember();
             var codeGenerator = new TemplatesGenerator(TargetFilesDirectory.EaXmlFileInfo);
             var filesGenerated = await codeGenerator.GenerateFiles(TargetFilesDirectory.GetMetadataTargetPaths());
             if (filesGenerated) {
                 var key = TargetFilesDirectory.EaXmlFileInfo.Name;
+
+                // Update PreviousInputFiles
                 if (PreviousInputFiles.Contains(key)) { InputFilesDirectory[key] = TargetFilesDirectory.Clone; }
                 else { PreviousInputFiles.Add(key);}
+                // Refresh derived files cache
                 TargetFilesDirectory.TargetFilesDirectoryName = 
-                    TargetFilesDirectory.TargetFilesDirectoryName; // refresh derived files cache
+                    TargetFilesDirectory.TargetFilesDirectoryName; 
+                // update log messages panel
                 LogMessage("State machine files generated for " + key);
-                await Task.Delay(300);
+                await Task.Delay(300); // give enough time to observe the busy indicator
             }
+            RaisePropertyChanged(nameof(PreviousInputFilesVisibility));
             CursorHandler.Instance.RemoveBusyMember();
         }
+        #endregion GenerateCode
+
+        #endregion GenerateCode properties
+
         #endregion commands
 
     }
