@@ -6,7 +6,11 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.IO;
 using System.Linq;
+using System.Reflection;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace StateMachineCodeGenerator.ViewModels
@@ -17,8 +21,7 @@ namespace StateMachineCodeGenerator.ViewModels
 
         #region PreviousInputFiles
         private ObservableCollection<string> _previousInputFiles;
-        public ObservableCollection<string> PreviousInputFiles
-        {
+        public ObservableCollection<string> PreviousInputFiles {
             get { return _previousInputFiles ?? (PreviousInputFiles = new ObservableCollection<string>()); }
             protected set {
                 if (_previousInputFiles != null) { PreviousInputFiles.CollectionChanged -= PreviousInputFiles_CollectionChanged; }
@@ -31,9 +34,20 @@ namespace StateMachineCodeGenerator.ViewModels
 
         public void PreviousInputFiles_CollectionChanged(object sender, NotifyCollectionChangedEventArgs args) {
             if (args.Action == NotifyCollectionChangedAction.Add) {
-                var key = TargetFilesDirectory.EaXmlFileInfo.Name;
+                var key = (string)args.NewItems?[0];
+                if (key == null) { return; }
                 if (InputFilesDirectory.ContainsKey(key)) { InputFilesDirectory[key] = TargetFilesDirectory.Clone; }
                 else { InputFilesDirectory.Add(key, TargetFilesDirectory.Clone); }
+
+                var options = new JsonSerializerOptions {
+                    IgnoreReadOnlyProperties = true
+                    , IgnoreReadOnlyFields = true
+                    , WriteIndented = true
+                };
+                var serializedInputFiles = JsonSerializer.Serialize(InputFilesDirectory, options);
+                File.WriteAllText(SerializedinputFilesPath, serializedInputFiles);
+                _selectedInputFileKey = key;
+                RaisePropertyChanged(nameof(SelectedInputFileKey));
             }
         }
 
@@ -46,10 +60,25 @@ namespace StateMachineCodeGenerator.ViewModels
             set {
                 TargetFilesDirectory = InputFilesDirectory[value];
                 SetProperty(ref _selectedInputFileKey, value);
+                RaisePropertyChanged(nameof(CanGenerateCode));
+            }
+        }
+        #endregion SelectedInputFiles
+
+        #region SerializedinputFilesPath
+        private string _serializedinputFilesPath;
+        public string SerializedinputFilesPath {
+            get {
+                if (string.IsNullOrEmpty(_serializedinputFilesPath) == false) { return _serializedinputFilesPath;}
+
+                var directoryName = new FileInfo(Assembly.GetEntryAssembly()?.Location ?? string.Empty).DirectoryName;
+                _serializedinputFilesPath = Path.Combine(directoryName ?? string.Empty, nameof(InputFilesDirectory) + ".json");
+
+                return _serializedinputFilesPath;
             }
         }
 
-        #endregion SelectedInputFiles
+        #endregion SerializedinputFilesPath
 
         #region file labels properties
         public string StateMachineBaseFileLbl => "State Machine base file";
@@ -116,10 +145,21 @@ namespace StateMachineCodeGenerator.ViewModels
         }
         #endregion StartCollapsingMessages
 
+        #region MsgNbr
+
+        private static int _messagesCount;
+        public string MsgNbr {
+            get {
+                var msgNbr = _messagesCount.ToString().PadLeft(3, '0') + ": ";
+                _messagesCount++;
+                return msgNbr;
+            }
+        }
+        #endregion MsgNbr
+
         #region LogMessage
         public void LogMessage(string message) {
-            var msgNbr = Messages.Count.ToString().PadLeft(3, '0');
-            var messageWithPrefix = msgNbr + ": " + message;
+            var messageWithPrefix = MsgNbr + message;
             if (Messages.Any() && Messages[0].Contains(message)) { Messages[0] = messageWithPrefix; }
             else {Messages.Insert(0, messageWithPrefix);}
         }
@@ -148,16 +188,22 @@ namespace StateMachineCodeGenerator.ViewModels
 
         #region constructor
         public MainViewModel() {
-            //this.PropertyChanged += MainViewModel_PropertyChanged;
+            if (new FileInfo(SerializedinputFilesPath).Exists) {
+                var serializedInputFiles = File.ReadAllText(SerializedinputFilesPath);
+                InputFilesDirectory = JsonSerializer.Deserialize<Dictionary<string, TargetFilesDirectory>>(serializedInputFiles);
+                if (InputFilesDirectory != null) {
+                    _previousInputFiles = new ObservableCollection<string>();
+                    InputFilesDirectory.Keys.ToList().ForEach(k => _previousInputFiles.Add(k));
+                    PreviousInputFiles = _previousInputFiles; //this activates CollectionChanged event
+                }
+            }
+
             this.TargetFilesDirectory.PropertyChanged += TargetFilesDirectory_PropertyChanged;
+
         }
 
         private void TargetFilesDirectory_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e) {
             switch (e.PropertyName) {
-                //case nameof(TargetFilesDirectory.EaXmlFileName):
-                //    TargetFilesDirectory.EaModelsList = Main.GetStateMachineModelFromEAXMLFile(TargetFilesDirectory.EaXmlFileName);
-                //    TargetFilesDirectory.SelectedEaModel = TargetFilesDirectory.EaModelsList?.FirstOrDefault();
-                //    break;
                 case nameof(TargetFilesDirectory.EaXmlFileInfo):
                 case nameof(TargetFilesDirectory.TargetFilesDirectoryInfo):
                     RaisePropertyChanged(nameof(CanGenerateCode));
@@ -259,7 +305,8 @@ namespace StateMachineCodeGenerator.ViewModels
             var filesGenerated = await codeGenerator.GenerateFiles(TargetFilesDirectory.GetMetadataTargetPaths());
             if (filesGenerated) {
                 var key = TargetFilesDirectory.EaXmlFileInfo.Name;
-                PreviousInputFiles.Add(key);
+                if (PreviousInputFiles.Contains(key)) { InputFilesDirectory[key] = TargetFilesDirectory.Clone; }
+                else { PreviousInputFiles.Add(key);}
                 TargetFilesDirectory.TargetFilesDirectoryName = 
                     TargetFilesDirectory.TargetFilesDirectoryName; // refresh derived files cache
                 LogMessage("State machine files generated for " + key);

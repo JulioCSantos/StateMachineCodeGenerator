@@ -5,6 +5,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -19,7 +20,7 @@ namespace StateMachineMetadata
         public static TargetFilesDirectory GetInstance() { return Instance; }
 
         #region constructor
-        protected TargetFilesDirectory() {
+        public TargetFilesDirectory() {
             this.PropertyChanged += TargetFilesDirectory_PropertyChanged;
         }
 
@@ -124,6 +125,7 @@ namespace StateMachineMetadata
 
         #region EaModelsList
         private List<StateMachineMetadata.Model.MainModel> _eaModelsList;
+        [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
         public List<StateMachineMetadata.Model.MainModel> EaModelsList {
             get => _eaModelsList;
             protected set { SetProperty(ref _eaModelsList, value); 
@@ -140,6 +142,7 @@ namespace StateMachineMetadata
 
         #region SelectedEaModel
         private Model.MainModel _selectedEaModel;
+        [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
         public Model.MainModel SelectedEaModel {
             get => _selectedEaModel;
             set {
@@ -153,7 +156,7 @@ namespace StateMachineMetadata
         private string _selectedEaModelName;
         public string SelectedEaModelName {
             get => _selectedEaModelName ??= SelectedEaModel?.Name;
-            protected set {
+            set {
                 // remove previous model name from Target Files' directory name
                 if (_selectedEaModelName != null && TargetFilesDirectoryName?.EndsWith(_selectedEaModelName) == true) {
                     var targetDirectoryName = new DirectoryInfo(TargetFilesDirectoryName);
@@ -249,14 +252,17 @@ namespace StateMachineMetadata
 
         #region CsFiles
         private List<FileInfo> _csFiles;
+        [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
+
         public List<FileInfo> CsFiles {
             get => _csFiles;
-            set => SetProperty(ref _csFiles, value);
+            protected set => SetProperty(ref _csFiles, value);
         }
         #endregion CsFiles
 
         #region NamespacesList
         private List<string> _namespacesList;
+        [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
         public List<string> NamespacesList {
             get => _namespacesList;
             protected set => SetProperty(ref _namespacesList, value);
