@@ -14,10 +14,6 @@ namespace StateMachineMetadata
 {
     public class TargetFilesDirectory : SetPropertyBase
     {
-        #region singleton
-        public static TargetFilesDirectory Instance { get; } = new TargetFilesDirectory();
-
-        public static TargetFilesDirectory GetInstance() { return Instance; }
 
         #region constructor
         public TargetFilesDirectory() {
@@ -70,7 +66,6 @@ namespace StateMachineMetadata
 
         #endregion constructor
 
-        #endregion singleton
 
         #region properties
 

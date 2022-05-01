@@ -40,26 +40,35 @@ namespace StateMachineCodeGenerator.ViewModels
 
         #region PreviousInputFiles_CollectionChanged
         public void PreviousInputFiles_CollectionChanged(object sender, NotifyCollectionChangedEventArgs args) {
+            string key = null;
             if (args.Action == NotifyCollectionChangedAction.Add) {
-                var key = (string)args.NewItems?[0];
-                if (key == null) { return; }
+                key = (string)args.NewItems?[0];
+                if (key == null) { return; } // defensive
                 if (InputFilesDirectory.ContainsKey(key)) { InputFilesDirectory[key] = TargetFilesDirectory.Clone; }
                 else { InputFilesDirectory.Add(key, TargetFilesDirectory.Clone); }
-
-                var options = new JsonSerializerOptions {
-                    IgnoreReadOnlyProperties = true
-                    , IgnoreReadOnlyFields = true
-                    , WriteIndented = true
-                };
-                var serializedInputFiles = JsonSerializer.Serialize(InputFilesDirectory, options);
-                File.WriteAllText(SerializedInputFilesPath, serializedInputFiles);
-                _selectedInputFileKey = key;
-                RaisePropertyChanged(nameof(SelectedInputFileKey));
             }
+
+            if (args.Action == NotifyCollectionChangedAction.Remove) {
+                key = (string)args.OldItems?[0];
+                if (key == null) { return; } // defensive
+                if (InputFilesDirectory.ContainsKey(key)) { InputFilesDirectory.Remove(key); }
+                key = null;
+            }
+
+            var options = new JsonSerializerOptions {
+                IgnoreReadOnlyProperties = true
+                , IgnoreReadOnlyFields = true
+                , WriteIndented = true
+            };
+            var serializedInputFiles = JsonSerializer.Serialize(InputFilesDirectory, options);
+            File.WriteAllText(SerializedInputFilesPath, serializedInputFiles);
+            if (key == null) { TargetFilesDirectory = null; }
+            _selectedInputFileKey = key;
+            RaisePropertyChanged(nameof(SelectedInputFileKey));
         }
         #endregion PreviousInputFiles_CollectionChanged
 
-        #region PreviousInputFilesVisibility
+            #region PreviousInputFilesVisibility
         public string PreviousInputFilesVisibility {
             get {
                 if (PreviousInputFiles == null) { return "Collapsed"; }
@@ -79,9 +88,13 @@ namespace StateMachineCodeGenerator.ViewModels
         public string SelectedInputFileKey {
             get => _selectedInputFileKey;
             set {
-                TargetFilesDirectory = InputFilesDirectory[value];
-                SetProperty(ref _selectedInputFileKey, value);
-                RaisePropertyChanged(nameof(CanGenerateCode));
+                if (value == null) { SetProperty(ref _selectedInputFileKey, null); }
+                else {
+                    TargetFilesDirectory = InputFilesDirectory[value];
+                    SetProperty(ref _selectedInputFileKey, value);
+                    RaisePropertyChanged(nameof(CanGenerateCode));
+                }
+                RaisePropertyChanged(nameof(CanDeleteInputFile));
             }
         }
         #endregion SelectedInputFiles
@@ -110,7 +123,7 @@ namespace StateMachineCodeGenerator.ViewModels
         #region TargetFilesDirectory
         private TargetFilesDirectory _targetFilesDirectory;
         public TargetFilesDirectory TargetFilesDirectory {
-            get => _targetFilesDirectory ??= TargetFilesDirectory.Instance;
+            get => _targetFilesDirectory ??= new TargetFilesDirectory();
             set => SetProperty(ref _targetFilesDirectory, value);
         }
         #endregion TargetFilesDirectory
@@ -244,12 +257,11 @@ namespace StateMachineCodeGenerator.ViewModels
         public RelayCommand LocateSolutionFileCommand => new RelayCommand(LocateSolutionFile);
         public RelayCommand LocateTargetFolderCommand => new RelayCommand(LocateTargetFolder);
         public RelayCommand LocateCSharpFilesCommand => new RelayCommand(LocateCSharpFiles);
-
-        public const string EnterpriseArchitectFilterLiteral = "EA files (*.xml)|*.xml|All files (*.*)|*.*";
+        public RelayCommand DeleteInputFilesItemCommand => new RelayCommand(DeleteInputFilesItem);
 
         #region LocateEaXmlFile
+        public const string EnterpriseArchitectFilterLiteral = "EA files (*.xml)|*.xml|All files (*.*)|*.*";
         public void LocateEaXmlFile(object path) {
-
             IPopupView view = DialogServices.Instance.Dialogs[nameof(LocateFileViewModel)];
             var vm = view.Vm as LocateFileViewModel;
             if (vm == null) throw new Exception(); // will not happen
@@ -359,6 +371,19 @@ namespace StateMachineCodeGenerator.ViewModels
         #endregion GenerateCode
 
         #endregion GenerateCode properties
+
+        #region Delete Input Files item
+        public void DeleteInputFilesItem(object obj) {
+            if (CanDeleteInputFile == false) { return; }
+            PreviousInputFiles.Remove(SelectedInputFileKey);
+        }
+        #endregion Delete Input Files item
+
+        #region CanDeleteImputFile
+        public bool CanDeleteInputFile {
+            get => string.IsNullOrEmpty(SelectedInputFileKey) == false;
+        }
+        #endregion CanDeleteImputFile
 
         #endregion commands
 
