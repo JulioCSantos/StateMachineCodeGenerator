@@ -31,7 +31,7 @@ namespace StateMachineCodeGenerator.Generator
                 taskGen.Start();
                 taskGen.Wait(); // this is a non-blocking (UI fully operational) command even though we won't proceed until 'ApplicationTask' finishes running.
             }
-            catch (AggregateException ea) {
+            catch (AggregateException ) {
             }
 
             return taskGen;
