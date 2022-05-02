@@ -66,7 +66,6 @@ namespace StateMachineMetadata
 
         #endregion constructor
 
-
         #region properties
 
         #region Input files
@@ -74,8 +73,8 @@ namespace StateMachineMetadata
         #region EA XML Model
 
         #region EaXmlFileName
-        public const string EaXmlFileNameLiteral = @"C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\InputTestsFiles\LaserProcessing Model new test.xml";
-        //public const string EaXmlFileNameLiteral = @"C:\Users\santosj25\source\repos\StateMachineCodeGenerator\InputTestsFiles\LaserProcessing Model new test.xml";
+        //public const string EaXmlFileNameLiteral = @"C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\InputTestsFiles\LaserProcessing Model new test.xml";
+        public const string EaXmlFileNameLiteral = @"C:\Users\santosj25\source\repos\StateMachineCodeGenerator\InputTestsFiles\LaserProcessing Model new test.xml";
         private string _eaXmlFileName;
         public string EaXmlFileName {
             get => _eaXmlFileName;
@@ -173,8 +172,8 @@ namespace StateMachineMetadata
         #region SolutionFileName & SolutionFileInfo
 
         #region SolutionFileName
-        public const string TargetSolutionLiteral = @"C:\Users\julio\Documents\Visual Studio 2019\Projects\MyCompanies\Corning\TemplateGrid\TemplateGrid.sln";
-        //public const string TargetSolutionLiteral = @"C:\Users\santosj25\source\repos\JulioCSantos\StateMachineCodeGenerator\TestsSubject\TestsSubject.sln";
+        //public const string TargetSolutionLiteral = @"C:\Users\julio\Documents\Visual Studio 2019\Projects\MyCompanies\Corning\TemplateGrid\TemplateGrid.sln";
+        public const string TargetSolutionLiteral = @"C:\Users\santosj25\source\repos\JulioCSantos\StateMachineCodeGenerator\TestsSubject\TestsSubject.sln";
         //public const string TargetSolutionLiteral = @"C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\TestsSubject";
 
         private string _solutionFileName;
@@ -560,6 +559,7 @@ namespace StateMachineMetadata
         }
         #endregion GetNamepaceAsync
 
+        #region GetMetadataTargetPaths
         public Dictionary<StateMachineMetadata.TargetPath, string> GetMetadataTargetPaths() {
             var targetPaths = new Dictionary<StateMachineMetadata.TargetPath, string>();
             targetPaths[StateMachineMetadata.TargetPath.Solution] = this[TargetPath.Solution];
@@ -572,6 +572,7 @@ namespace StateMachineMetadata
 
             return targetPaths;
         }
+        #endregion GetMetadataTargetPaths
 
         #endregion methods
     }

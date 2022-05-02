@@ -50,12 +50,14 @@ namespace StateMachineCodeGenerator.ViewModels
                 key = (string)args.OldItems?[0];
                 if (key == null) { return; } // defensive
                 if (InputFilesDirectory.ContainsKey(key)) { InputFilesDirectory.Remove(key); }
+
+                PersistPreviousInputFiles(key);
                 key = null;
             }
 
         }
 
-        private void PersistPreviouInputFiles(string key)
+        private void PersistPreviousInputFiles(string key)
         {
             var options = new JsonSerializerOptions
             {
@@ -369,7 +371,7 @@ namespace StateMachineCodeGenerator.ViewModels
                     TargetFilesDirectory.TargetFilesDirectoryName; 
                 // update log messages panel
                 LogMessage("State machine files generated for " + key);
-                PersistPreviouInputFiles(key);
+                PersistPreviousInputFiles(key);
                 await Task.Delay(300); // give enough time to observe the busy indicator
             }
             RaisePropertyChanged(nameof(PreviousInputFilesVisibility));
