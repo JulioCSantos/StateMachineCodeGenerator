@@ -1,5 +1,4 @@
 ﻿using StateMachineCodeGenerator.Common;
-using StateMachineCodeGenerator.Generator;
 using StateMachineCodeGeneratorSystem.Templates;
 using StateMachineMetadata;
 using System;
