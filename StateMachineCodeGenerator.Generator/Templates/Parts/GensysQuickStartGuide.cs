@@ -7,7 +7,7 @@
 //     the code is regenerated.
 // </auto-generated>
 // ------------------------------------------------------------------------------
-namespace StateMachineCodeGenerator.Generator.Templates.Parts
+namespace StateMachineCodeGenerator.Templates.Parts
 {
     using System.Linq;
     using System.Text;
@@ -18,7 +18,7 @@ namespace StateMachineCodeGenerator.Generator.Templates.Parts
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "\\NA.corning.com\CVUD-MTE$\UD7\santosj25\My Documents\Visual Studio 2019\Projects\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\Parts\GensysQuickStartGuide.t4"
+    #line 1 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\Parts\GensysQuickStartGuide.t4"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "16.0.0.0")]
     public partial class GensysQuickStartGuide : GensysQuickStartGuideBase
     {

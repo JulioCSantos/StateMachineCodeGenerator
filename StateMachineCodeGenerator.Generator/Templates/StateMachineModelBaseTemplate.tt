@@ -5,6 +5,7 @@
 <#@ import namespace="System.Collections.Generic" #> 
 <#@ import namespace="StateMachineMetadata.Extensions" #> 
 <#@ import namespace="StateMachineMetadata.Model" #> 
+<#@ import namespace="StateMachineCodeGeneratorSystem.Templates" #>
 // Created by t4 template '<#= this.GetType().Name #>'
 <#@ include file="Parts/CopyrightHeader.t4" #>
 <# var model = StateMachineMetadata.Main.ActiveModel; #>
@@ -21,7 +22,7 @@ using GenSysCommon;
 using GenSysCommon.Interfaces;
 using Corning.GenSys.MVVMCommon;
 
-namespace XYZPDQ.Model
+namespace <#= Session["NameSpace"].ToString() #>
 {
     // ReSharper disable once InconsistentNaming
     public class <#= Session["typeName"].ToString() #> : INotifyPropertyChanged

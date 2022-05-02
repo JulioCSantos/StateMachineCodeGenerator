@@ -7,7 +7,7 @@
 //     the code is regenerated.
 // </auto-generated>
 // ------------------------------------------------------------------------------
-namespace StateMachineCodeGenerator.Generator.Templates.Parts
+namespace StateMachineCodeGenerator.Templates.Parts
 {
     using System.Linq;
     using System.Text;
@@ -18,7 +18,7 @@ namespace StateMachineCodeGenerator.Generator.Templates.Parts
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "\\NA.corning.com\CVUD-MTE$\UD7\santosj25\My Documents\Visual Studio 2019\Projects\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\Parts\CopyrightHeader.t4"
+    #line 1 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\Parts\CopyrightHeader.t4"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "16.0.0.0")]
     public partial class CopyrightHeader : CopyrightHeaderBase
     {
@@ -31,28 +31,28 @@ namespace StateMachineCodeGenerator.Generator.Templates.Parts
             this.Write("///////////////////////////////////////////////////////////\r\n// Copyright © Corni" +
                     "ng Incorporated 2017\r\n// File ");
             
-            #line 8 "\\NA.corning.com\CVUD-MTE$\UD7\santosj25\My Documents\Visual Studio 2019\Projects\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\Parts\CopyrightHeader.t4"
+            #line 8 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\Parts\CopyrightHeader.t4"
             this.Write(this.ToStringHelper.ToStringWithCulture(Session["fileName"].ToString()));
             
             #line default
             #line hidden
             this.Write("\r\n// Project ");
             
-            #line 9 "\\NA.corning.com\CVUD-MTE$\UD7\santosj25\My Documents\Visual Studio 2019\Projects\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\Parts\CopyrightHeader.t4"
+            #line 9 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\Parts\CopyrightHeader.t4"
             this.Write(this.ToStringHelper.ToStringWithCulture(Session["projectName"].ToString()));
             
             #line default
             #line hidden
             this.Write("\r\n// Implementation of the Class ");
             
-            #line 10 "\\NA.corning.com\CVUD-MTE$\UD7\santosj25\My Documents\Visual Studio 2019\Projects\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\Parts\CopyrightHeader.t4"
+            #line 10 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\Parts\CopyrightHeader.t4"
             this.Write(this.ToStringHelper.ToStringWithCulture(Session["typeName"].ToString()));
             
             #line default
             #line hidden
             this.Write("\r\n// Created on ");
             
-            #line 11 "\\NA.corning.com\CVUD-MTE$\UD7\santosj25\My Documents\Visual Studio 2019\Projects\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\Parts\CopyrightHeader.t4"
+            #line 11 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\Parts\CopyrightHeader.t4"
             this.Write(this.ToStringHelper.ToStringWithCulture(DateTime.Now.ToLocalTime().ToString()));
             
             #line default

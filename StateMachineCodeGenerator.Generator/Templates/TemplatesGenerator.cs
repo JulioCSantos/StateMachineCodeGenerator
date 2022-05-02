@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using StateMachineMetadata.Extensions;
+using StateMachineCodeGenerator.Templates;
 
 namespace StateMachineCodeGeneratorSystem.Templates
 {
@@ -48,6 +49,7 @@ namespace StateMachineCodeGeneratorSystem.Templates
         public string StateMachineDerivedTypeName { get; private set; }
         public string StateMachineModelBaseTypeName { get; private set; }
         public string StateMachineModelDerivedTypeName { get; private set; }
+        public string NameSpace { get; private set; }
 
         public async Task<bool> GenerateFiles(Dictionary<TargetPath, string> targetFiles = null)
         {
@@ -64,6 +66,7 @@ namespace StateMachineCodeGeneratorSystem.Templates
             StateMachineDerivedTypeName = getNameOnly(targetFiles[TargetPath.StateMachineDerivedFilePath]);
             StateMachineModelBaseTypeName = getNameOnly(targetFiles[TargetPath.MainModelBaseFilePath]);
             StateMachineModelDerivedTypeName = getNameOnly(targetFiles[TargetPath.MainModelDerivedFilePath]);
+            NameSpace = targetFiles[TargetPath.NameSpace];
 
             StateMachineName = StateMachineDerivedTypeName;
 
@@ -102,6 +105,7 @@ namespace StateMachineCodeGeneratorSystem.Templates
                 templ.Session.Add(nameof(StateMachineDerivedTypeName), StateMachineDerivedTypeName);
                 templ.Session.Add(nameof(StateMachineModelBaseTypeName), StateMachineModelBaseTypeName);
                 templ.Session.Add(nameof(StateMachineModelDerivedTypeName), StateMachineModelDerivedTypeName);
+                templ.Session.Add(nameof(NameSpace), NameSpace);
 
                 //Generate file
                 var content = templ.TransformText();
@@ -133,6 +137,7 @@ namespace StateMachineCodeGeneratorSystem.Templates
                 templ.Session.Add(nameof(StateMachineDerivedTypeName), StateMachineDerivedTypeName);
                 templ.Session.Add(nameof(StateMachineModelBaseTypeName), StateMachineModelBaseTypeName);
                 templ.Session.Add(nameof(StateMachineModelDerivedTypeName), StateMachineModelDerivedTypeName);
+                templ.Session.Add(nameof(NameSpace), NameSpace);
 
                 //Generate file
                 var content = templ.TransformText();
@@ -165,6 +170,7 @@ namespace StateMachineCodeGeneratorSystem.Templates
                 templ.Session.Add(nameof(StateMachineDerivedTypeName), StateMachineDerivedTypeName);
                 templ.Session.Add(nameof(StateMachineModelBaseTypeName), StateMachineModelBaseTypeName);
                 templ.Session.Add(nameof(StateMachineModelDerivedTypeName), StateMachineModelDerivedTypeName);
+                templ.Session.Add(nameof(NameSpace), NameSpace);
 
                 //Generate file
                 var content = templ.TransformText();
@@ -197,6 +203,7 @@ namespace StateMachineCodeGeneratorSystem.Templates
                 templ.Session.Add(nameof(StateMachineDerivedTypeName), StateMachineDerivedTypeName);
                 templ.Session.Add(nameof(StateMachineModelBaseTypeName), StateMachineModelBaseTypeName);
                 templ.Session.Add(nameof(StateMachineModelDerivedTypeName), StateMachineModelDerivedTypeName);
+                templ.Session.Add(nameof(NameSpace), NameSpace);
 
                 //Generate file
                 var content = templ.TransformText();

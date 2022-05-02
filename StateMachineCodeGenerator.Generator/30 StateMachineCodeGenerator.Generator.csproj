@@ -1,9 +1,9 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <RootNamespace>StateMachineCodeGenerator.Generator</RootNamespace>
-    <AssemblyName>StateMachineCodeGenerator.Generator</AssemblyName>
+    <RootNamespace>StateMachineCodeGenerator</RootNamespace>
+    <AssemblyName>StateMachineCodeGenerator</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
@@ -60,6 +60,21 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>StateMachineBaseTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Templates\StateMachineDerivedTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>StateMachineDerivedTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Templates\StateMachineModelBaseTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>StateMachineModelBaseTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Templates\StateMachineModelDerivedTemplate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>StateMachineModelDerivedTemplate.tt</DependentUpon>
     </Compile>
   </ItemGroup>
 

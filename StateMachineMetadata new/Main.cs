@@ -358,6 +358,7 @@ namespace StateMachineMetadata
         StateMachineBaseFilePath,
         StateMachineDerivedFilePath,
         MainModelBaseFilePath,
-        MainModelDerivedFilePath
+        MainModelDerivedFilePath,
+        NameSpace
     }
 }

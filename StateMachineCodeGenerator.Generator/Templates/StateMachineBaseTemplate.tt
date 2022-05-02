@@ -5,6 +5,7 @@
 <#@ import namespace="System.Collections.Generic" #> 
 <#@ import namespace="StateMachineMetadata.Model" #> 
 <#@ import namespace="StateMachineMetadata.Extensions" #> 
+<#@ import namespace="StateMachineCodeGeneratorSystem.Templates" #>
 // Created by t4 template '<#= this.GetType().Name #>'
 <#@ include file="Parts/CopyrightHeader.t4" #>
 <#@ include file="Parts/GensysQuickStartGuide.t4" #>
@@ -27,7 +28,7 @@ using GenSysCommon.Interfaces;
 using NSFEventName = System.String;
 
 // ReSharper disable InconsistentNaming
-namespace XYZPDQ.Model
+namespace <#= Session["NameSpace"].ToString() #>
 {
     public partial class <#= Session["typeName"].ToString() #> : NSFStateMachine 
     {

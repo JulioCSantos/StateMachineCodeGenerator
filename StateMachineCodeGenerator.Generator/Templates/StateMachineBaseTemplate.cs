@@ -7,20 +7,21 @@
 //     the code is regenerated.
 // </auto-generated>
 // ------------------------------------------------------------------------------
-namespace StateMachineCodeGeneratorSystem.Templates
+namespace StateMachineCodeGenerator.Templates
 {
     using System.Linq;
     using System.Text;
     using System.Collections.Generic;
     using StateMachineMetadata.Model;
     using StateMachineMetadata.Extensions;
+    using StateMachineCodeGeneratorSystem.Templates;
     using System;
     
     /// <summary>
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "c:\projects\PROJ_Common\DevBranches\DevDale2\GenSys\Apps\StateMachineCodeGenerator-T4\Main\System\Templates\StateMachineBaseTemplate.tt"
+    #line 1 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\StateMachineBaseTemplate.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "16.0.0.0")]
     public partial class StateMachineBaseTemplate : StateMachineBaseTemplateBase
     {
@@ -32,9 +33,10 @@ namespace StateMachineCodeGeneratorSystem.Templates
         {
             this.Write(" \r\n");
             this.Write(" \r\n");
-            this.Write(" \r\n// Created by t4 template \'");
+            this.Write(" \r\n");
+            this.Write("// Created by t4 template \'");
             
-            #line 8 "c:\projects\PROJ_Common\DevBranches\DevDale2\GenSys\Apps\StateMachineCodeGenerator-T4\Main\System\Templates\StateMachineBaseTemplate.tt"
+            #line 9 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\StateMachineBaseTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(this.GetType().Name));
             
             #line default
@@ -43,28 +45,28 @@ namespace StateMachineCodeGeneratorSystem.Templates
             this.Write("///////////////////////////////////////////////////////////\r\n// Copyright © Corni" +
                     "ng Incorporated 2017\r\n// File ");
             
-            #line 8 "c:\projects\PROJ_Common\DevBranches\DevDale2\GenSys\Apps\StateMachineCodeGenerator-T4\Main\System\Templates\Parts/CopyrightHeader.t4"
+            #line 8 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\Parts/CopyrightHeader.t4"
             this.Write(this.ToStringHelper.ToStringWithCulture(Session["fileName"].ToString()));
             
             #line default
             #line hidden
             this.Write("\r\n// Project ");
             
-            #line 9 "c:\projects\PROJ_Common\DevBranches\DevDale2\GenSys\Apps\StateMachineCodeGenerator-T4\Main\System\Templates\Parts/CopyrightHeader.t4"
+            #line 9 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\Parts/CopyrightHeader.t4"
             this.Write(this.ToStringHelper.ToStringWithCulture(Session["projectName"].ToString()));
             
             #line default
             #line hidden
             this.Write("\r\n// Implementation of the Class ");
             
-            #line 10 "c:\projects\PROJ_Common\DevBranches\DevDale2\GenSys\Apps\StateMachineCodeGenerator-T4\Main\System\Templates\Parts/CopyrightHeader.t4"
+            #line 10 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\Parts/CopyrightHeader.t4"
             this.Write(this.ToStringHelper.ToStringWithCulture(Session["typeName"].ToString()));
             
             #line default
             #line hidden
             this.Write("\r\n// Created on ");
             
-            #line 11 "c:\projects\PROJ_Common\DevBranches\DevDale2\GenSys\Apps\StateMachineCodeGenerator-T4\Main\System\Templates\Parts/CopyrightHeader.t4"
+            #line 11 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\Parts/CopyrightHeader.t4"
             this.Write(this.ToStringHelper.ToStringWithCulture(DateTime.Now.ToLocalTime().ToString()));
             
             #line default
@@ -109,7 +111,7 @@ namespace StateMachineCodeGeneratorSystem.Templates
                     "ptForState.Add(oRunningState, \"Hit Abort to Stop Running\");\r\n");
             this.Write("\r\n");
             
-            #line 11 "c:\projects\PROJ_Common\DevBranches\DevDale2\GenSys\Apps\StateMachineCodeGenerator-T4\Main\System\Templates\StateMachineBaseTemplate.tt"
+            #line 12 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\StateMachineBaseTemplate.tt"
  var model = StateMachineMetadata.Main.ActiveModel; 
             
             #line default
@@ -132,11 +134,16 @@ using GenSysCommon.Interfaces;
 using NSFEventName = System.String;
 
 // ReSharper disable InconsistentNaming
-namespace XYZPDQ.Model
-{
-    public partial class ");
+namespace ");
             
-            #line 32 "c:\projects\PROJ_Common\DevBranches\DevDale2\GenSys\Apps\StateMachineCodeGenerator-T4\Main\System\Templates\StateMachineBaseTemplate.tt"
+            #line 31 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\StateMachineBaseTemplate.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Session["NameSpace"].ToString()));
+            
+            #line default
+            #line hidden
+            this.Write("\r\n{\r\n    public partial class ");
+            
+            #line 33 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\StateMachineBaseTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Session["typeName"].ToString()));
             
             #line default
@@ -144,14 +151,14 @@ namespace XYZPDQ.Model
             this.Write(" : NSFStateMachine \r\n    {\r\n        #region Fields and Properties\r\n        intern" +
                     "al static ILogger ms_iLogger = CLoggerFactory.CreateLog(\"C");
             
-            #line 35 "c:\projects\PROJ_Common\DevBranches\DevDale2\GenSys\Apps\StateMachineCodeGenerator-T4\Main\System\Templates\StateMachineBaseTemplate.tt"
+            #line 36 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\StateMachineBaseTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.ProjectName));
             
             #line default
             #line hidden
             this.Write("StateMachine\");\r\n        public const string StateMachineName = \"");
             
-            #line 36 "c:\projects\PROJ_Common\DevBranches\DevDale2\GenSys\Apps\StateMachineCodeGenerator-T4\Main\System\Templates\StateMachineBaseTemplate.tt"
+            #line 37 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\StateMachineBaseTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.ProjectName));
             
             #line default
@@ -178,7 +185,7 @@ namespace XYZPDQ.Model
 		public virtual string UndefinedFaultEvent { get; } = TriggerName.UndefinedFaultEvent;
         public ");
             
-            #line 56 "c:\projects\PROJ_Common\DevBranches\DevDale2\GenSys\Apps\StateMachineCodeGenerator-T4\Main\System\Templates\StateMachineBaseTemplate.tt"
+            #line 57 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\StateMachineBaseTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Session["StateMachineModelDerivedTypeName"].ToString()));
             
             #line default
@@ -196,14 +203,14 @@ namespace XYZPDQ.Model
         #region Constructors
         protected internal ");
             
-            #line 67 "c:\projects\PROJ_Common\DevBranches\DevDale2\GenSys\Apps\StateMachineCodeGenerator-T4\Main\System\Templates\StateMachineBaseTemplate.tt"
+            #line 68 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\StateMachineBaseTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Session["typeName"].ToString()));
             
             #line default
             #line hidden
             this.Write("(string strName, ");
             
-            #line 67 "c:\projects\PROJ_Common\DevBranches\DevDale2\GenSys\Apps\StateMachineCodeGenerator-T4\Main\System\Templates\StateMachineBaseTemplate.tt"
+            #line 68 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\StateMachineBaseTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Session["StateMachineModelDerivedTypeName"].ToString()));
             
             #line default
@@ -261,41 +268,41 @@ namespace XYZPDQ.Model
                     "   }\r\n\r\n            return metaData;\r\n        }\r\n        #endregion Constructors" +
                     "\r\n\r\n\t\t#region Events\r\n");
             
-            #line 150 "c:\projects\PROJ_Common\DevBranches\DevDale2\GenSys\Apps\StateMachineCodeGenerator-T4\Main\System\Templates\StateMachineBaseTemplate.tt"
+            #line 151 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\StateMachineBaseTemplate.tt"
  foreach (var triggerName in model.NSF.GetTriggerNames())  { 
             
             #line default
             #line hidden
             this.Write("\t\tpublic NSFEvent o");
             
-            #line 151 "c:\projects\PROJ_Common\DevBranches\DevDale2\GenSys\Apps\StateMachineCodeGenerator-T4\Main\System\Templates\StateMachineBaseTemplate.tt"
+            #line 152 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\StateMachineBaseTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(triggerName.ToValidCSharpName()));
             
             #line default
             #line hidden
             this.Write(";\r\n");
             
-            #line 152 "c:\projects\PROJ_Common\DevBranches\DevDale2\GenSys\Apps\StateMachineCodeGenerator-T4\Main\System\Templates\StateMachineBaseTemplate.tt"
+            #line 153 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\StateMachineBaseTemplate.tt"
  } 
             
             #line default
             #line hidden
             this.Write("\t\t#endregion Events\r\n\r\n\r\n\t\t#region States\r\n");
             
-            #line 157 "c:\projects\PROJ_Common\DevBranches\DevDale2\GenSys\Apps\StateMachineCodeGenerator-T4\Main\System\Templates\StateMachineBaseTemplate.tt"
+            #line 158 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\StateMachineBaseTemplate.tt"
   foreach (var group in model.NSF.GetNamedStatesGroupedByOwner())  {  
             
             #line default
             #line hidden
             
-            #line 158 "c:\projects\PROJ_Common\DevBranches\DevDale2\GenSys\Apps\StateMachineCodeGenerator-T4\Main\System\Templates\StateMachineBaseTemplate.tt"
+            #line 159 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\StateMachineBaseTemplate.tt"
       if (group.Key == null) Ext.WriteTokensAtTabs(this, 2, "// root state definition"); 
         else Ext.WriteTokensAtTabs(this, 2, "// " + group.Key.Name + "'s substate definitions");  
             
             #line default
             #line hidden
             
-            #line 160 "c:\projects\PROJ_Common\DevBranches\DevDale2\GenSys\Apps\StateMachineCodeGenerator-T4\Main\System\Templates\StateMachineBaseTemplate.tt"
+            #line 161 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\StateMachineBaseTemplate.tt"
       foreach (var state in group) {
             Ext.WriteTokensAtTabs(this, 2,"public " + state.ToNSFType(), 9,"o" + state.Name + ";");
         }
@@ -307,7 +314,7 @@ namespace XYZPDQ.Model
                     "private Dictionary<string, Rectangle> dictStateLocation = new Dictionary<string," +
                     " Rectangle>{\r\n\r\n");
             
-            #line 171 "c:\projects\PROJ_Common\DevBranches\DevDale2\GenSys\Apps\StateMachineCodeGenerator-T4\Main\System\Templates\StateMachineBaseTemplate.tt"
+            #line 172 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\StateMachineBaseTemplate.tt"
       foreach (var group in model.NSF.GetNamedStatesGroupedByOwner())  
         {  
             if (group.Key == null) 
@@ -335,48 +342,48 @@ namespace XYZPDQ.Model
 		#region Transitions
 ");
             
-            #line 193 "c:\projects\PROJ_Common\DevBranches\DevDale2\GenSys\Apps\StateMachineCodeGenerator-T4\Main\System\Templates\StateMachineBaseTemplate.tt"
+            #line 194 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\StateMachineBaseTemplate.tt"
   foreach (var group in model.NSF.GetGroupedTransitions())  {  
             
             #line default
             #line hidden
             
-            #line 194 "c:\projects\PROJ_Common\DevBranches\DevDale2\GenSys\Apps\StateMachineCodeGenerator-T4\Main\System\Templates\StateMachineBaseTemplate.tt"
+            #line 195 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\StateMachineBaseTemplate.tt"
       if (group.Key == null) Ext.WriteTokensAtTabs(this, 2, "// root Transitions' definitions"); 
         else Ext.WriteTokensAtTabs(this, 2, "// From " + group.Key.Name + " Transitions' definitions");  
             
             #line default
             #line hidden
             
-            #line 196 "c:\projects\PROJ_Common\DevBranches\DevDale2\GenSys\Apps\StateMachineCodeGenerator-T4\Main\System\Templates\StateMachineBaseTemplate.tt"
+            #line 197 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\StateMachineBaseTemplate.tt"
       foreach (var transition in group.GroupBy(g => g.Name).Select(g => g.First())) { 
             
             #line default
             #line hidden
             this.Write("        public ");
             
-            #line 197 "c:\projects\PROJ_Common\DevBranches\DevDale2\GenSys\Apps\StateMachineCodeGenerator-T4\Main\System\Templates\StateMachineBaseTemplate.tt"
+            #line 198 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\StateMachineBaseTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(transition.ToNSFType()));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 197 "c:\projects\PROJ_Common\DevBranches\DevDale2\GenSys\Apps\StateMachineCodeGenerator-T4\Main\System\Templates\StateMachineBaseTemplate.tt"
+            #line 198 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\StateMachineBaseTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(transition.Name));
             
             #line default
             #line hidden
             this.Write(" {get; private set;}\r\n");
             
-            #line 198 "c:\projects\PROJ_Common\DevBranches\DevDale2\GenSys\Apps\StateMachineCodeGenerator-T4\Main\System\Templates\StateMachineBaseTemplate.tt"
+            #line 199 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\StateMachineBaseTemplate.tt"
       } 
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 200 "c:\projects\PROJ_Common\DevBranches\DevDale2\GenSys\Apps\StateMachineCodeGenerator-T4\Main\System\Templates\StateMachineBaseTemplate.tt"
+            #line 201 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\StateMachineBaseTemplate.tt"
   } 
             
             #line default
@@ -385,76 +392,76 @@ namespace XYZPDQ.Model
                     "\n\r\n            BeforeCreateStateMachine();\r\n\r\n\t\t    #region Events  instantiatio" +
                     "ns\r\n");
             
-            #line 209 "c:\projects\PROJ_Common\DevBranches\DevDale2\GenSys\Apps\StateMachineCodeGenerator-T4\Main\System\Templates\StateMachineBaseTemplate.tt"
+            #line 210 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\StateMachineBaseTemplate.tt"
  foreach (var triggerName in model.NSF.GetTriggerNames())  { 
             
             #line default
             #line hidden
             this.Write("\t\t    o");
             
-            #line 210 "c:\projects\PROJ_Common\DevBranches\DevDale2\GenSys\Apps\StateMachineCodeGenerator-T4\Main\System\Templates\StateMachineBaseTemplate.tt"
+            #line 211 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\StateMachineBaseTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(triggerName));
             
             #line default
             #line hidden
             this.Write(" = new NSFEvent(nameof(o");
             
-            #line 210 "c:\projects\PROJ_Common\DevBranches\DevDale2\GenSys\Apps\StateMachineCodeGenerator-T4\Main\System\Templates\StateMachineBaseTemplate.tt"
+            #line 211 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\StateMachineBaseTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(triggerName));
             
             #line default
             #line hidden
             this.Write("), this, this);\r\n");
             
-            #line 211 "c:\projects\PROJ_Common\DevBranches\DevDale2\GenSys\Apps\StateMachineCodeGenerator-T4\Main\System\Templates\StateMachineBaseTemplate.tt"
+            #line 212 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\StateMachineBaseTemplate.tt"
  } 
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 213 "c:\projects\PROJ_Common\DevBranches\DevDale2\GenSys\Apps\StateMachineCodeGenerator-T4\Main\System\Templates\StateMachineBaseTemplate.tt"
+            #line 214 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\StateMachineBaseTemplate.tt"
  foreach (var triggerName in model.NSF.GetTriggerNames())  { 
             
             #line default
             #line hidden
             this.Write("            Triggers.Add(TriggerName.");
             
-            #line 214 "c:\projects\PROJ_Common\DevBranches\DevDale2\GenSys\Apps\StateMachineCodeGenerator-T4\Main\System\Templates\StateMachineBaseTemplate.tt"
+            #line 215 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\StateMachineBaseTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(triggerName.ToValidCSharpName()));
             
             #line default
             #line hidden
             this.Write(", o");
             
-            #line 214 "c:\projects\PROJ_Common\DevBranches\DevDale2\GenSys\Apps\StateMachineCodeGenerator-T4\Main\System\Templates\StateMachineBaseTemplate.tt"
+            #line 215 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\StateMachineBaseTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(triggerName.ToValidCSharpName()));
             
             #line default
             #line hidden
             this.Write(");\r\n");
             
-            #line 215 "c:\projects\PROJ_Common\DevBranches\DevDale2\GenSys\Apps\StateMachineCodeGenerator-T4\Main\System\Templates\StateMachineBaseTemplate.tt"
+            #line 216 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\StateMachineBaseTemplate.tt"
  } 
             
             #line default
             #line hidden
             this.Write("\t\t    #endregion Events\r\n\r\n\t\t    #region States instantiations\r\n");
             
-            #line 219 "c:\projects\PROJ_Common\DevBranches\DevDale2\GenSys\Apps\StateMachineCodeGenerator-T4\Main\System\Templates\StateMachineBaseTemplate.tt"
+            #line 220 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\StateMachineBaseTemplate.tt"
   foreach (var group in model.NSF.GetNamedStatesGroupedByOwner())  {  
             
             #line default
             #line hidden
             
-            #line 220 "c:\projects\PROJ_Common\DevBranches\DevDale2\GenSys\Apps\StateMachineCodeGenerator-T4\Main\System\Templates\StateMachineBaseTemplate.tt"
+            #line 221 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\StateMachineBaseTemplate.tt"
       if (group.Key == null) Ext.WriteTokensAtTabs(this, 3, "// root state instantiation"); 
         else Ext.WriteTokensAtTabs(this, 3, "// " + group.Key.Name + "'s substate instantiation");  
             
             #line default
             #line hidden
             
-            #line 222 "c:\projects\PROJ_Common\DevBranches\DevDale2\GenSys\Apps\StateMachineCodeGenerator-T4\Main\System\Templates\StateMachineBaseTemplate.tt"
+            #line 223 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\StateMachineBaseTemplate.tt"
       foreach (var state in group) {
             var name = state.Name;
             var oName = "o" + state.Name;
@@ -480,7 +487,7 @@ namespace XYZPDQ.Model
             #line hidden
             this.Write("\r\n");
             
-            #line 243 "c:\projects\PROJ_Common\DevBranches\DevDale2\GenSys\Apps\StateMachineCodeGenerator-T4\Main\System\Templates\StateMachineBaseTemplate.tt"
+            #line 244 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\StateMachineBaseTemplate.tt"
   } 
             
             #line default
@@ -488,7 +495,7 @@ namespace XYZPDQ.Model
             this.Write("\t\t    #endregion States  instantiations\r\n\r\n\t        #region Transitions instantia" +
                     "tions\r\n");
             
-            #line 247 "c:\projects\PROJ_Common\DevBranches\DevDale2\GenSys\Apps\StateMachineCodeGenerator-T4\Main\System\Templates\StateMachineBaseTemplate.tt"
+            #line 248 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\StateMachineBaseTemplate.tt"
   foreach (var group in model.NSF.GetGroupedTransitions())  {  
       if (group.Key == null) Ext.WriteTokensAtTabs(this, 3, "// root Transitions' definitions"); 
       else Ext.WriteTokensAtTabs(this, 3, "// From " + group.Key.Name + " Transitions' definitions");  
@@ -497,7 +504,7 @@ namespace XYZPDQ.Model
             #line default
             #line hidden
             
-            #line 251 "c:\projects\PROJ_Common\DevBranches\DevDale2\GenSys\Apps\StateMachineCodeGenerator-T4\Main\System\Templates\StateMachineBaseTemplate.tt"
+            #line 252 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\StateMachineBaseTemplate.tt"
 
         var statement = trans.Name + " = new " + trans.ToNSFType() + "(nameof(" + trans.Name + ")"; 
         var actionName = trans.ActionName == null ? "null" : "async (c) => await " + trans.ActionName.ToValidCSharpName() + "(c)";
@@ -520,14 +527,14 @@ namespace XYZPDQ.Model
             #line default
             #line hidden
             
-            #line 269 "c:\projects\PROJ_Common\DevBranches\DevDale2\GenSys\Apps\StateMachineCodeGenerator-T4\Main\System\Templates\StateMachineBaseTemplate.tt"
+            #line 270 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\StateMachineBaseTemplate.tt"
     } 
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 271 "c:\projects\PROJ_Common\DevBranches\DevDale2\GenSys\Apps\StateMachineCodeGenerator-T4\Main\System\Templates\StateMachineBaseTemplate.tt"
+            #line 272 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\StateMachineBaseTemplate.tt"
   } 
             
             #line default
@@ -557,20 +564,20 @@ namespace XYZPDQ.Model
 
 ");
             
-            #line 295 "c:\projects\PROJ_Common\DevBranches\DevDale2\GenSys\Apps\StateMachineCodeGenerator-T4\Main\System\Templates\StateMachineBaseTemplate.tt"
+            #line 296 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\StateMachineBaseTemplate.tt"
   foreach (var state in model.States.OfType<State>().OrderBy(s => s.Name))  {  
             
             #line default
             #line hidden
             
-            #line 296 "c:\projects\PROJ_Common\DevBranches\DevDale2\GenSys\Apps\StateMachineCodeGenerator-T4\Main\System\Templates\StateMachineBaseTemplate.tt"
+            #line 297 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\StateMachineBaseTemplate.tt"
         if (state.EntryActions.Any()) {
             
             #line default
             #line hidden
             this.Write("        public virtual async Task ");
             
-            #line 297 "c:\projects\PROJ_Common\DevBranches\DevDale2\GenSys\Apps\StateMachineCodeGenerator-T4\Main\System\Templates\StateMachineBaseTemplate.tt"
+            #line 298 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\StateMachineBaseTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(state.Name.ToValidCSharpName()));
             
             #line default
@@ -578,21 +585,21 @@ namespace XYZPDQ.Model
             this.Write("EnteredAsync(NSFStateMachineContext oContext, NSFState state)\r\n        {\r\n       " +
                     "     try {\r\n                this.RaiseStateEnterEvent(oContext, state);\r\n");
             
-            #line 301 "c:\projects\PROJ_Common\DevBranches\DevDale2\GenSys\Apps\StateMachineCodeGenerator-T4\Main\System\Templates\StateMachineBaseTemplate.tt"
+            #line 302 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\StateMachineBaseTemplate.tt"
             foreach (var sAction in state.EntryActions.Where(a => string.IsNullOrEmpty(a) == false)) { 
             
             #line default
             #line hidden
             this.Write("                await MainModel.");
             
-            #line 302 "c:\projects\PROJ_Common\DevBranches\DevDale2\GenSys\Apps\StateMachineCodeGenerator-T4\Main\System\Templates\StateMachineBaseTemplate.tt"
+            #line 303 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\StateMachineBaseTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(sAction));
             
             #line default
             #line hidden
             this.Write("().ConfigureAwait(continueOnCapturedContext:false);\r\n");
             
-            #line 303 "c:\projects\PROJ_Common\DevBranches\DevDale2\GenSys\Apps\StateMachineCodeGenerator-T4\Main\System\Templates\StateMachineBaseTemplate.tt"
+            #line 304 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\StateMachineBaseTemplate.tt"
             }
             
             #line default
@@ -601,20 +608,20 @@ namespace XYZPDQ.Model
                     "_iLogger.LogException(ELogLevel.Error, e.Source, e);\r\n                this.SendS" +
                     "tateEvent(UndefinedFaultEvent);\r\n            }\r\n        }\r\n");
             
-            #line 311 "c:\projects\PROJ_Common\DevBranches\DevDale2\GenSys\Apps\StateMachineCodeGenerator-T4\Main\System\Templates\StateMachineBaseTemplate.tt"
+            #line 312 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\StateMachineBaseTemplate.tt"
         }
             
             #line default
             #line hidden
             
-            #line 312 "c:\projects\PROJ_Common\DevBranches\DevDale2\GenSys\Apps\StateMachineCodeGenerator-T4\Main\System\Templates\StateMachineBaseTemplate.tt"
+            #line 313 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\StateMachineBaseTemplate.tt"
         if (state.ExitActions.Any()) {
             
             #line default
             #line hidden
             this.Write("        public virtual async Task ");
             
-            #line 313 "c:\projects\PROJ_Common\DevBranches\DevDale2\GenSys\Apps\StateMachineCodeGenerator-T4\Main\System\Templates\StateMachineBaseTemplate.tt"
+            #line 314 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\StateMachineBaseTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(state.Name.ToValidCSharpName()));
             
             #line default
@@ -622,21 +629,21 @@ namespace XYZPDQ.Model
             this.Write("ExitedAsync(NSFStateMachineContext oContext, NSFState state)\r\n        {\r\n        " +
                     "    try {\r\n");
             
-            #line 316 "c:\projects\PROJ_Common\DevBranches\DevDale2\GenSys\Apps\StateMachineCodeGenerator-T4\Main\System\Templates\StateMachineBaseTemplate.tt"
+            #line 317 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\StateMachineBaseTemplate.tt"
             foreach (var sAction in state.ExitActions.Where(a => string.IsNullOrEmpty(a) == false)) { 
             
             #line default
             #line hidden
             this.Write("                await MainModel.");
             
-            #line 317 "c:\projects\PROJ_Common\DevBranches\DevDale2\GenSys\Apps\StateMachineCodeGenerator-T4\Main\System\Templates\StateMachineBaseTemplate.tt"
+            #line 318 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\StateMachineBaseTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(sAction));
             
             #line default
             #line hidden
             this.Write("().ConfigureAwait(continueOnCapturedContext:false);;\r\n");
             
-            #line 318 "c:\projects\PROJ_Common\DevBranches\DevDale2\GenSys\Apps\StateMachineCodeGenerator-T4\Main\System\Templates\StateMachineBaseTemplate.tt"
+            #line 319 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\StateMachineBaseTemplate.tt"
             }
             
             #line default
@@ -651,20 +658,20 @@ namespace XYZPDQ.Model
         }
 ");
             
-            #line 327 "c:\projects\PROJ_Common\DevBranches\DevDale2\GenSys\Apps\StateMachineCodeGenerator-T4\Main\System\Templates\StateMachineBaseTemplate.tt"
+            #line 328 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\StateMachineBaseTemplate.tt"
         }
             
             #line default
             #line hidden
             
-            #line 328 "c:\projects\PROJ_Common\DevBranches\DevDale2\GenSys\Apps\StateMachineCodeGenerator-T4\Main\System\Templates\StateMachineBaseTemplate.tt"
+            #line 329 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\StateMachineBaseTemplate.tt"
   } 
             
             #line default
             #line hidden
             this.Write("\r\n        #endregion States Actions\r\n\r\n\t    #region Transitions Actions\r\n");
             
-            #line 333 "c:\projects\PROJ_Common\DevBranches\DevDale2\GenSys\Apps\StateMachineCodeGenerator-T4\Main\System\Templates\StateMachineBaseTemplate.tt"
+            #line 334 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\StateMachineBaseTemplate.tt"
   var previousActionNames = new HashSet<string>();
     foreach (var group in model.NSF.GetGroupedTransitions())  {  
         foreach (var trans in group.GroupBy(g => g.Name).Select(g => g.First()).Where(t => string.IsNullOrEmpty(t.ActionName) == false)) { 
@@ -679,7 +686,7 @@ namespace XYZPDQ.Model
             #line hidden
             this.Write("        /// <summary>\r\n");
             
-            #line 343 "c:\projects\PROJ_Common\DevBranches\DevDale2\GenSys\Apps\StateMachineCodeGenerator-T4\Main\System\Templates\StateMachineBaseTemplate.tt"
+            #line 344 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\StateMachineBaseTemplate.tt"
           if (eTrans != null) Ext.WriteTokensAtTabs(this, 2,"/// This method is called when the '" +  eTrans.SourceState.Name + "' transitions to '" + eTrans.Target.Name + "'");
             else Ext.WriteTokensAtTabs(this, 2,"/// This method is called when transitioning from '" +  iTrans.SourceState.Name + "'"); 
             
@@ -687,7 +694,7 @@ namespace XYZPDQ.Model
             #line hidden
             this.Write("        /// triggered by \'");
             
-            #line 345 "c:\projects\PROJ_Common\DevBranches\DevDale2\GenSys\Apps\StateMachineCodeGenerator-T4\Main\System\Templates\StateMachineBaseTemplate.tt"
+            #line 346 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\StateMachineBaseTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(triggerName));
             
             #line default
@@ -697,21 +704,21 @@ namespace XYZPDQ.Model
                     ".</param>\r\n        /// <returns>Nothing</returns>\r\n        public virtual async " +
                     "Task ");
             
-            #line 349 "c:\projects\PROJ_Common\DevBranches\DevDale2\GenSys\Apps\StateMachineCodeGenerator-T4\Main\System\Templates\StateMachineBaseTemplate.tt"
+            #line 350 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\StateMachineBaseTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(trans.ActionName));
             
             #line default
             #line hidden
             this.Write("(NSFStateMachineContext oContext)\r\n        {\r\n");
             
-            #line 351 "c:\projects\PROJ_Common\DevBranches\DevDale2\GenSys\Apps\StateMachineCodeGenerator-T4\Main\System\Templates\StateMachineBaseTemplate.tt"
+            #line 352 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\StateMachineBaseTemplate.tt"
           if (trans.Actions != null) { 
             
             #line default
             #line hidden
             this.Write("            try {\r\n");
             
-            #line 353 "c:\projects\PROJ_Common\DevBranches\DevDale2\GenSys\Apps\StateMachineCodeGenerator-T4\Main\System\Templates\StateMachineBaseTemplate.tt"
+            #line 354 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\StateMachineBaseTemplate.tt"
                 var previousActions = new HashSet<string>();
                 foreach (var tAct in trans.Actions) { 
                     if (previousActions.Add(tAct) == false) continue;
@@ -729,21 +736,21 @@ namespace XYZPDQ.Model
                     "xception(ELogLevel.Error, e.Source, e);\r\n                this.SendStateEvent(Und" +
                     "efinedFaultEvent);\r\n            }\r\n");
             
-            #line 368 "c:\projects\PROJ_Common\DevBranches\DevDale2\GenSys\Apps\StateMachineCodeGenerator-T4\Main\System\Templates\StateMachineBaseTemplate.tt"
+            #line 369 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\StateMachineBaseTemplate.tt"
             } else {
             
             #line default
             #line hidden
             this.Write("            await Task.CompletedTask;\r\n");
             
-            #line 370 "c:\projects\PROJ_Common\DevBranches\DevDale2\GenSys\Apps\StateMachineCodeGenerator-T4\Main\System\Templates\StateMachineBaseTemplate.tt"
+            #line 371 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\StateMachineBaseTemplate.tt"
             } 
             
             #line default
             #line hidden
             this.Write("        }\r\n\r\n");
             
-            #line 373 "c:\projects\PROJ_Common\DevBranches\DevDale2\GenSys\Apps\StateMachineCodeGenerator-T4\Main\System\Templates\StateMachineBaseTemplate.tt"
+            #line 374 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\StateMachineBaseTemplate.tt"
         } 
     } 
             
@@ -752,7 +759,7 @@ namespace XYZPDQ.Model
             this.Write("\t\t#endregion Transitions Actions\r\n\r\n\t    #region Transitions Choices and Guards\r\n" +
                     "");
             
-            #line 378 "c:\projects\PROJ_Common\DevBranches\DevDale2\GenSys\Apps\StateMachineCodeGenerator-T4\Main\System\Templates\StateMachineBaseTemplate.tt"
+            #line 379 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\StateMachineBaseTemplate.tt"
   var previousGuards = new HashSet<string>();
     foreach (var group in model.NSF.GetGroupedTransitions())  {  
         foreach (var trans in group.GroupBy(g => g.Name).Select(g => g.First()).Where(t => string.IsNullOrEmpty(t.GuardName) == false)) { 
@@ -767,21 +774,21 @@ namespace XYZPDQ.Model
             #line hidden
             this.Write("        #region ");
             
-            #line 387 "c:\projects\PROJ_Common\DevBranches\DevDale2\GenSys\Apps\StateMachineCodeGenerator-T4\Main\System\Templates\StateMachineBaseTemplate.tt"
+            #line 388 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\StateMachineBaseTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(trans.GuardName));
             
             #line default
             #line hidden
             this.Write("\r\n\r\n        public bool ");
             
-            #line 389 "c:\projects\PROJ_Common\DevBranches\DevDale2\GenSys\Apps\StateMachineCodeGenerator-T4\Main\System\Templates\StateMachineBaseTemplate.tt"
+            #line 390 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\StateMachineBaseTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(simulationIndicatorName));
             
             #line default
             #line hidden
             this.Write(" { get; set; }\r\n        public bool ");
             
-            #line 390 "c:\projects\PROJ_Common\DevBranches\DevDale2\GenSys\Apps\StateMachineCodeGenerator-T4\Main\System\Templates\StateMachineBaseTemplate.tt"
+            #line 391 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\StateMachineBaseTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(simulationValueName));
             
             #line default
@@ -789,14 +796,14 @@ namespace XYZPDQ.Model
             this.Write(" { get; set; }\r\n\r\n        /// <summary>\r\n        /// A Guard function returning t" +
                     "he State of \'");
             
-            #line 393 "c:\projects\PROJ_Common\DevBranches\DevDale2\GenSys\Apps\StateMachineCodeGenerator-T4\Main\System\Templates\StateMachineBaseTemplate.tt"
+            #line 394 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\StateMachineBaseTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(trans.GuardName));
             
             #line default
             #line hidden
             this.Write("\'.\r\n        /// Defined at Transition ");
             
-            #line 394 "c:\projects\PROJ_Common\DevBranches\DevDale2\GenSys\Apps\StateMachineCodeGenerator-T4\Main\System\Templates\StateMachineBaseTemplate.tt"
+            #line 395 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\StateMachineBaseTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(trans.Name));
             
             #line default
@@ -806,42 +813,42 @@ namespace XYZPDQ.Model
                     "/param>\r\n        /// <returns>guard result</returns>\r\n        public virtual boo" +
                     "l ");
             
-            #line 398 "c:\projects\PROJ_Common\DevBranches\DevDale2\GenSys\Apps\StateMachineCodeGenerator-T4\Main\System\Templates\StateMachineBaseTemplate.tt"
+            #line 399 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\StateMachineBaseTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(trans.GuardName));
             
             #line default
             #line hidden
             this.Write("(NSFStateMachineContext oContext)\r\n        {\r\n            if (");
             
-            #line 400 "c:\projects\PROJ_Common\DevBranches\DevDale2\GenSys\Apps\StateMachineCodeGenerator-T4\Main\System\Templates\StateMachineBaseTemplate.tt"
+            #line 401 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\StateMachineBaseTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(simulationIndicatorName));
             
             #line default
             #line hidden
             this.Write(" == true) \r\n                return ");
             
-            #line 401 "c:\projects\PROJ_Common\DevBranches\DevDale2\GenSys\Apps\StateMachineCodeGenerator-T4\Main\System\Templates\StateMachineBaseTemplate.tt"
+            #line 402 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\StateMachineBaseTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(simulationValueName));
             
             #line default
             #line hidden
             this.Write(";\r\n            else \r\n                return MainModel.");
             
-            #line 403 "c:\projects\PROJ_Common\DevBranches\DevDale2\GenSys\Apps\StateMachineCodeGenerator-T4\Main\System\Templates\StateMachineBaseTemplate.tt"
+            #line 404 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\StateMachineBaseTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(trans.GuardName));
             
             #line default
             #line hidden
             this.Write(";\r\n        }\r\n        #endregion ");
             
-            #line 405 "c:\projects\PROJ_Common\DevBranches\DevDale2\GenSys\Apps\StateMachineCodeGenerator-T4\Main\System\Templates\StateMachineBaseTemplate.tt"
+            #line 406 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\StateMachineBaseTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(trans.GuardName));
             
             #line default
             #line hidden
             this.Write("\r\n\r\n");
             
-            #line 407 "c:\projects\PROJ_Common\DevBranches\DevDale2\GenSys\Apps\StateMachineCodeGenerator-T4\Main\System\Templates\StateMachineBaseTemplate.tt"
+            #line 408 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\StateMachineBaseTemplate.tt"
         } 
     } 
             
@@ -870,7 +877,7 @@ namespace XYZPDQ.Model
             // Save trace log
             NSFTraceLog.PrimaryTraceLog.saveLog(""");
             
-            #line 430 "c:\projects\PROJ_Common\DevBranches\DevDale2\GenSys\Apps\StateMachineCodeGenerator-T4\Main\System\Templates\StateMachineBaseTemplate.tt"
+            #line 431 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\StateMachineBaseTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(model.ProjectName));
             
             #line default
@@ -994,7 +1001,7 @@ namespace XYZPDQ.Model
                     "\r\n            {\r\n                string strMsg = String.Format(@\"Error!  Unable " +
                     "to handle handle event ");
             
-            #line 599 "c:\projects\PROJ_Common\DevBranches\DevDale2\GenSys\Apps\StateMachineCodeGenerator-T4\Main\System\Templates\StateMachineBaseTemplate.tt"
+            #line 600 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\StateMachineBaseTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Session["typeName"].ToString()));
             
             #line default
@@ -1036,28 +1043,28 @@ namespace XYZPDQ.Model
         {
 ");
             
-            #line 634 "c:\projects\PROJ_Common\DevBranches\DevDale2\GenSys\Apps\StateMachineCodeGenerator-T4\Main\System\Templates\StateMachineBaseTemplate.tt"
+            #line 635 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\StateMachineBaseTemplate.tt"
  foreach (var triggerName in model.NSF.GetTriggerNames())  { 
             
             #line default
             #line hidden
             this.Write("\t\t    public const NSFEventName ");
             
-            #line 635 "c:\projects\PROJ_Common\DevBranches\DevDale2\GenSys\Apps\StateMachineCodeGenerator-T4\Main\System\Templates\StateMachineBaseTemplate.tt"
+            #line 636 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\StateMachineBaseTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(triggerName.ToValidCSharpName()));
             
             #line default
             #line hidden
             this.Write(" = nameof(");
             
-            #line 635 "c:\projects\PROJ_Common\DevBranches\DevDale2\GenSys\Apps\StateMachineCodeGenerator-T4\Main\System\Templates\StateMachineBaseTemplate.tt"
+            #line 636 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\StateMachineBaseTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(triggerName.ToValidCSharpName()));
             
             #line default
             #line hidden
             this.Write(");\r\n");
             
-            #line 636 "c:\projects\PROJ_Common\DevBranches\DevDale2\GenSys\Apps\StateMachineCodeGenerator-T4\Main\System\Templates\StateMachineBaseTemplate.tt"
+            #line 637 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\StateMachineBaseTemplate.tt"
  } 
             
             #line default
@@ -1065,21 +1072,21 @@ namespace XYZPDQ.Model
             this.Write("        }\r\n        #endregion Trigger\'s enum\r\n \r\n    public enum EState\r\n    {\r\n\t" +
                     "\t    none,\r\n");
             
-            #line 643 "c:\projects\PROJ_Common\DevBranches\DevDale2\GenSys\Apps\StateMachineCodeGenerator-T4\Main\System\Templates\StateMachineBaseTemplate.tt"
+            #line 644 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\StateMachineBaseTemplate.tt"
  foreach (var state in model.States.OrderBy(s => s.Name))  { 
             
             #line default
             #line hidden
             this.Write("\t\t    ");
             
-            #line 644 "c:\projects\PROJ_Common\DevBranches\DevDale2\GenSys\Apps\StateMachineCodeGenerator-T4\Main\System\Templates\StateMachineBaseTemplate.tt"
+            #line 645 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\StateMachineBaseTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(state.Name.ToValidCSharpName().Replace("State","")));
             
             #line default
             #line hidden
             this.Write(",\r\n");
             
-            #line 645 "c:\projects\PROJ_Common\DevBranches\DevDale2\GenSys\Apps\StateMachineCodeGenerator-T4\Main\System\Templates\StateMachineBaseTemplate.tt"
+            #line 646 "C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\StateMachineCodeGenerator.Generator\Templates\StateMachineBaseTemplate.tt"
  } 
             
             #line default

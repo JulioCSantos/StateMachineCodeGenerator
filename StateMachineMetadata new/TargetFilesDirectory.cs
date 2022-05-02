@@ -569,6 +569,7 @@ namespace StateMachineMetadata
             targetPaths[StateMachineMetadata.TargetPath.StateMachineDerivedFilePath] = this[TargetPath.StateMachineDerivedFilePath];
             targetPaths[StateMachineMetadata.TargetPath.MainModelBaseFilePath] = this[TargetPath.MainModelBaseFilePath];
             targetPaths[StateMachineMetadata.TargetPath.MainModelDerivedFilePath] = this[TargetPath.MainModelDerivedFilePath];
+            targetPaths[StateMachineMetadata.TargetPath.NameSpace] = SelectedNameSpace ?? SelectedEaModelName;
 
             return targetPaths;
         }
