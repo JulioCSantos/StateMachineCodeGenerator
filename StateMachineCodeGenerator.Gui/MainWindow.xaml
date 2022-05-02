@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:StateMachineCodeGenerator.Gui"
         xmlns:gui="clr-namespace:StateMachineCodeGenerator.Gui"
         mc:Ignorable="d"
-        Title="MainWindow" Height="500" Width="800">
+        Title="GenSys State Machine Generator" Height="500" Width="800">
 
     <Grid>
         <!--<gui:FilesSelectionView />-->
