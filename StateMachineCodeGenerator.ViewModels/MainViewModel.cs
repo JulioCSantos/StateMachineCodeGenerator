@@ -9,7 +9,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace StateMachineCodeGenerator.ViewModels
@@ -54,17 +53,25 @@ namespace StateMachineCodeGenerator.ViewModels
                 key = null;
             }
 
-            var options = new JsonSerializerOptions {
-                IgnoreReadOnlyProperties = true
-                , IgnoreReadOnlyFields = true
-                , WriteIndented = true
+        }
+
+        private void PersistPreviouInputFiles(string key)
+        {
+            var options = new JsonSerializerOptions
+            {
+                IgnoreReadOnlyProperties = true, IgnoreReadOnlyFields = true, WriteIndented = true
             };
             var serializedInputFiles = JsonSerializer.Serialize(InputFilesDirectory, options);
             File.WriteAllText(SerializedInputFilesPath, serializedInputFiles);
-            if (key == null) { TargetFilesDirectory = null; }
+            if (key == null)
+            {
+                TargetFilesDirectory = null;
+            }
+
             _selectedInputFileKey = key;
             RaisePropertyChanged(nameof(SelectedInputFileKey));
         }
+
         #endregion PreviousInputFiles_CollectionChanged
 
             #region PreviousInputFilesVisibility
@@ -362,6 +369,7 @@ namespace StateMachineCodeGenerator.ViewModels
                     TargetFilesDirectory.TargetFilesDirectoryName; 
                 // update log messages panel
                 LogMessage("State machine files generated for " + key);
+                PersistPreviouInputFiles(key);
                 await Task.Delay(300); // give enough time to observe the busy indicator
             }
             RaisePropertyChanged(nameof(PreviousInputFilesVisibility));

@@ -136,8 +136,8 @@
                         <TextBlock Grid.Column="0" Text="Target Namespace : " Margin="4,0,1,0"
                                    HorizontalAlignment="Right" VerticalAlignment="Center"/>
                         <ComboBox Grid.Column="1" ItemsSource="{Binding TargetFilesDirectory.NamespacesList}"
-                                  MaxWidth="200" Margin="1,0,4,0"
-                                  SelectedItem="{Binding TargetFilesDirectory.SelectedNameSpace}" />
+                                  MaxWidth="200" Margin="1,0,4,0" IsEditable="True"
+                                  Text="{Binding TargetFilesDirectory.SelectedNameSpace}" />
                     </Grid>
                     <!--#endregion Namespace-->
                 </StackPanel>
