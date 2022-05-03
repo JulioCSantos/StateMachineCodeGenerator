@@ -169,6 +169,7 @@ namespace StateMachineMetadata
                 SetProperty(ref _targetFilesDirectoryName, value);
                 RaisePropertyChanged(nameof(TargetFilesDirectoryInfo));
                 RaisePropertyChanged(nameof(TargetFilesDirectoryCueColor));
+                RaisePropertyChanged(nameof(TargetFilesOpacity));
             }
         }
         #endregion TargetFilesDirectoryName
@@ -191,6 +192,10 @@ namespace StateMachineMetadata
             }
         }
         #endregion TargetFilesDirectoryCueColor
+
+        #region TargetFilesOpacity
+        public double TargetFilesOpacity => string.IsNullOrEmpty(TargetFilesDirectoryName) ? 0.7 : 1;
+        #endregion TargetFilesOpacity
 
         #endregion TargetFilesDirectoryName & TargetFilesDirectoryPath
 
