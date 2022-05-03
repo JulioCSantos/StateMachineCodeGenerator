@@ -183,6 +183,8 @@ namespace StateMachineCodeGenerator.ViewModels
         #region MessagesOnCollectionChanged
         private async void MessagesOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e) {
             await ShowVanishingMessages();
+            MessagesOpacity = 1;
+            //MessagesHeight = Messages.Count * 25;
         }
         #endregion MessagesOnCollectionChanged
 

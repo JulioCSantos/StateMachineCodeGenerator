@@ -22,8 +22,10 @@ namespace StateMachineCodeGenerator.Gui
     /// </summary>
     public partial class MainView : UserControl
     {
+        public MainViewModel Vm { get; protected set; }
         public MainView() {
             InitializeComponent();
+            Vm = (MainViewModel) DataContext;
             this.Loaded += MainView_Loaded;
             CursorHandler.Instance.PropertyChanged += Instance_PropertyChanged;
         }
