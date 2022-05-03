@@ -113,7 +113,7 @@ namespace StateMachineCodeGenerator.Tests.Metadata
             var target = new DerivedTargetFilesDirectory();
             Assert.IsFalse(target.EaXmlFileInfo?.Exists == true);
             var origFile = new FileInfo(
-                @"C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\InputTestsFiles\LaserProcessing Model new.xml");
+                @"C:\Users\santosj25\source\repos\StateMachineCodeGenerator\InputTestsFiles\LaserProcessing Model new.xml");
             target.EaXmlFileName = origFile.FullName;
             Assert.IsTrue(target.EaXmlFileInfo?.Exists == true);
             target.EaXmlFileName = null;

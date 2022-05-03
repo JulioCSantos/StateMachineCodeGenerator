@@ -132,8 +132,26 @@ namespace StateMachineCodeGenerator.ViewModels
         private TargetFilesDirectory _targetFilesDirectory;
         public TargetFilesDirectory TargetFilesDirectory {
             get => _targetFilesDirectory ??= new TargetFilesDirectory();
-            set => SetProperty(ref _targetFilesDirectory, value);
+            set {
+                if (_targetFilesDirectory != null) { 
+                    _targetFilesDirectory.PropertyChanged -= TargetFilesDirectory_PropertyChanged; }
+                SetProperty(ref _targetFilesDirectory, value);
+                if (_targetFilesDirectory != null) {
+                    _targetFilesDirectory.PropertyChanged += TargetFilesDirectory_PropertyChanged;
+                }
+            }
         }
+
+        private void TargetFilesDirectory_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e) {
+            switch (e.PropertyName) {
+                case nameof(TargetFilesDirectory.EaXmlFileInfo):
+                case nameof(TargetFilesDirectory.TargetFilesDirectoryInfo):
+                    RaisePropertyChanged(nameof(CanGenerateCode));
+                    RaisePropertyChanged(nameof(GenerateCodeTooltip));
+                    break;
+            }
+        }
+
         #endregion TargetFilesDirectory
 
         #region Messages animation
@@ -242,19 +260,11 @@ namespace StateMachineCodeGenerator.ViewModels
                 RaisePropertyChanged(nameof(PreviousInputFilesVisibility));
             }
 
-            this.TargetFilesDirectory.PropertyChanged += TargetFilesDirectory_PropertyChanged;
+            this.TargetFilesDirectory = new TargetFilesDirectory();
 
         }
 
-        private void TargetFilesDirectory_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e) {
-            switch (e.PropertyName) {
-                case nameof(TargetFilesDirectory.EaXmlFileInfo):
-                case nameof(TargetFilesDirectory.TargetFilesDirectoryInfo):
-                    RaisePropertyChanged(nameof(CanGenerateCode));
-                    RaisePropertyChanged(nameof(GenerateCodeTooltip));
-                    break;
-            }
-        }
+
 
         #endregion constructor
 
