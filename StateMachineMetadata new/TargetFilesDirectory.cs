@@ -26,6 +26,7 @@ namespace StateMachineMetadata
                     if (string.IsNullOrEmpty(SelectedEaModelName)) { break;}
                     StateMachineBaseFileName = StateMachineDerivedFileName = 
                         MainModelBaseFileName = MainModelDerivedFileName = null;
+                    SetTargetDirectoryName();
                     StateMachineBaseFileName = GenrtdFileNamesFunc("StateMachineBase_gen.cs");
                     StateMachineDerivedFileName = GenrtdFileNamesFunc("StateMachine.cs");
                     MainModelBaseFileName = GenrtdFileNamesFunc("ModelBase_gen.cs");
@@ -53,14 +54,15 @@ namespace StateMachineMetadata
 
         private void SetTargetDirectoryName() {
             if (SolutionFileInfo?.DirectoryName == null) { return;}
-            if (SelectedEaModelName == null)
-            {
+            if (SelectedEaModelName == null) {
                 TargetFilesDirectoryName = Path.GetDirectoryName(SolutionFileName);
                 TargetFilesDirectoryName = SolutionFileInfo.DirectoryName;
+                TargetFilesDirectoryName = Path.Combine(TargetFilesDirectoryName, @"Main\Model\MainModel");
             }
-            else
-            {
-                TargetFilesDirectoryName = Path.Combine(SolutionFileInfo.DirectoryName, SelectedEaModelName ?? "");
+            else {
+                //TargetFilesDirectoryName = Path.Combine(SolutionFileInfo.DirectoryName, SelectedEaModelName ?? "");
+                //TargetFilesDirectoryName = Path.Combine(TargetFilesDirectoryName, @"Main\Model\MainModel");
+                TargetFilesDirectoryName = Path.Combine(SolutionFileInfo.DirectoryName, @"Main\Model\MainModel");
             }
         }
 
@@ -74,7 +76,8 @@ namespace StateMachineMetadata
 
         #region EaXmlFileName
         //public const string EaXmlFileNameLiteral = @"C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\InputTestsFiles\LaserProcessing Model new test.xml";
-        public const string EaXmlFileNameLiteral = @"C:\Users\santosj25\source\repos\StateMachineCodeGenerator\InputTestsFiles\LaserProcessing Model new test.xml";
+        //public const string EaXmlFileNameLiteral = @"C:\Users\santosj25\source\repos\StateMachineCodeGenerator\InputTestsFiles\LaserProcessing Model new test.xml";
+        public const string EaXmlFileNameLiteral = @"C:\Users\santosj25\source\GenSysTest\MotionSolutions\LLSystemNew\Modeling\LLSystem State Machine Export.xml";
         private string _eaXmlFileName;
         public string EaXmlFileName {
             get => _eaXmlFileName;
@@ -158,10 +161,10 @@ namespace StateMachineMetadata
 
                 SetProperty(ref _selectedEaModelName, value);
 
-                // append new model name to Target Files' directory name
-                if (string.IsNullOrEmpty(TargetFilesDirectoryName) == false && string.IsNullOrEmpty(_selectedEaModelName) == false) {
-                    TargetFilesDirectoryName = Path.Combine(TargetFilesDirectoryName, _selectedEaModelName);
-                }
+                //// append new model name to Target Files' directory name
+                //if (string.IsNullOrEmpty(TargetFilesDirectoryName) == false && string.IsNullOrEmpty(_selectedEaModelName) == false) {
+                //    TargetFilesDirectoryName = Path.Combine(TargetFilesDirectoryName, _selectedEaModelName);
+                //}
             }
         }
 

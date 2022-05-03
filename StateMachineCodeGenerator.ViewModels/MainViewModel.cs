@@ -1,4 +1,5 @@
 ﻿using StateMachineCodeGenerator.Common;
+using StateMachineCodeGenerator.Common.Extensions;
 using StateMachineCodeGeneratorSystem.Templates;
 using StateMachineMetadata;
 using System;
@@ -145,6 +146,16 @@ namespace StateMachineCodeGenerator.ViewModels
         private void TargetFilesDirectory_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e) {
             switch (e.PropertyName) {
                 case nameof(TargetFilesDirectory.EaXmlFileInfo):
+                    if (TargetFilesDirectory.EaXmlFileInfo.Exists &&
+                        string.IsNullOrEmpty(TargetFilesDirectory.SolutionFileName)) {
+                        var solutionFiles = TargetFilesDirectory.EaXmlFileInfo
+                            .Directory.FindFirstFilesInAncestors("*.sln");
+                        if (solutionFiles.Any()) {
+                            TargetFilesDirectory.SolutionFileName = solutionFiles.First().FullName;
+                        }
+                    }
+
+                    goto case nameof(TargetFilesDirectory.TargetFilesDirectoryInfo);
                 case nameof(TargetFilesDirectory.TargetFilesDirectoryInfo):
                     RaisePropertyChanged(nameof(CanGenerateCode));
                     RaisePropertyChanged(nameof(GenerateCodeTooltip));
