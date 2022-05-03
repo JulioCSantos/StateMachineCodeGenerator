@@ -15,58 +15,6 @@ namespace StateMachineMetadata
     public class TargetFilesDirectory : SetPropertyBase
     {
 
-        #region constructor
-        public TargetFilesDirectory() {
-            this.PropertyChanged += TargetFilesDirectory_PropertyChanged;
-        }
-
-        private void TargetFilesDirectory_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e) {
-            switch (e.PropertyName) {
-                case nameof(SelectedEaModelName):
-                    if (string.IsNullOrEmpty(SelectedEaModelName)) { break;}
-                    StateMachineBaseFileName = StateMachineDerivedFileName = 
-                        MainModelBaseFileName = MainModelDerivedFileName = null;
-                    SetTargetDirectoryName();
-                    StateMachineBaseFileName = GenrtdFileNamesFunc("StateMachineBase_gen.cs");
-                    StateMachineDerivedFileName = GenrtdFileNamesFunc("StateMachine.cs");
-                    MainModelBaseFileName = GenrtdFileNamesFunc("ModelBase_gen.cs");
-                    MainModelDerivedFileName = GenrtdFileNamesFunc("Model.cs");
-                    break;
-                case nameof(TargetFilesDirectoryName):
-                    RaisePropertyChanged(nameof(TargetFilesDirectoryInfo));
-                    //Reset Target files names
-                    StateMachineBaseFileName = GenrtdFileNamesFunc("StateMachineBase_gen.cs");
-                    StateMachineDerivedFileName = GenrtdFileNamesFunc("StateMachine.cs");
-                    MainModelBaseFileName = GenrtdFileNamesFunc("ModelBase_gen.cs");
-                    MainModelDerivedFileName = GenrtdFileNamesFunc("Model.cs");
-                    break;
-                case nameof(SolutionFileName):
-                    if (string.IsNullOrEmpty(SolutionFileName)) {
-                        TargetFilesDirectoryName = null;
-                        NamespacesList = new List<string>();
-                    }
-                    SetTargetDirectoryName();
-
-                    NamespacesList = GetNameSpaces(SolutionFileInfo).ToList();
-                    break;
-            }
-        }
-
-        private void SetTargetDirectoryName() {
-            if (SolutionFileInfo?.DirectoryName == null) { return;}
-            if (SelectedEaModelName == null) {
-                TargetFilesDirectoryName = Path.GetDirectoryName(SolutionFileName);
-                TargetFilesDirectoryName = SolutionFileInfo.DirectoryName;
-                TargetFilesDirectoryName = Path.Combine(TargetFilesDirectoryName, @"Main\Model\MainModel");
-            }
-            else {
-                //TargetFilesDirectoryName = Path.Combine(SolutionFileInfo.DirectoryName, SelectedEaModelName ?? "");
-                //TargetFilesDirectoryName = Path.Combine(TargetFilesDirectoryName, @"Main\Model\MainModel");
-                TargetFilesDirectoryName = Path.Combine(SolutionFileInfo.DirectoryName, @"Main\Model\MainModel");
-            }
-        }
-
-        #endregion constructor
 
         #region properties
 
@@ -165,11 +113,6 @@ namespace StateMachineMetadata
                 }
 
                 SetProperty(ref _selectedEaModelName, value);
-
-                //// append new model name to Target Files' directory name
-                //if (string.IsNullOrEmpty(TargetFilesDirectoryName) == false && string.IsNullOrEmpty(_selectedEaModelName) == false) {
-                //    TargetFilesDirectoryName = Path.Combine(TargetFilesDirectoryName, _selectedEaModelName);
-                //}
             }
         }
 
@@ -508,7 +451,60 @@ namespace StateMachineMetadata
         }
         #endregion this index
 
+        #region constructor
+        public TargetFilesDirectory() {
+            this.PropertyChanged += TargetFilesDirectory_PropertyChanged;
+        }
+
+        private void TargetFilesDirectory_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e) {
+            switch (e.PropertyName) {
+                case nameof(SelectedEaModelName):
+                    if (string.IsNullOrEmpty(SelectedEaModelName)) { break; }
+                    StateMachineBaseFileName = StateMachineDerivedFileName =
+                        MainModelBaseFileName = MainModelDerivedFileName = null;
+                    SetTargetDirectoryName();
+                    StateMachineBaseFileName = GenrtdFileNamesFunc("StateMachineBase_gen.cs");
+                    StateMachineDerivedFileName = GenrtdFileNamesFunc("StateMachine.cs");
+                    MainModelBaseFileName = GenrtdFileNamesFunc("ModelBase_gen.cs");
+                    MainModelDerivedFileName = GenrtdFileNamesFunc("Model.cs");
+                    break;
+                case nameof(TargetFilesDirectoryName):
+                    RaisePropertyChanged(nameof(TargetFilesDirectoryInfo));
+                    //Reset Target files names
+                    StateMachineBaseFileName = GenrtdFileNamesFunc("StateMachineBase_gen.cs");
+                    StateMachineDerivedFileName = GenrtdFileNamesFunc("StateMachine.cs");
+                    MainModelBaseFileName = GenrtdFileNamesFunc("ModelBase_gen.cs");
+                    MainModelDerivedFileName = GenrtdFileNamesFunc("Model.cs");
+                    break;
+                case nameof(SolutionFileName):
+                    if (string.IsNullOrEmpty(SolutionFileName)) {
+                        TargetFilesDirectoryName = null;
+                        NamespacesList = new List<string>();
+                    }
+                    SetTargetDirectoryName();
+
+                    NamespacesList = GetNameSpaces(SolutionFileInfo).ToList();
+                    break;
+            }
+        }
+
+        #endregion constructor
+
         #region methods
+
+        #region SetTargetDirectoryName
+        private void SetTargetDirectoryName() {
+            if (SolutionFileInfo?.DirectoryName == null) { return; }
+            if (SelectedEaModelName == null) {
+                TargetFilesDirectoryName = Path.GetDirectoryName(SolutionFileName);
+                TargetFilesDirectoryName = SolutionFileInfo.DirectoryName;
+                TargetFilesDirectoryName = Path.Combine(TargetFilesDirectoryName, @"Main\Model\MainModel");
+            }
+            else {
+                TargetFilesDirectoryName = Path.Combine(SolutionFileInfo.DirectoryName, @"Main\Model\MainModel");
+            }
+        }
+        #endregion SetTargetDirectoryName
 
         #region GetNameSpaces
         private readonly ReaderWriterLockSlim _lock = new(LockRecursionPolicy.SupportsRecursion);

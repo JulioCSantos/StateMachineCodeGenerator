@@ -38,7 +38,7 @@ namespace StateMachineCodeGenerator.Common.Extensions
             for (int i = 0; i < levelsUp; i++) {
                 parent = parent.Parent;
                 if (parent == null) { throw new Exception(nameof(startFolder)); }
-                files.AddRange(parent.GetFilesInSiblings(fileNamePattern));
+                files.AddRange(parent.GetFiles(fileNamePattern));
                 if (files.Any()) { break; }
             }
 

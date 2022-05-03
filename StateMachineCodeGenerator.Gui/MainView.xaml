@@ -148,7 +148,7 @@
             <!--#endregion middle (splitter) column-->
 
             <!--#region Right size column-->
-            <Grid Grid.Column="2">
+            <Grid Grid.Column="2" Opacity="0.7">
                 <Grid.RowDefinitions>
                     <RowDefinition />
                     <RowDefinition />

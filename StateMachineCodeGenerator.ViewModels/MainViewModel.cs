@@ -149,7 +149,7 @@ namespace StateMachineCodeGenerator.ViewModels
                     if (TargetFilesDirectory.EaXmlFileInfo.Exists &&
                         string.IsNullOrEmpty(TargetFilesDirectory.SolutionFileName)) {
                         var solutionFiles = TargetFilesDirectory.EaXmlFileInfo
-                            .Directory.FindFirstFilesInAncestors("*.sln");
+                            .Directory.FindFirstFilesInAncestors("*.sln", 2);
                         if (solutionFiles.Any()) {
                             TargetFilesDirectory.SolutionFileName = solutionFiles.First().FullName;
                         }
