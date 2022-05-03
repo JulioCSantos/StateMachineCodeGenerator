@@ -126,6 +126,7 @@ namespace StateMachineMetadata
             get => _eaModelsList;
             protected set { SetProperty(ref _eaModelsList, value); 
                 RaisePropertyChanged(nameof(IsModelSelectable));
+                RaisePropertyChanged(nameof(SelectingEaModelVisibility));
                 if (_eaModelsList?.Any() == true) { SelectedEaModel = EaModelsList.FirstOrDefault(); }
                 else { SelectedEaModel = null; }
             }
@@ -135,6 +136,10 @@ namespace StateMachineMetadata
         #region IsModelSelectable
         public bool IsModelSelectable => (EaModelsList?.Count ?? 0) > 1;
         #endregion IsModelSelectable
+
+        #region SelectingEaModelVisibility
+        public string SelectingEaModelVisibility => (EaModelsList?.Any() == true) ? "Visible" : "Collapsed";
+        #endregion SelectingEaModelVisibility
 
         #region SelectedEaModel
         private Model.MainModel _selectedEaModel;
@@ -261,9 +266,16 @@ namespace StateMachineMetadata
         [JsonIgnore(Condition = JsonIgnoreCondition.Always)]
         public List<string> NamespacesList {
             get => _namespacesList;
-            protected set => SetProperty(ref _namespacesList, value);
+            protected set {
+                SetProperty(ref _namespacesList, value);
+                RaisePropertyChanged(nameof(NamespacesVisibility));
+            }
         }
         #endregion NamespacesList
+
+        #region NamespacesVisibility
+        public string NamespacesVisibility => (NamespacesList?.Any() == true) ? "Visible" : "Collapsed";
+        #endregion NamespacesVisibility
 
         #region SelectedNameSpace
         private string _selectedNameSpace;

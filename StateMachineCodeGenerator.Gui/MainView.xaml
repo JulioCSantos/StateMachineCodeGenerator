@@ -102,10 +102,11 @@
                     </local:GroupBoxFileFolder>
 
                     <!--#region EAModel-->
-                    <Grid HorizontalAlignment="Right" MinWidth="200" Margin="2">
+                    <Grid HorizontalAlignment="Right" MinWidth="200" Margin="2"
+                        Visibility="{Binding TargetFilesDirectory.SelectingEaModelVisibility}">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" SharedSizeGroup="ComboBoxLabels" />
-                            <ColumnDefinition Width="*" SharedSizeGroup="ComboBoxes" />
+                            <ColumnDefinition Width="Auto"  />
+                            <ColumnDefinition Width="*"  />
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="0" Text="EA Model : " Margin="4,0,1,0" 
                                VerticalAlignment="Center" HorizontalAlignment="Right"/>
@@ -128,10 +129,11 @@
                                   Style="{StaticResource FilepathStyle}" />
                     </local:GroupBoxFileFolder>
                     <!--#region Namespace-->
-                    <Grid  HorizontalAlignment="Right" MinWidth="200" Margin="2">
+                    <Grid  HorizontalAlignment="Right" MinWidth="260" Margin="2"
+                         Visibility="{Binding TargetFilesDirectory.NamespacesVisibility}"  >
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" SharedSizeGroup="ComboBoxLabels" />
-                            <ColumnDefinition Width="*" SharedSizeGroup="ComboBoxes" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="0" Text="Target Namespace : " Margin="4,0,1,0"
                                    HorizontalAlignment="Right" VerticalAlignment="Center"/>
