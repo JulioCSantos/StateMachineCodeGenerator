@@ -50,6 +50,9 @@ namespace StateMachineCodeGenerator.ViewModels
             if (args.Action == NotifyCollectionChangedAction.Remove) {
                 key = (string)args.OldItems?[0];
                 if (key == null) { return; } // defensive
+
+                var targetFilesDirectory = InputFilesDirectory[key];
+                targetFilesDirectory.PropertyChanged -= TargetFilesDirectory_PropertyChanged;
                 if (InputFilesDirectory.ContainsKey(key)) { InputFilesDirectory.Remove(key); }
 
                 PersistPreviousInputFiles(key);
@@ -146,16 +149,16 @@ namespace StateMachineCodeGenerator.ViewModels
         private void TargetFilesDirectory_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e) {
             switch (e.PropertyName) {
                 case nameof(TargetFilesDirectory.EaXmlFileInfo):
-                    if (TargetFilesDirectory.EaXmlFileInfo?.Exists == true &&
-                        string.IsNullOrEmpty(TargetFilesDirectory.SolutionFileName)) {
-                        var solutionFiles = TargetFilesDirectory.EaXmlFileInfo
-                            .Directory.FindFirstFilesInAncestors("*.sln", 2);
-                        if (solutionFiles.Any()) {
-                            TargetFilesDirectory.SolutionFileName = solutionFiles.First().FullName;
-                        }
-                    }
+                    //if (TargetFilesDirectory.EaXmlFileInfo?.Exists == true &&
+                    //    string.IsNullOrEmpty(TargetFilesDirectory.SolutionFileName)) {
+                    //    var solutionFiles = TargetFilesDirectory.EaXmlFileInfo
+                    //        .Directory.FindFirstFilesInAncestors("*.sln", 2);
+                    //    if (solutionFiles.Any()) {
+                    //        TargetFilesDirectory.SolutionFileName = solutionFiles.First().FullName;
+                    //    }
+                    //}
 
-                    goto case nameof(TargetFilesDirectory.TargetFilesDirectoryInfo);
+                    //goto case nameof(TargetFilesDirectory.TargetFilesDirectoryInfo);
                 case nameof(TargetFilesDirectory.TargetFilesDirectoryInfo):
                     RaisePropertyChanged(nameof(CanGenerateCode));
                     RaisePropertyChanged(nameof(GenerateCodeTooltip));

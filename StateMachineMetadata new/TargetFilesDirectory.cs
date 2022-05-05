@@ -1,4 +1,5 @@
 ﻿using StateMachineCodeGenerator.Common;
+using StateMachineCodeGenerator.Common.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -464,6 +465,17 @@ namespace StateMachineMetadata
 
         private void TargetFilesDirectory_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e) {
             switch (e.PropertyName) {
+                case nameof(EaXmlFileInfo):
+                    //fuzzy logic that finds solution in the ancestors folder of the EA XML Model file
+                    if (EaXmlFileInfo?.Exists == true &&
+                        string.IsNullOrEmpty(SolutionFileName)) {
+                        var solutionFiles = EaXmlFileInfo.Directory
+                            .FindFirstFilesInAncestors("*.sln", 2);
+                        if (solutionFiles.Any()) {
+                            SolutionFileName = solutionFiles.First().FullName;
+                        }
+                    }
+                    break;
                 case nameof(SelectedEaModelName):
                     if (string.IsNullOrEmpty(SelectedEaModelName)) { break; }
                     StateMachineBaseFileName = StateMachineDerivedFileName =
