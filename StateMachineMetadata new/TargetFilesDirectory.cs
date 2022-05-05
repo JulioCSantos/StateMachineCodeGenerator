@@ -2,14 +2,10 @@
 using StateMachineCodeGenerator.Common.Extensions;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Text;
+using System.Reflection.Metadata.Ecma335;
 using System.Text.Json.Serialization;
-using System.Text.RegularExpressions;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace StateMachineMetadata
 {
@@ -390,7 +386,23 @@ namespace StateMachineMetadata
         #endregion generated files
 
         #region Clone
-        public TargetFilesDirectory Clone => (TargetFilesDirectory)MemberwiseClone();
+        public TargetFilesDirectory Clone {
+            get {
+                var clone = new TargetFilesDirectory();
+                clone.EaXmlFileName = new string(EaXmlFileName);
+                clone.SolutionFileName = new string(SolutionFileName);
+                clone.SelectedEaModelName = new string(SelectedEaModelName);
+                clone.SelectedNameSpace = new string(SelectedNameSpace);
+                clone.TargetFilesDirectoryName = new string(TargetFilesDirectoryName);
+                clone.StateMachineBaseFileName = new string(StateMachineBaseFileName);
+                clone.StateMachineDerivedFileName = new string(StateMachineDerivedFileName);
+                clone.MainModelBaseFileName = new string(MainModelBaseFileName);
+                clone.MainModelDerivedFileName = new string(MainModelDerivedFileName);
+
+                return clone;
+            }
+        }
+
         #endregion Clone
 
         #endregion properties
@@ -525,6 +537,7 @@ namespace StateMachineMetadata
         }
         #endregion SetTargetDirectoryName
 
+        #region GetNameSpaces
         protected HashSet<string> GetNameSpaces(FileInfo solutionFileInfo) {
             var namespaces = new HashSet<string>();
             if (string.IsNullOrEmpty(SelectedEaModelName) == false) {namespaces.Add(SelectedEaModelName + ".Model");}
@@ -536,73 +549,74 @@ namespace StateMachineMetadata
 
             return namespaces;
         }
+        #endregion GetNameSpaces
 
         //#region GetNameSpaces
-            //private readonly ReaderWriterLockSlim _lock = new(LockRecursionPolicy.SupportsRecursion);
+        //private readonly ReaderWriterLockSlim _lock = new(LockRecursionPolicy.SupportsRecursion);
 
-            //protected HashSet<string> GetNameSpaces(FileInfo solutionFileInfo) { 
-            //    if (solutionFileInfo?.Exists != true) { return new HashSet<string>(); }
+        //protected HashSet<string> GetNameSpaces(FileInfo solutionFileInfo) { 
+        //    if (solutionFileInfo?.Exists != true) { return new HashSet<string>(); }
 
-            //    //var solutionFileInfo = new FileInfo(targetSolution); //TODO replace with TargetSolutionFileInfo
-            //    //if (solutionFileInfo == null) { throw new ArgumentException(nameof(targetSolution)); }
-            //    var targetDir = solutionFileInfo.Directory;
-            //    if (targetDir == null) { return new HashSet<string>(); }
+        //    //var solutionFileInfo = new FileInfo(targetSolution); //TODO replace with TargetSolutionFileInfo
+        //    //if (solutionFileInfo == null) { throw new ArgumentException(nameof(targetSolution)); }
+        //    var targetDir = solutionFileInfo.Directory;
+        //    if (targetDir == null) { return new HashSet<string>(); }
 
-            //    CsFiles = targetDir.EnumerateFiles("*.cs", SearchOption.AllDirectories)
-            //        .Select(f => new FileInfo(f.FullName)).ToList();
+        //    CsFiles = targetDir.EnumerateFiles("*.cs", SearchOption.AllDirectories)
+        //        .Select(f => new FileInfo(f.FullName)).ToList();
 
-            //    var solutionName = SolutionFileInfo.Name.Split('.')[0]; //name without extensions
-            //    var namespaces = new HashSet<string>();
-            //    namespaces.Add(solutionName);
-            //    SelectedNameSpace = namespaces.First();
-            //    Parallel.ForEach(CsFiles
-            //        , new ParallelOptions { MaxDegreeOfParallelism = 3 }
-            //        , body: f => {
-            //            var namespaceValue = GetNameSpaceAsync(f);
-            //            _lock.EnterWriteLock();
-            //            try {
-            //                if (string.IsNullOrEmpty(namespaceValue) == false) {
-            //                    namespaces.Add(namespaceValue);
-            //                    if (namespaceValue == solutionName) { SelectedNameSpace = namespaceValue; }
-            //                }
-            //            }
-            //            finally { if (_lock.IsWriteLockHeld) { _lock.ExitWriteLock(); } }
-            //        });
+        //    var solutionName = SolutionFileInfo.Name.Split('.')[0]; //name without extensions
+        //    var namespaces = new HashSet<string>();
+        //    namespaces.Add(solutionName);
+        //    SelectedNameSpace = namespaces.First();
+        //    Parallel.ForEach(CsFiles
+        //        , new ParallelOptions { MaxDegreeOfParallelism = 3 }
+        //        , body: f => {
+        //            var namespaceValue = GetNameSpaceAsync(f);
+        //            _lock.EnterWriteLock();
+        //            try {
+        //                if (string.IsNullOrEmpty(namespaceValue) == false) {
+        //                    namespaces.Add(namespaceValue);
+        //                    if (namespaceValue == solutionName) { SelectedNameSpace = namespaceValue; }
+        //                }
+        //            }
+        //            finally { if (_lock.IsWriteLockHeld) { _lock.ExitWriteLock(); } }
+        //        });
 
-            //    return namespaces;
-            //}
-            //#endregion GetNameSpaces
+        //    return namespaces;
+        //}
+        //#endregion GetNameSpaces
 
-            //#region GetNameSpaceAsync
-            //public const string CSharpExtension = ".cs";
+        //#region GetNameSpaceAsync
+        //public const string CSharpExtension = ".cs";
 
-            //public static string GetNameSpaceAsync(FileInfo csFile) {
+        //public static string GetNameSpaceAsync(FileInfo csFile) {
 
-            //    string namespaceResult = null;
-            //    var lines = File.ReadAllLines(csFile.FullName);
-            //    foreach (var line in lines) {
-            //        namespaceResult = GetNamespaceValue(line);
-            //        if (string.IsNullOrEmpty(namespaceResult) == false) {
-            //            return namespaceResult;
-            //        }
-            //    }
+        //    string namespaceResult = null;
+        //    var lines = File.ReadAllLines(csFile.FullName);
+        //    foreach (var line in lines) {
+        //        namespaceResult = GetNamespaceValue(line);
+        //        if (string.IsNullOrEmpty(namespaceResult) == false) {
+        //            return namespaceResult;
+        //        }
+        //    }
 
-            //    return namespaceResult;
-            //}
+        //    return namespaceResult;
+        //}
 
-            ////public const string NamespacePatternLiteral = @"(?<=namespace )\b\w+(\.\w+)+\b";
-            //public const string NamespacePatternLiteral = @"(?<=namespace )\b\w+(\.\w+)*\b";
-            //public static string GetNamespaceValue(string line) {
-            //    if (string.IsNullOrEmpty(line)) { return null; }
+        ////public const string NamespacePatternLiteral = @"(?<=namespace )\b\w+(\.\w+)+\b";
+        //public const string NamespacePatternLiteral = @"(?<=namespace )\b\w+(\.\w+)*\b";
+        //public static string GetNamespaceValue(string line) {
+        //    if (string.IsNullOrEmpty(line)) { return null; }
 
-            //    //var namespacePattern = @"(?<=namespace )\b\w+\b";
-            //    var match = Regex.Match(line, NamespacePatternLiteral);
-            //    return match.Success ? match.Value : null;
-            //}
-            //#endregion GetNameSpaceAsync
+        //    //var namespacePattern = @"(?<=namespace )\b\w+\b";
+        //    var match = Regex.Match(line, NamespacePatternLiteral);
+        //    return match.Success ? match.Value : null;
+        //}
+        //#endregion GetNameSpaceAsync
 
-            #region GetMetadataTargetPaths
-            public Dictionary<StateMachineMetadata.TargetPath, string> GetMetadataTargetPaths() {
+        #region GetMetadataTargetPaths
+        public Dictionary<StateMachineMetadata.TargetPath, string> GetMetadataTargetPaths() {
             var targetPaths = new Dictionary<StateMachineMetadata.TargetPath, string>();
             targetPaths[StateMachineMetadata.TargetPath.Solution] = this[TargetPath.Solution];
             targetPaths[StateMachineMetadata.TargetPath.CodeGeneratedPath] = this[TargetPath.CodeGeneratedPath];

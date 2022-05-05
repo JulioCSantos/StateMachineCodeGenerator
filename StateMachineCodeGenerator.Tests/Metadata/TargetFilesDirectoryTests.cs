@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Channels;
 using System.Threading.Tasks;
 
 namespace StateMachineCodeGenerator.Tests.Metadata
@@ -167,10 +168,54 @@ namespace StateMachineCodeGenerator.Tests.Metadata
             Assert.AreNotEqual(target, clone);
             Assert.AreEqual(target.EaXmlFileName, clone.EaXmlFileName);
             Assert.AreNotSame( target.EaXmlFileName, clone.EaXmlFileName);
-            Assert.AreNotEqual(target.EaXmlFileName?.GetHashCode(), clone.EaXmlFileName.GetHashCode());
-            target.TargetFilesDirectoryName = TestsBootstrapper.SolutionInfo.FullName;
+            Assert.AreEqual(target.SolutionFileName, clone.SolutionFileName);
+            Assert.AreNotSame(target.SolutionFileName, clone.SolutionFileName);
+            Assert.AreEqual(target.TargetFilesDirectoryName, clone.TargetFilesDirectoryName);
+            Assert.AreNotSame(target.TargetFilesDirectoryName, clone.TargetFilesDirectoryName);
+            Assert.AreEqual(target.SelectedEaModelName, clone.SelectedEaModelName);
+            Assert.AreNotSame(target.SelectedEaModelName, clone.SelectedEaModelName);
+            Assert.AreEqual(target.SelectedNameSpace, clone.SelectedNameSpace);
+            Assert.AreNotSame(target.SelectedNameSpace, clone.SelectedNameSpace);
+            Assert.AreEqual(target.StateMachineBaseFileName, clone.StateMachineBaseFileName);
+            Assert.AreNotSame(target.StateMachineBaseFileName, clone.StateMachineBaseFileName);
+            Assert.AreEqual(target.StateMachineDerivedFileName, clone.StateMachineDerivedFileName);
+            Assert.AreNotSame(target.StateMachineDerivedFileName, clone.StateMachineDerivedFileName);
+            Assert.AreEqual(target.MainModelBaseFileName, clone.MainModelBaseFileName);
+            Assert.AreNotSame(target.MainModelBaseFileName, clone.MainModelBaseFileName);
+            Assert.AreEqual(target.MainModelDerivedFileName, clone.MainModelDerivedFileName);
+            Assert.AreNotSame(target.MainModelDerivedFileName, clone.MainModelDerivedFileName);
+        }
 
+        [TestMethod]
+        public void CloneTest2() {
+            var target = new DerivedTargetFilesDirectory();
 
+            target.EaXmlFileName = TestsBootstrapper.InputTestsFileInfo.GetFiles("WocGuide Model test.xml").FirstOrDefault()?.FullName;
+            target.SolutionFileName = TestsBootstrapper.InputTestsFileInfo.GetFiles("TemplateGrid.sln").FirstOrDefault()?.FullName;
+            target.SelectedEaModelName = target.EaModelsList.Skip(1).FirstOrDefault()?.ToString();
+            target.SelectedNameSpace += "New";
+
+            var clone = target.Clone;
+            Assert.IsNotNull(clone);
+            Assert.AreNotEqual(target, clone);
+            Assert.AreEqual(target.EaXmlFileName, clone.EaXmlFileName);
+            Assert.AreNotSame(target.EaXmlFileName, clone.EaXmlFileName);
+            Assert.AreEqual(target.SolutionFileName, clone.SolutionFileName);
+            Assert.AreNotSame(target.SolutionFileName, clone.SolutionFileName);
+            Assert.AreEqual(target.TargetFilesDirectoryName, clone.TargetFilesDirectoryName);
+            Assert.AreNotSame(target.TargetFilesDirectoryName, clone.TargetFilesDirectoryName);
+            Assert.AreEqual(target.SelectedEaModelName, clone.SelectedEaModelName);
+            Assert.AreNotSame(target.SelectedEaModelName, clone.SelectedEaModelName);
+            Assert.AreEqual(target.SelectedNameSpace, clone.SelectedNameSpace);
+            Assert.AreNotSame(target.SelectedNameSpace, clone.SelectedNameSpace);
+            Assert.AreEqual(target.StateMachineBaseFileName, clone.StateMachineBaseFileName);
+            Assert.AreNotSame(target.StateMachineBaseFileName, clone.StateMachineBaseFileName);
+            Assert.AreEqual(target.StateMachineDerivedFileName, clone.StateMachineDerivedFileName);
+            Assert.AreNotSame(target.StateMachineDerivedFileName, clone.StateMachineDerivedFileName);
+            Assert.AreEqual(target.MainModelBaseFileName, clone.MainModelBaseFileName);
+            Assert.AreNotSame(target.MainModelBaseFileName, clone.MainModelBaseFileName);
+            Assert.AreEqual(target.MainModelDerivedFileName, clone.MainModelDerivedFileName);
+            Assert.AreNotSame(target.MainModelDerivedFileName, clone.MainModelDerivedFileName);
         }
     }
 
