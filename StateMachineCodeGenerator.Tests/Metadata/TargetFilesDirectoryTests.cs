@@ -56,20 +56,20 @@ namespace StateMachineCodeGenerator.Tests.Metadata
             target.SelectedEaModelName = "MyModelName";
         }
 
-        [DataTestMethod]
-        [DataRow("namespace Common", "Common")]
-        [DataRow("namespace StateMachineCodeGenerator.ViewModels", "StateMachineCodeGenerator.ViewModels")]
-        [DataRow(" namespace StateMachineCodeGenerator.ViewModels", "StateMachineCodeGenerator.ViewModels")]
-        [DataRow("namespace StateMachineCodeGenerator.ViewModels  ", "StateMachineCodeGenerator.ViewModels")]
-        [DataRow("namespace StateMachineCodeGenerator.ViewModels  {", "StateMachineCodeGenerator.ViewModels")]
-        [DataRow("  namespace StateMachineCodeGenerator.ViewModels  {", "StateMachineCodeGenerator.ViewModels")]
-        [DataRow("using system;", null)]
-        [DataRow("using system; namespace MyNamespace", "MyNamespace")]
-        public void GetNamespaceValueTest1(string line, string expected) {
-            var actual = TargetFilesDirectory.GetNamespaceValue(line);
-            //var actual = MainViewModel.GetNamespaceValue(line);
-            Assert.AreEqual(expected, actual);
-        }
+        //[DataTestMethod]
+        //[DataRow("namespace Common", "Common")]
+        //[DataRow("namespace StateMachineCodeGenerator.ViewModels", "StateMachineCodeGenerator.ViewModels")]
+        //[DataRow(" namespace StateMachineCodeGenerator.ViewModels", "StateMachineCodeGenerator.ViewModels")]
+        //[DataRow("namespace StateMachineCodeGenerator.ViewModels  ", "StateMachineCodeGenerator.ViewModels")]
+        //[DataRow("namespace StateMachineCodeGenerator.ViewModels  {", "StateMachineCodeGenerator.ViewModels")]
+        //[DataRow("  namespace StateMachineCodeGenerator.ViewModels  {", "StateMachineCodeGenerator.ViewModels")]
+        //[DataRow("using system;", null)]
+        //[DataRow("using system; namespace MyNamespace", "MyNamespace")]
+        //public void GetNamespaceValueTest1(string line, string expected) {
+        //    var actual = TargetFilesDirectory.GetNamespaceValue(line);
+        //    //var actual = MainViewModel.GetNamespaceValue(line);
+        //    Assert.AreEqual(expected, actual);
+        //}
  
         [TestMethod]
         public void TargetSolutionFileNameValidTest2() {
@@ -109,17 +109,69 @@ namespace StateMachineCodeGenerator.Tests.Metadata
         }
 
         [TestMethod]
-        public void EaXmlFileSetTest() {
+        public void EaXmlFileNameSetupTest() {
             var target = new DerivedTargetFilesDirectory();
-            Assert.IsFalse(target.EaXmlFileInfo?.Exists == true);
-            var origFile = new FileInfo(
-                @"C:\Users\santosj25\source\repos\StateMachineCodeGenerator\InputTestsFiles\LaserProcessing Model new.xml");
-            target.EaXmlFileName = origFile.FullName;
-            Assert.IsTrue(target.EaXmlFileInfo?.Exists == true);
+
+            var eaXmlFileInfo = TestsBootstrapper.InputTestsFileInfo.GetFiles("WocGuide Model test.xml").FirstOrDefault();
+            target.EaXmlFileName = eaXmlFileInfo?.FullName;
+
+            Assert.IsTrue(target.EaXmlFileInfo.Exists);
+            Assert.IsNotNull(target.EaModelsList.Any());
+            Assert.IsNotNull(target.SelectedEaModel);
+            Assert.IsNotNull(target.SelectedEaModelName);
+
             target.EaXmlFileName = null;
             Assert.IsFalse(target.EaXmlFileInfo?.Exists == true);
         }
 
+        [TestMethod]
+        public void SolutionNameSetupTest1() {
+            var target = new DerivedTargetFilesDirectory();
+
+            var solutionFile = TestsBootstrapper.InputTestsFileInfo.GetFiles("TemplateGrid.sln").FirstOrDefault();
+            target.SolutionFileName = solutionFile?.FullName;
+
+            Assert.IsNotNull(target.SolutionFileInfo);
+            Assert.IsTrue(target.SolutionFileInfo.Exists);
+            Assert.IsTrue(target.NamespacesList.Any());
+            Assert.IsTrue(string.IsNullOrEmpty(target.SelectedNameSpace) == false);
+            Assert.IsTrue(string.IsNullOrEmpty(target.TargetFilesDirectoryName) == false);
+            Assert.IsNotNull(target.TargetFilesDirectoryInfo);
+        }
+
+        [TestMethod]
+        public void GeneratedFilesTest1() {
+            var target = new DerivedTargetFilesDirectory();
+
+            var eaXmlFileInfo = TestsBootstrapper.InputTestsFileInfo.GetFiles("WocGuide Model test.xml").FirstOrDefault();
+            target.TargetFilesDirectoryName = TestsBootstrapper.SolutionInfo.FullName;
+            var solutionFile = TestsBootstrapper.InputTestsFileInfo.GetFiles("TemplateGrid.sln").FirstOrDefault();
+            target.SolutionFileName = solutionFile?.FullName;
+
+
+            Assert.IsTrue(string.IsNullOrEmpty(target.StateMachineBaseFileName) == false);
+            Assert.IsTrue(string.IsNullOrEmpty(target.StateMachineDerivedFileName) == false);
+            Assert.IsTrue(string.IsNullOrEmpty(target.MainModelBaseFileName) == false);
+            Assert.IsTrue(string.IsNullOrEmpty(target.MainModelDerivedFileName) == false);
+        }
+
+        [TestMethod]
+        public void CloneTest1() {
+            var target = new DerivedTargetFilesDirectory();
+
+            target.EaXmlFileName = TestsBootstrapper.InputTestsFileInfo.GetFiles("WocGuide Model test.xml").FirstOrDefault()?.FullName;
+            target.SolutionFileName = TestsBootstrapper.InputTestsFileInfo.GetFiles("TemplateGrid.sln").FirstOrDefault()?.FullName;
+
+            var clone = target.Clone;
+            Assert.IsNotNull(clone);
+            Assert.AreNotEqual(target, clone);
+            Assert.AreEqual(target.EaXmlFileName, clone.EaXmlFileName);
+            Assert.AreNotSame( target.EaXmlFileName, clone.EaXmlFileName);
+            Assert.AreNotEqual(target.EaXmlFileName?.GetHashCode(), clone.EaXmlFileName.GetHashCode());
+            target.TargetFilesDirectoryName = TestsBootstrapper.SolutionInfo.FullName;
+
+
+        }
     }
 
     public class DerivedTargetFilesDirectory : TargetFilesDirectory {

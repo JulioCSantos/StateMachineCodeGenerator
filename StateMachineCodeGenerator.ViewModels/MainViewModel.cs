@@ -77,7 +77,7 @@ namespace StateMachineCodeGenerator.ViewModels
 
         #endregion PreviousInputFiles_CollectionChanged
 
-            #region PreviousInputFilesVisibility
+        #region PreviousInputFilesVisibility
         public string PreviousInputFilesVisibility {
             get {
                 if (PreviousInputFiles == null) { return "Collapsed"; }
@@ -146,7 +146,7 @@ namespace StateMachineCodeGenerator.ViewModels
         private void TargetFilesDirectory_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e) {
             switch (e.PropertyName) {
                 case nameof(TargetFilesDirectory.EaXmlFileInfo):
-                    if (TargetFilesDirectory.EaXmlFileInfo.Exists &&
+                    if (TargetFilesDirectory.EaXmlFileInfo?.Exists == true &&
                         string.IsNullOrEmpty(TargetFilesDirectory.SolutionFileName)) {
                         var solutionFiles = TargetFilesDirectory.EaXmlFileInfo
                             .Directory.FindFirstFilesInAncestors("*.sln", 2);
@@ -301,6 +301,7 @@ namespace StateMachineCodeGenerator.ViewModels
             var fileLocated = vm.ShowDialog(eaXmlFileName
                 , EnterpriseArchitectFilterLiteral) ?? view.Vm.ClosingResult;
             if (fileLocated == true) {
+                CleanUpTargetFilesDirectory();
                 TargetFilesDirectory.EaXmlFileName = vm.LocatedFileName;
             }
         }
@@ -408,7 +409,22 @@ namespace StateMachineCodeGenerator.ViewModels
         public void DeleteInputFilesItem(object obj) {
             if (CanDeleteInputFile == false) { return; }
             PreviousInputFiles.Remove(SelectedInputFileKey);
+            TargetFilesDirectory.EaXmlFileName = null;
+            CleanUpTargetFilesDirectory();
         }
+
+        private void CleanUpTargetFilesDirectory()
+        {
+            TargetFilesDirectory.SolutionFileName = null;
+            TargetFilesDirectory.TargetFilesDirectoryName = null;
+            TargetFilesDirectory.StateMachineBaseFileName = null;
+            TargetFilesDirectory.StateMachineDerivedFileName = null;
+            TargetFilesDirectory.MainModelBaseFileName = null;
+            TargetFilesDirectory.MainModelDerivedFileName = null;
+            TargetFilesDirectory.SelectedEaModelName = null;
+            TargetFilesDirectory.SelectedNameSpace = null;
+        }
+
         #endregion Delete Input Files item
 
         #region CanDeleteImputFile

@@ -1,0 +1,103 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31624.102
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "010 TemplateGrid.GUI", "TemplateGrid.GUI\010 TemplateGrid.GUI.csproj", "{32E918CD-3AAF-4EB9-9D57-A69DFA91674D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "020 TemplateGrid.ViewModels", "TemplateGrid.ViewModels\020 TemplateGrid.ViewModels.csproj", "{D758A1A7-4596-4E82-B5A6-0AA4468F2DCA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "030 TemplateGrid.Models", "TemplateGrid.Models\030 TemplateGrid.Models.csproj", "{DA73046E-F79B-433F-8D55-51833CA36565}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "035 TemplateGrid.MotionModel", "TemplateGrid.MotionModel\035 TemplateGrid.MotionModel.csproj", "{291EA80B-33D0-4CB4-8F86-F2D94731116B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "040 Common", "Common\040 Common.csproj", "{C9AEF7FC-6B53-4D97-A124-0FB12C4945E4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "090 TemplateGrid.Tests", "TemplateGrid.Tests\090 TemplateGrid.Tests.csproj", "{D991F83A-33D4-4701-BC0B-54A919A4C7A9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{CC8BF90C-12E9-473A-9BFB-6C07494088E7}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "140 Motion.Common", "Motion.Common\140 Motion.Common.csproj", "{EBD351A9-FD3A-40B1-B7E9-0B4876CCE955}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "120 Motion.ModelsViewModels", "Motion.ModelsViewModels\120 Motion.ModelsViewModels.csproj", "{31C84BF1-BD3C-4322-929D-072AFB04D310}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "100 Motion.Gui", "Motion.Gui\100 Motion.Gui.csproj", "{7CCEB458-3186-4943-89C8-2003285A24B1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "190 Motion.NTests", "Motion.NTests\190 Motion.NTests.csproj", "{284C634D-3C6B-4208-AE1F-EEADC1F0D01A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Resources", "Resources", "{B72F9066-DAF1-4ABB-85D3-AAB03B7694C4}"
+	ProjectSection(SolutionItems) = preProject
+		Resources\animation.mp4 = Resources\animation.mp4
+		Resources\Axis API.png = Resources\Axis API.png
+		Resources\Basic movements.mp4 = Resources\Basic movements.mp4
+		Resources\Columns Management.mp4 = Resources\Columns Management.mp4
+		Resources\Create new park coordinates.mp4 = Resources\Create new park coordinates.mp4
+		Resources\Legacy View.mp4 = Resources\Legacy View.mp4
+		Resources\MechanicalTests.mp4 = Resources\MechanicalTests.mp4
+		Resources\MotionControl metrics legacy.jpg = Resources\MotionControl metrics legacy.jpg
+		Resources\MotionControl metrics rewrite.jpg = Resources\MotionControl metrics rewrite.jpg
+		Resources\Move to Park.mp4 = Resources\Move to Park.mp4
+		Resources\Resizing demo.mp4 = Resources\Resizing demo.mp4
+		Resources\SES Group Meeting.pptx = Resources\SES Group Meeting.pptx
+		Resources\SES Group Meeting1.pps = Resources\SES Group Meeting1.pps
+		Resources\SES Group Meeting2.pps = Resources\SES Group Meeting2.pps
+		Resources\SES Group Meeting2.pptx = Resources\SES Group Meeting2.pptx
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{32E918CD-3AAF-4EB9-9D57-A69DFA91674D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{32E918CD-3AAF-4EB9-9D57-A69DFA91674D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{32E918CD-3AAF-4EB9-9D57-A69DFA91674D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{32E918CD-3AAF-4EB9-9D57-A69DFA91674D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D758A1A7-4596-4E82-B5A6-0AA4468F2DCA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D758A1A7-4596-4E82-B5A6-0AA4468F2DCA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D758A1A7-4596-4E82-B5A6-0AA4468F2DCA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D758A1A7-4596-4E82-B5A6-0AA4468F2DCA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DA73046E-F79B-433F-8D55-51833CA36565}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA73046E-F79B-433F-8D55-51833CA36565}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA73046E-F79B-433F-8D55-51833CA36565}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA73046E-F79B-433F-8D55-51833CA36565}.Release|Any CPU.Build.0 = Release|Any CPU
+		{291EA80B-33D0-4CB4-8F86-F2D94731116B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{291EA80B-33D0-4CB4-8F86-F2D94731116B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{291EA80B-33D0-4CB4-8F86-F2D94731116B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{291EA80B-33D0-4CB4-8F86-F2D94731116B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C9AEF7FC-6B53-4D97-A124-0FB12C4945E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9AEF7FC-6B53-4D97-A124-0FB12C4945E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9AEF7FC-6B53-4D97-A124-0FB12C4945E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9AEF7FC-6B53-4D97-A124-0FB12C4945E4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D991F83A-33D4-4701-BC0B-54A919A4C7A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D991F83A-33D4-4701-BC0B-54A919A4C7A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D991F83A-33D4-4701-BC0B-54A919A4C7A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D991F83A-33D4-4701-BC0B-54A919A4C7A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EBD351A9-FD3A-40B1-B7E9-0B4876CCE955}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EBD351A9-FD3A-40B1-B7E9-0B4876CCE955}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EBD351A9-FD3A-40B1-B7E9-0B4876CCE955}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EBD351A9-FD3A-40B1-B7E9-0B4876CCE955}.Release|Any CPU.Build.0 = Release|Any CPU
+		{31C84BF1-BD3C-4322-929D-072AFB04D310}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31C84BF1-BD3C-4322-929D-072AFB04D310}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31C84BF1-BD3C-4322-929D-072AFB04D310}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31C84BF1-BD3C-4322-929D-072AFB04D310}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7CCEB458-3186-4943-89C8-2003285A24B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7CCEB458-3186-4943-89C8-2003285A24B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7CCEB458-3186-4943-89C8-2003285A24B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7CCEB458-3186-4943-89C8-2003285A24B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{284C634D-3C6B-4208-AE1F-EEADC1F0D01A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{284C634D-3C6B-4208-AE1F-EEADC1F0D01A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{284C634D-3C6B-4208-AE1F-EEADC1F0D01A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{284C634D-3C6B-4208-AE1F-EEADC1F0D01A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {54F11D23-FFA5-4C3E-95AB-ED85E86436C6}
+	EndGlobalSection
+EndGlobal

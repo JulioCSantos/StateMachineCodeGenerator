@@ -20,6 +20,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "InputTestsFiles", "InputTes
 		InputTestsFiles\LaserProcessing Model.xml = InputTestsFiles\LaserProcessing Model.xml
 		InputTestsFiles\LaserWeld Model.eap = InputTestsFiles\LaserWeld Model.eap
 		InputTestsFiles\LaserWeld.xml = InputTestsFiles\LaserWeld.xml
+		InputTestsFiles\TemplateGrid.sln = InputTestsFiles\TemplateGrid.sln
 		InputTestsFiles\Waist SW Design Bad.eap = InputTestsFiles\Waist SW Design Bad.eap
 		InputTestsFiles\Waist SW Design Bad.xml = InputTestsFiles\Waist SW Design Bad.xml
 		InputTestsFiles\Waist SW Design Incomplete.eap = InputTestsFiles\Waist SW Design Incomplete.eap
