@@ -5,8 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StateMachineCodeGenerator.Gui"
         xmlns:gui="clr-namespace:StateMachineCodeGenerator.Gui"
+        xmlns:viewModels="clr-namespace:StateMachineCodeGenerator.ViewModels;assembly=StateMachineCodeGenerator.ViewModels"
         mc:Ignorable="d"
-        Title="GenSys State Machine Generator" Height="500" Width="800">
+        Title="GenSys State Machine Generator" 
+        Height="{Binding WindowHeight, Mode=TwoWay}" Width="800">
+    <Window.DataContext>
+        <viewModels:MainViewModel />
+    </Window.DataContext>
 
     <Grid>
         <!--<gui:FilesSelectionView />-->

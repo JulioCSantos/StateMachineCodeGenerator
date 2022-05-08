@@ -7,9 +7,9 @@
              xmlns:viewModels="clr-namespace:StateMachineCodeGenerator.ViewModels;assembly=StateMachineCodeGenerator.ViewModels"
              mc:Ignorable="d" 
              d:DesignHeight="500" d:DesignWidth="800">
-    <UserControl.DataContext>
+    <!--<UserControl.DataContext>
         <viewModels:MainViewModel />
-    </UserControl.DataContext>
+    </UserControl.DataContext>-->
     <UserControl.Resources>
         <Style x:Key="FilepathStyle"  TargetType="{x:Type TextBox}" >
             <Setter Property="MinHeight" Value="70" />
@@ -203,7 +203,7 @@
         <!-- #region Messages -->
         <ListBox Grid.Row="2" ItemsSource="{Binding Messages}" 
                  Height="{Binding MessagesHeight}" 
-                 Opacity="{Binding MessagesOpacity}" 
+                  
                  BorderThickness="0" >
 
         </ListBox>

@@ -1,17 +1,18 @@
 ﻿using StateMachineCodeGenerator.Common;
 using StateMachineCodeGenerator.Common.Extensions;
+using StateMachineMetadata.Model;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using System.Text.Json.Serialization;
+using System.Threading.Tasks;
 
 namespace StateMachineMetadata
 {
     public class TargetFilesDirectory : SetPropertyBase
     {
-
 
         #region properties
 
@@ -28,9 +29,27 @@ namespace StateMachineMetadata
             get => _eaXmlFileName;
             set {
                 SetProperty(ref _eaXmlFileName, value);
-                EaXmlFileInfo = null;
+                CursorHandler.Instance.AddBusyMember();
+                EaXmlFileInfo = null; // reset cache
+                EaXmlParsed = false;
                 RaisePropertyChanged(nameof(EaXmlFileCueColor));
-                if (EaXmlFileInfo?.Exists == true) { EaModelsList = Main.GetStateMachineModelFromEAXMLFile(EaXmlFileName); }
+                if (EaXmlFileInfo?.Exists == true) {
+                    try {
+                        EaModelsList = Main.GetStateMachineModelFromEAXMLFile(EaXmlFileName);
+                        EaXmlParsed = true;
+                    }
+                    catch (Exception) {
+                        EaXmlParsed = false;
+                        EaModelsList = null;
+                        SelectedEaModel = null;
+                        SolutionFileName = null;
+                        CleanUpTargetFilesDirectory();
+                        CursorHandler.Instance.RemoveBusyMember();
+                        throw ;
+                    }
+                    EaXmlParsed = true;
+
+                }
                 else { EaModelsList = null; }
             }
         }
@@ -42,6 +61,8 @@ namespace StateMachineMetadata
             get {
                 if (_eaXmlFileInfo != null) { return _eaXmlFileInfo; }
 
+                if (string.IsNullOrEmpty(EaXmlFileName)) { return null; }
+
                 try { EaXmlFileInfo = new FileInfo(EaXmlFileName); }
                 catch (Exception) { return _eaXmlFileInfo = null; }
 
@@ -51,7 +72,6 @@ namespace StateMachineMetadata
                 SetProperty( ref _eaXmlFileInfo, value);
               }
         }
-
         #endregion EaXmlFileInfo
 
         #region EaXmlFileCueColor
@@ -77,6 +97,14 @@ namespace StateMachineMetadata
             }
         }
         #endregion EaModelsList
+
+        #region EaXmlParsed
+        private bool _eaXmlParsed;
+        public bool EaXmlParsed {
+            get => _eaXmlParsed;
+            set => SetProperty(ref _eaXmlParsed, value);
+        }
+        #endregion EaXmlParsed
 
         #region IsModelSelectable
         public bool IsModelSelectable => (EaModelsList?.Count ?? 0) > 1;
@@ -138,8 +166,9 @@ namespace StateMachineMetadata
         #region SolutionFileInfo
         public FileInfo SolutionFileInfo {
             get {
-                try { return new FileInfo(SolutionFileName); }
-                catch (Exception) { return null; }
+                if (string.IsNullOrEmpty(SolutionFileName)) { return null;}
+
+                return new FileInfo(SolutionFileName);
             }
         }
         #endregion SolutionFileInfo
@@ -174,8 +203,10 @@ namespace StateMachineMetadata
         #region TargetFilesDirectoryPath
         public DirectoryInfo TargetFilesDirectoryInfo {
             get {
+                if (string.IsNullOrEmpty(TargetFilesDirectoryName)) { return null; }
+
                 try { return new DirectoryInfo(Path.GetFullPath(TargetFilesDirectoryName)); }
-                catch (Exception) { return null; }
+                catch { return null; }
             }
         }
         #endregion TargetFilesDirectoryPath
@@ -405,6 +436,15 @@ namespace StateMachineMetadata
 
         #endregion Clone
 
+        public void CleanUpTargetFilesDirectory() {
+            TargetFilesDirectoryName = null;
+            StateMachineBaseFileName = null;
+            StateMachineDerivedFileName = null;
+            MainModelBaseFileName = null;
+            MainModelDerivedFileName = null;
+            SelectedEaModelName = null;
+            SelectedNameSpace = null;
+        }
         #endregion properties
 
         #region TargetPath enum
@@ -475,8 +515,58 @@ namespace StateMachineMetadata
             this.PropertyChanged += TargetFilesDirectory_PropertyChanged;
         }
 
-        private void TargetFilesDirectory_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e) {
+        private async void TargetFilesDirectory_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e) {
             switch (e.PropertyName) {
+                //case nameof(EaXmlFileName):
+                //    CursorHandler.Instance.AddBusyMember();
+                //    EaXmlFileInfo = null; // reset cache
+                //    EaXmlParsed = false;
+                //    RaisePropertyChanged(nameof(EaXmlFileCueColor));
+                //    if (EaXmlFileInfo?.Exists == true) {
+                //        try {
+                //            EaModelsList = Main.GetStateMachineModelFromEAXMLFile(EaXmlFileName);
+                //            EaXmlParsed = true;
+                //        }
+                //        catch (Exception ) {
+                //            EaXmlParsed = false;
+                //            EaModelsList = null;
+                //            SelectedEaModel = null;
+                //            SolutionFileName = null;
+                //            CleanUpTargetFilesDirectory();
+                //            CursorHandler.Instance.RemoveBusyMember();
+                //            throw;
+                //        }
+                        
+
+                //        //try {
+                //        //    EaModelsList = await Task.Run(() => Main.GetStateMachineModelFromEAXMLFile(EaXmlFileName))
+                //        //        .ContinueWith((ct) => {
+                //        //            if (ct.IsFaulted) {
+                //        //                EaXmlParsed = false;
+                //        //                EaModelsList = null;
+                //        //                SolutionFileName = null;
+                //        //                CleanUpTargetFilesDirectory();
+                //        //                CursorHandler.Instance.RemoveBusyMember();
+                //        //                Exception exc = new Exception("Parsing " + EaXmlFileInfo.Name + " failed.");
+                //        //                if (ct?.Exception != null) {
+                //        //                    exc = new Exception("Parsing " + EaXmlFileInfo.Name + " failed."
+                //        //                        , ct?.Exception.InnerException);
+                //        //                }
+
+                //        //                throw exc;
+                //        //            }
+
+                //        //            return ct.Result;
+                //        //        }
+                //        //            , TaskScheduler.FromCurrentSynchronizationContext());
+                //        ////}
+                //        ////catch (Exception ex) { throw; }
+
+                //        EaXmlParsed = true;
+ 
+                //    }
+                //    else { EaModelsList = null; }
+                //    break;
                 case nameof(EaXmlFileInfo):
                     //fuzzy logic that finds solution in the ancestors folder of the EA XML Model file
                     if (EaXmlFileInfo?.Exists == true &&

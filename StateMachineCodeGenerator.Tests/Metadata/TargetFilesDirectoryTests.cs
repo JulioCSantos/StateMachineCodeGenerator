@@ -217,6 +217,8 @@ namespace StateMachineCodeGenerator.Tests.Metadata
             Assert.AreEqual(target.MainModelDerivedFileName, clone.MainModelDerivedFileName);
             Assert.AreNotSame(target.MainModelDerivedFileName, clone.MainModelDerivedFileName);
         }
+
+
     }
 
     public class DerivedTargetFilesDirectory : TargetFilesDirectory {

@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -104,6 +105,7 @@ namespace StateMachineCodeGenerator.ViewModels
                 else {
                     TargetFilesDirectory = InputFilesDirectory[value];
                     SetProperty(ref _selectedInputFileKey, value);
+                    TargetFilesDirectory.EaXmlParsed = true;
                     RaisePropertyChanged(nameof(CanGenerateCode));
                 }
                 RaisePropertyChanged(nameof(CanDeleteInputFile));
@@ -149,20 +151,16 @@ namespace StateMachineCodeGenerator.ViewModels
         private void TargetFilesDirectory_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e) {
             switch (e.PropertyName) {
                 case nameof(TargetFilesDirectory.EaXmlFileInfo):
-                    //if (TargetFilesDirectory.EaXmlFileInfo?.Exists == true &&
-                    //    string.IsNullOrEmpty(TargetFilesDirectory.SolutionFileName)) {
-                    //    var solutionFiles = TargetFilesDirectory.EaXmlFileInfo
-                    //        .Directory.FindFirstFilesInAncestors("*.sln", 2);
-                    //    if (solutionFiles.Any()) {
-                    //        TargetFilesDirectory.SolutionFileName = solutionFiles.First().FullName;
-                    //    }
-                    //}
-
-                    //goto case nameof(TargetFilesDirectory.TargetFilesDirectoryInfo);
+                case nameof(TargetFilesDirectory.EaXmlParsed):
                 case nameof(TargetFilesDirectory.TargetFilesDirectoryInfo):
+                    if (TargetFilesDirectory.EaXmlParsed == false) {
+                        SelectedInputFileKey = null;
+                        //TargetFilesDirectory.CleanUpTargetFilesDirectory();
+                    }
                     RaisePropertyChanged(nameof(CanGenerateCode));
                     RaisePropertyChanged(nameof(GenerateCodeTooltip));
                     break;
+
             }
         }
 
@@ -184,41 +182,10 @@ namespace StateMachineCodeGenerator.ViewModels
         #endregion Messages
 
         #region MessagesOnCollectionChanged
-        private async void MessagesOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e) {
-            await ShowVanishingMessages();
-            MessagesOpacity = 1;
-            //MessagesHeight = Messages.Count * 25;
+        private void MessagesOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e) {
+            RaisePropertyChanged(nameof(MessagesHeight));
         }
         #endregion MessagesOnCollectionChanged
-
-        #region ShowVanishingMessages
-        public async Task ShowVanishingMessages() {
-            MessagesHeight = Messages.Count * 25;
-            var refreshRate = 75;
-            var showDurMilliseconds = 3000;
-            var iterations = showDurMilliseconds / refreshRate;
-            for (int i = 1; i <= iterations; i++) {
-                await Task.Delay(refreshRate);
-                MessagesOpacity = (iterations - (double)i) / iterations;
-                if (i == iterations/ 4 * 3) {
-                    await StartCollapsingMessages(iterations / 4 * refreshRate);
-
-                }
-            }
-            MessagesHeight = 0;
-        }
-        #endregion ShowVanishingMessages
-
-        #region StartCollapsingMessages
-        public async Task StartCollapsingMessages(double durationInMilliseconds) {
-            var interval = (int)durationInMilliseconds / 10;
-            var origHeight = MessagesHeight;
-            for (int i = 1; i <= 10; i++) {
-                await Task.Delay(interval);
-                MessagesHeight = origHeight / 10 * (10 - i);
-            }
-        }
-        #endregion StartCollapsingMessages
 
         #region MsgNbr
         private static int _messagesCount;
@@ -231,24 +198,36 @@ namespace StateMachineCodeGenerator.ViewModels
         }
         #endregion MsgNbr
 
-        #region LogMessage
-        public void LogMessage(string message) {
+        #region AddMessage
+        public void AddMessage(string message) {
             var messageWithPrefix = MsgNbr + message;
             if (Messages.Any() && Messages[0].Contains(message)) { Messages[0] = messageWithPrefix; }
             else {
-                if (Messages.Count >= 5) { Messages.Remove(Messages.Last()); }
                 Messages.Insert(0, messageWithPrefix);
             }
         }
-        #endregion LogMessage
+        #endregion AddMessage
 
         #region MessagesHeight
         private double _messagesHeight;
         public double MessagesHeight {
-            get => _messagesHeight;
+            get {
+                MessagesHeight = Math.Min(Messages.Count * 22, 100);
+                return _messagesHeight;
+            }
             set => SetProperty(ref _messagesHeight, value);
         }
+
         #endregion MessagesHeight
+
+        #region WindowHeight
+        private double _windowHeight = 500;
+        public double WindowHeight {
+            get => _windowHeight + MessagesHeight;
+            set => SetProperty(ref _windowHeight, value);
+        }
+
+        #endregion WindowHeight
 
         #region MessagesOpacity
         private double _messagesOpacity;
@@ -278,10 +257,17 @@ namespace StateMachineCodeGenerator.ViewModels
 
             this.TargetFilesDirectory = new TargetFilesDirectory();
 
+            this.PropertyChanged += MainViewModel_PropertyChanged;
+
         }
 
-
-
+        private void MainViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e) {
+            switch (e.PropertyName) {
+                case nameof(MessagesHeight):
+                    RaisePropertyChanged(nameof(WindowHeight));
+                    break;
+            }
+        }
         #endregion constructor
 
         #region commands
@@ -296,6 +282,7 @@ namespace StateMachineCodeGenerator.ViewModels
         #region LocateEaXmlFile
         public const string EnterpriseArchitectFilterLiteral = "EA files (*.xml)|*.xml|All files (*.*)|*.*";
         public void LocateEaXmlFile(object path) {
+            TargetFilesDirectory = new TargetFilesDirectory();
             IPopupView view = DialogServices.Instance.Dialogs[nameof(LocateFileViewModel)];
             var vm = view.Vm as LocateFileViewModel;
             if (vm == null) throw new Exception(); // will not happen
@@ -304,8 +291,13 @@ namespace StateMachineCodeGenerator.ViewModels
             var fileLocated = vm.ShowDialog(eaXmlFileName
                 , EnterpriseArchitectFilterLiteral) ?? view.Vm.ClosingResult;
             if (fileLocated == true) {
-                CleanUpTargetFilesDirectory();
-                TargetFilesDirectory.EaXmlFileName = vm.LocatedFileName;
+                try {
+                    TargetFilesDirectory.EaXmlFileName = vm.LocatedFileName;
+                }
+                catch (Exception e) {
+                    var filename = (new FileInfo(TargetFilesDirectory.EaXmlFileName)).Name;
+                    AddMessage($"{filename}: {e.Message}");
+                }
             }
         }
         #endregion LocateEaXmlFile
@@ -366,7 +358,13 @@ namespace StateMachineCodeGenerator.ViewModels
 
         #region CanGenerateCode
         public bool CanGenerateCode {
-            get => TargetFilesDirectory.EaXmlFileInfo?.Exists == true && TargetFilesDirectory.TargetFilesDirectoryInfo != null;
+            get {
+                var currCanGenerateCode = TargetFilesDirectory.EaXmlFileInfo?.Exists == true
+                       && TargetFilesDirectory.TargetFilesDirectoryInfo != null
+                       && TargetFilesDirectory.EaXmlParsed;
+
+                return currCanGenerateCode;
+            }
         }
         #endregion CanGenerateCode
 
@@ -397,7 +395,7 @@ namespace StateMachineCodeGenerator.ViewModels
                 TargetFilesDirectory.TargetFilesDirectoryName = 
                     TargetFilesDirectory.TargetFilesDirectoryName; 
                 // update log messages panel
-                LogMessage("State machine files generated for " + key);
+                AddMessage("State machine files generated for " + key);
                 PersistPreviousInputFiles(key);
                 await Task.Delay(300); // give enough time to observe the busy indicator
             }
@@ -413,20 +411,9 @@ namespace StateMachineCodeGenerator.ViewModels
             if (CanDeleteInputFile == false) { return; }
             PreviousInputFiles.Remove(SelectedInputFileKey);
             TargetFilesDirectory.EaXmlFileName = null;
-            CleanUpTargetFilesDirectory();
+            TargetFilesDirectory.CleanUpTargetFilesDirectory();
         }
 
-        private void CleanUpTargetFilesDirectory()
-        {
-            TargetFilesDirectory.SolutionFileName = null;
-            TargetFilesDirectory.TargetFilesDirectoryName = null;
-            TargetFilesDirectory.StateMachineBaseFileName = null;
-            TargetFilesDirectory.StateMachineDerivedFileName = null;
-            TargetFilesDirectory.MainModelBaseFileName = null;
-            TargetFilesDirectory.MainModelDerivedFileName = null;
-            TargetFilesDirectory.SelectedEaModelName = null;
-            TargetFilesDirectory.SelectedNameSpace = null;
-        }
 
         #endregion Delete Input Files item
 

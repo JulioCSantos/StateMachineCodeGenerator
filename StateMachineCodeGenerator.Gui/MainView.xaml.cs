@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace StateMachineCodeGenerator.Gui
 {
@@ -25,9 +26,22 @@ namespace StateMachineCodeGenerator.Gui
         public MainViewModel Vm { get; protected set; }
         public MainView() {
             InitializeComponent();
-            Vm = (MainViewModel) DataContext;
+            Vm = (MainViewModel) DataContext ?? new MainViewModel();
             this.Loaded += MainView_Loaded;
             CursorHandler.Instance.PropertyChanged += Instance_PropertyChanged;
+
+            //AppDomain.CurrentDomain.UnhandledException += (sndr, args) => { Vm.Messages.Add(
+            //    ((Exception)args.ExceptionObject).Message);  };
+            Dispatcher.UnhandledException += Dispatcher_UnhandledException;
+            //Application.Current.DispatcherUnhandledException += (sndr, args) => { System.Diagnostics.Debugger.Break();
+            //    args.Handled = true;
+            //};
+            //TaskScheduler.UnobservedTaskException += (sndr, args) => { System.Diagnostics.Debugger.Break(); };
+        }
+
+        private void Dispatcher_UnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e) {
+            Vm.AddMessage(e.Exception.Message);
+            e.Handled = true;
         }
 
         private void Instance_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e) {
