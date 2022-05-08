@@ -265,7 +265,7 @@ namespace StateMachineMetadata
             if (solutionFile == null) solutionFile = SolutionFileName;
             if (codeGeneratedPath == null) codeGeneratedPath = CodeGeneratedPath;
 
-            if (solutionFile == null || codeGeneratedPath == null) throw new ArgumentNullException();
+            if (solutionFile == null || codeGeneratedPath == null) throw new ArgumentNullException(nameof(solutionFile) + " or " + nameof(codeGeneratedPath) + " is null.");
 
 
             var targetPaths = new Dictionary<TargetPath, string>();

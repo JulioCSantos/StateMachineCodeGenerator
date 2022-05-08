@@ -409,9 +409,10 @@ namespace StateMachineCodeGenerator.ViewModels
         #region Delete Input Files item
         public void DeleteInputFilesItem(object obj) {
             if (CanDeleteInputFile == false) { return; }
-            PreviousInputFiles.Remove(SelectedInputFileKey);
             TargetFilesDirectory.EaXmlFileName = null;
+            TargetFilesDirectory.SolutionFileName = null;
             TargetFilesDirectory.CleanUpTargetFilesDirectory();
+            PreviousInputFiles.Remove(SelectedInputFileKey);
         }
 
 

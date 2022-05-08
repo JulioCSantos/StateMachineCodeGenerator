@@ -45,7 +45,9 @@ namespace StateMachineMetadata
                 var transt = new InternalTransition(xComm.GetId(), documentation, documentationHasCommentsOnly);
                 transt.Map(xComm);
                 ConnectInternalTransitionsToOwnerState(transt);
-                if (transt.Trigger == null || transt.OwnerState == null) { Debugger.Break(); continue; }
+                if (transt.Trigger == null || transt.OwnerState == null) {
+                    throw new Exception(nameof(transt.Trigger) + " or " + nameof(transt.OwnerState) + " is null.");
+                }
                 ElementsDictionary.Add(transt.Id, transt);
                 model.Transitions.Add(transt);
                 if (transt.Trigger != null) model.Triggers.Add(transt.Trigger);
@@ -67,7 +69,7 @@ namespace StateMachineMetadata
             var intTransDrawnElem = xml.DrawnElems.Where(de => de.GetSubject() == intTrans.Id).FirstOrDefault();
             if (intTransDrawnElem == null)
                 intTransDrawnElem = xml.ContentElem.Descendants().Where(de => de.GetSubject() == intTrans.Id).FirstOrDefault();
-            if (intTransDrawnElem == null && Debugger.IsAttached) Debugger.Break(); //DiagramElement (geometry) not found anywhere
+            if (intTransDrawnElem == null) { throw new Exception("DiagramElement (geometry) not found"); } //DiagramElement (geometry) not found anywhere
             var intTransCoord = (Coordinates)intTransDrawnElem.ToCoordinates();
 
             System.Xml.Linq.XElement container = null;
@@ -85,7 +87,10 @@ namespace StateMachineMetadata
                 if (container == null) continue;
                 intTrans.OwnerState = model.States.FirstOrDefault(s => s.Id == container.GetSubject() && s.GetType() == typeof(State)) as State;
             }
-            if (intTrans.OwnerState == null && Debugger.IsAttached) Debugger.Break(); //Owner State not found for this Comment/InternalTransition
+
+            if (intTrans.OwnerState == null) {
+                throw new Exception("Owner State not found for " + intTrans.Name);
+            } //Owner State not found for this Comment/InternalTransition
         }
 
         #endregion MapCommentsToInternalTransitions
@@ -212,7 +217,8 @@ namespace StateMachineMetadata
             ConnectTransitions();
             ManufactureMissingActions();
             SetActionNames();
-            if (model.Transitions.OfType<ExternalTransition>().Any(t => t.Source == null || t.Target == null)) Debugger.Break();
+            if (model.Transitions.OfType<ExternalTransition>().Any(t => t.Source == null || t.Target == null)) {
+                throw new Exception("MapTransitions failed"); };
         }
 
 

@@ -35,6 +35,7 @@ namespace StateMachineMetadata
                 RaisePropertyChanged(nameof(EaXmlFileCueColor));
                 if (EaXmlFileInfo?.Exists == true) {
                     try {
+                        CursorHandler.Instance.AddBusyMember();
                         EaModelsList = Main.GetStateMachineModelFromEAXMLFile(EaXmlFileName);
                         EaXmlParsed = true;
                     }
@@ -517,56 +518,6 @@ namespace StateMachineMetadata
 
         private async void TargetFilesDirectory_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e) {
             switch (e.PropertyName) {
-                //case nameof(EaXmlFileName):
-                //    CursorHandler.Instance.AddBusyMember();
-                //    EaXmlFileInfo = null; // reset cache
-                //    EaXmlParsed = false;
-                //    RaisePropertyChanged(nameof(EaXmlFileCueColor));
-                //    if (EaXmlFileInfo?.Exists == true) {
-                //        try {
-                //            EaModelsList = Main.GetStateMachineModelFromEAXMLFile(EaXmlFileName);
-                //            EaXmlParsed = true;
-                //        }
-                //        catch (Exception ) {
-                //            EaXmlParsed = false;
-                //            EaModelsList = null;
-                //            SelectedEaModel = null;
-                //            SolutionFileName = null;
-                //            CleanUpTargetFilesDirectory();
-                //            CursorHandler.Instance.RemoveBusyMember();
-                //            throw;
-                //        }
-                        
-
-                //        //try {
-                //        //    EaModelsList = await Task.Run(() => Main.GetStateMachineModelFromEAXMLFile(EaXmlFileName))
-                //        //        .ContinueWith((ct) => {
-                //        //            if (ct.IsFaulted) {
-                //        //                EaXmlParsed = false;
-                //        //                EaModelsList = null;
-                //        //                SolutionFileName = null;
-                //        //                CleanUpTargetFilesDirectory();
-                //        //                CursorHandler.Instance.RemoveBusyMember();
-                //        //                Exception exc = new Exception("Parsing " + EaXmlFileInfo.Name + " failed.");
-                //        //                if (ct?.Exception != null) {
-                //        //                    exc = new Exception("Parsing " + EaXmlFileInfo.Name + " failed."
-                //        //                        , ct?.Exception.InnerException);
-                //        //                }
-
-                //        //                throw exc;
-                //        //            }
-
-                //        //            return ct.Result;
-                //        //        }
-                //        //            , TaskScheduler.FromCurrentSynchronizationContext());
-                //        ////}
-                //        ////catch (Exception ex) { throw; }
-
-                //        EaXmlParsed = true;
- 
-                //    }
-                //    else { EaModelsList = null; }
-                //    break;
                 case nameof(EaXmlFileInfo):
                     //fuzzy logic that finds solution in the ancestors folder of the EA XML Model file
                     if (EaXmlFileInfo?.Exists == true &&
