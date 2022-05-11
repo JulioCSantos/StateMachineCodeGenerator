@@ -150,13 +150,14 @@ namespace StateMachineCodeGenerator.ViewModels
 
         private void TargetFilesDirectory_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e) {
             switch (e.PropertyName) {
-                case nameof(TargetFilesDirectory.EaXmlFileInfo):
                 case nameof(TargetFilesDirectory.EaXmlParsed):
-                case nameof(TargetFilesDirectory.TargetFilesDirectoryInfo):
                     if (TargetFilesDirectory.EaXmlParsed == false) {
                         SelectedInputFileKey = null;
                         //TargetFilesDirectory.CleanUpTargetFilesDirectory();
                     }
+                    goto case (nameof(TargetFilesDirectory.TargetFilesDirectoryInfo));
+                case nameof(TargetFilesDirectory.EaXmlFileInfo):
+                case nameof(TargetFilesDirectory.TargetFilesDirectoryInfo):
                     RaisePropertyChanged(nameof(CanGenerateCode));
                     RaisePropertyChanged(nameof(GenerateCodeTooltip));
                     break;
@@ -165,6 +166,14 @@ namespace StateMachineCodeGenerator.ViewModels
         }
 
         #endregion TargetFilesDirectory
+
+        #region WindowTitle
+        private string _windowTitle;
+        public string WindowTitle
+        {
+            get { return _windowTitle ??= "GenSys State Machine Generator V" + Assembly.GetExecutingAssembly().GetName().Version; }
+        }
+        #endregion WindowTitle
 
         #region Messages animation
 
@@ -248,7 +257,7 @@ namespace StateMachineCodeGenerator.ViewModels
                 InputFilesDirectory = JsonSerializer.Deserialize<Dictionary<string, TargetFilesDirectory>>(serializedInputFiles);
                 if (InputFilesDirectory != null) {
                     //instantiate through backing field to avoid collection Changed handling
-                    _previousInputFiles = new ObservableCollection<string>(); 
+                    _previousInputFiles = new ObservableCollection<string>();
                     InputFilesDirectory.Keys.ToList().ForEach(k => _previousInputFiles.Add(k));
                     PreviousInputFiles = _previousInputFiles; //this activates CollectionChanged event
                 }
@@ -288,8 +297,7 @@ namespace StateMachineCodeGenerator.ViewModels
             if (vm == null) throw new Exception(); // will not happen
             var eaXmlFileName = string.IsNullOrEmpty(TargetFilesDirectory.EaXmlFileName) ? 
                 TargetFilesDirectory.EaXmlFileNameLiteral : TargetFilesDirectory.EaXmlFileName;
-            var fileLocated = vm.ShowDialog(eaXmlFileName
-                , EnterpriseArchitectFilterLiteral) ?? view.Vm.ClosingResult;
+            var fileLocated = vm.ShowDialog(eaXmlFileName) ?? view.Vm.ClosingResult;
             if (fileLocated == true) {
                 try {
                     TargetFilesDirectory.EaXmlFileName = vm.LocatedFileName;
@@ -397,7 +405,7 @@ namespace StateMachineCodeGenerator.ViewModels
                 // update log messages panel
                 AddMessage("State machine files generated for " + key);
                 PersistPreviousInputFiles(key);
-                await Task.Delay(300); // give enough time to observe the busy indicator
+                //await Task.Delay(300); // give enough time to observe the busy indicator
             }
             RaisePropertyChanged(nameof(PreviousInputFilesVisibility));
             CursorHandler.Instance.RemoveBusyMember();
@@ -409,10 +417,12 @@ namespace StateMachineCodeGenerator.ViewModels
         #region Delete Input Files item
         public void DeleteInputFilesItem(object obj) {
             if (CanDeleteInputFile == false) { return; }
+
+            var asdf = SelectedInputFileKey;
             TargetFilesDirectory.EaXmlFileName = null;
             TargetFilesDirectory.SolutionFileName = null;
             TargetFilesDirectory.CleanUpTargetFilesDirectory();
-            PreviousInputFiles.Remove(SelectedInputFileKey);
+            PreviousInputFiles.Remove(asdf);
         }
 
 

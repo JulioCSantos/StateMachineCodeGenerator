@@ -26,7 +26,7 @@ namespace StateMachineCodeGenerator.Gui
         public MainViewModel Vm { get; protected set; }
         public MainView() {
             InitializeComponent();
-            Vm = (MainViewModel) DataContext ?? new MainViewModel();
+            Vm = (MainViewModel)Application.Current.MainWindow?.DataContext ?? new MainViewModel();
             this.Loaded += MainView_Loaded;
             CursorHandler.Instance.PropertyChanged += Instance_PropertyChanged;
 

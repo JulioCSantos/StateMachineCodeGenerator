@@ -21,9 +21,11 @@ namespace StateMachineMetadata
         #region EA XML Model
 
         #region EaXmlFileName
+        public readonly string EaXmlFileNameLiteral = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+
         //public const string EaXmlFileNameLiteral = @"C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\InputTestsFiles\LaserProcessing Model new test.xml";
         //public const string EaXmlFileNameLiteral = @"C:\Users\santosj25\source\repos\StateMachineCodeGenerator\InputTestsFiles\LaserProcessing Model new test.xml";
-        public const string EaXmlFileNameLiteral = @"C:\Users\santosj25\source\GenSysTest\MotionSolutions\LLSystemNew\Modeling\LLSystem State Machine Export.xml";
+        //public const string EaXmlFileNameLiteral = @"C:\Users\santosj25\source\GenSysTest\MotionSolutions\LLSystemNew\Modeling\LLSystem State Machine Export.xml";
         private string _eaXmlFileName;
         public string EaXmlFileName {
             get => _eaXmlFileName;
@@ -133,7 +135,7 @@ namespace StateMachineMetadata
             get => _selectedEaModelName ??= SelectedEaModel?.Name;
             set {
                 // remove previous model name from Target Files' directory name
-                if (_selectedEaModelName != null && TargetFilesDirectoryName?.EndsWith(_selectedEaModelName) == true) {
+                if (string.IsNullOrEmpty(_selectedEaModelName) == false && TargetFilesDirectoryName?.EndsWith(_selectedEaModelName) == true) {
                     var targetDirectoryName = new DirectoryInfo(TargetFilesDirectoryName);
                     TargetFilesDirectoryName = targetDirectoryName?.Parent?.FullName;
                 }
@@ -149,8 +151,9 @@ namespace StateMachineMetadata
         #region SolutionFileName & SolutionFileInfo
 
         #region SolutionFileName
+        public readonly string TargetSolutionLiteral = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         //public const string TargetSolutionLiteral = @"C:\Users\julio\Documents\Visual Studio 2019\Projects\MyCompanies\Corning\TemplateGrid\TemplateGrid.sln";
-        public const string TargetSolutionLiteral = @"C:\Users\santosj25\source\repos\JulioCSantos\StateMachineCodeGenerator\TestsSubject\TestsSubject.sln";
+        //public const string TargetSolutionLiteral = @"C:\Users\santosj25\source\repos\JulioCSantos\StateMachineCodeGenerator\TestsSubject\TestsSubject.sln";
         //public const string TargetSolutionLiteral = @"C:\Users\julio\source\repos\JulioCSantos\StateMachineCodeGenerator\TestsSubject";
 
         private string _solutionFileName;
