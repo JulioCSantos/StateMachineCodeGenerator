@@ -38,6 +38,7 @@ namespace StateMachineMetadata
                 if (EaXmlFileInfo?.Exists == true) {
                     try {
                         CursorHandler.Instance.AddBusyMember();
+                        EaXmlParsed = true;
                         EaModelsList = Main.GetStateMachineModelFromEAXMLFile(EaXmlFileName);
                         EaXmlParsed = true;
                     }
@@ -47,9 +48,9 @@ namespace StateMachineMetadata
                         SelectedEaModel = null;
                         SolutionFileName = null;
                         CleanUpTargetFilesDirectory();
-                        CursorHandler.Instance.RemoveBusyMember();
                         throw ;
                     }
+                    finally{ CursorHandler.Instance.RemoveBusyMember(); }
                     EaXmlParsed = true;
 
                 }
