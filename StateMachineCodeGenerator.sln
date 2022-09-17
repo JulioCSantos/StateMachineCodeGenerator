@@ -11,6 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "InputTestsFiles", "InputTes
 		InputTestsFiles\California Model.xml = InputTestsFiles\California Model.xml
 		InputTestsFiles\CCaliforniaStateMachine.cs = InputTestsFiles\CCaliforniaStateMachine.cs
 		InputTestsFiles\CGuideStateMachine.cs = InputTestsFiles\CGuideStateMachine.cs
+		InputTestsFiles\GlassDevelopmentStateMachineExport.xml = InputTestsFiles\GlassDevelopmentStateMachineExport.xml
 		InputTestsFiles\LaserProcessing Model new test.xml = InputTestsFiles\LaserProcessing Model new test.xml
 		InputTestsFiles\LaserProcessing Model new.xml = InputTestsFiles\LaserProcessing Model new.xml
 		InputTestsFiles\LaserProcessing Model test.xml = InputTestsFiles\LaserProcessing Model test.xml

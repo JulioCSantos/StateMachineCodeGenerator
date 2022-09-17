@@ -17,10 +17,11 @@ namespace StateMachineMetadata.Model
 
         private string _name;
 
-        public override string Name {
+        public override string Name
+        {
             get {
-                var name = _name.Replace("Diagram", "").Replace("State", "").Replace(" ", "");
-                if (string.IsNullOrEmpty(name)) { name = "UnNamed"; }
+                var name = _name.Replace("Diagram","").Replace("State","").Replace(" ","");
+                if (string.IsNullOrEmpty(name)) {name = "UnNamed";}
                 return name;
             }
             set => _name = value;
