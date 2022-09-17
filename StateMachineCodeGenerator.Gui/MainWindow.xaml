@@ -7,7 +7,6 @@
         xmlns:gui="clr-namespace:StateMachineCodeGenerator.Gui"
         xmlns:viewModels="clr-namespace:StateMachineCodeGenerator.ViewModels;assembly=StateMachineCodeGenerator.ViewModels"
         mc:Ignorable="d"
-        Title="{Binding WindowTitle, Mode=OneTime}" 
         Height="{Binding WindowHeight, Mode=TwoWay}" Width="800">
     <Window.DataContext>
         <viewModels:MainViewModel />

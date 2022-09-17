@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StateMachineCodeGenerator.Common;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -11,5 +12,10 @@ namespace StateMachineCodeGenerator.Gui {
     /// Interaction logic for App.xaml
     /// </summary>
     public partial class App : Application {
+
+        public App() {
+            // instantiate Logger
+            XPLogger.GetInstance();
+        }
     }
 }

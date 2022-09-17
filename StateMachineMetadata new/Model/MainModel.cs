@@ -15,13 +15,17 @@ namespace StateMachineMetadata.Model
             this.Name = name;
         }
 
-        private string name;
+        private string _name;
 
-        public override string Name
-        {
-            get { return name.Replace("Diagram","").Replace("State","").Replace(" ",""); }
-            set { name = value; }
+        public override string Name {
+            get {
+                var name = _name.Replace("Diagram", "").Replace("State", "").Replace(" ", "");
+                if (string.IsNullOrEmpty(name)) { name = "UnNamed"; }
+                return name;
+            }
+            set => _name = value;
         }
+
 
         private List<StateBase> states;
         public List<StateBase> States { get { return states ?? (states = new List<StateBase>()); } }

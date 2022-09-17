@@ -8,6 +8,7 @@ using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using ErrorSeverity = StateMachineCodeGenerator.Common.ErrorSeverity;
 
 namespace StateMachineMetadata
 {
@@ -38,17 +39,20 @@ namespace StateMachineMetadata
                 if (EaXmlFileInfo?.Exists == true) {
                     try {
                         CursorHandler.Instance.AddBusyMember();
-                        EaXmlParsed = true;
+                        //EaXmlParsed = true;
                         EaModelsList = Main.GetStateMachineModelFromEAXMLFile(EaXmlFileName);
                         EaXmlParsed = true;
                     }
-                    catch (Exception) {
+                    catch (Exception e) {
                         EaXmlParsed = false;
                         EaModelsList = null;
                         SelectedEaModel = null;
                         SolutionFileName = null;
                         CleanUpTargetFilesDirectory();
-                        throw ;
+
+                        var err = ErrorLog.GetEditedErrorLog(TargetFilesDirectoryErr1.Id, new object[] { EaXmlFileInfo.Name});
+                        err.Message += " - " + e.Message;
+                        XPLogger.Instance.AddError(err);
                     }
                     finally{ CursorHandler.Instance.RemoveBusyMember(); }
                     EaXmlParsed = true;
@@ -450,6 +454,9 @@ namespace StateMachineMetadata
             SelectedEaModelName = null;
             SelectedNameSpace = null;
         }
+
+        public ErrorLog TargetFilesDirectoryErr1 = new (nameof(TargetFilesDirectoryErr1), "EA Xml file {0} is ill formed.", ErrorSeverity.Error);
+
         #endregion properties
 
         #region TargetPath enum

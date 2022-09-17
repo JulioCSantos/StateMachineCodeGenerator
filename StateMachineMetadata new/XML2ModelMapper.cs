@@ -1,4 +1,5 @@
-﻿using StateMachineMetadata.Extensions;
+﻿using StateMachineCodeGenerator.Common;
+using StateMachineMetadata.Extensions;
 using StateMachineMetadata.Model;
 using System;
 using System.Collections.Generic;
@@ -7,6 +8,7 @@ using System.Linq;
 //using System.Net.Configuration;
 using System.Text;
 using System.Threading.Tasks;
+using ErrorSeverity = StateMachineMetadata.Model.ErrorSeverity;
 
 namespace StateMachineMetadata
 {
@@ -14,7 +16,11 @@ namespace StateMachineMetadata
     {
         private ParsedXmlFile xml;
         private MainModel model;
-        public Dictionary<string, EntityBase> ElementsDictionary = new Dictionary<string, EntityBase>(); 
+        public Dictionary<string, EntityBase> ElementsDictionary = new Dictionary<string, EntityBase>();
+
+        public readonly ErrorLog XML2ModelMapperErr1 = new ErrorLog(nameof(XML2ModelMapperErr1),
+            "Parent/owner not found for state {0}.", StateMachineCodeGenerator.Common.ErrorSeverity.Warning);
+
         public void Map(ParsedXmlFile parsedXmlFile, MainModel mainModel)
         {
             xml = parsedXmlFile;
@@ -155,33 +161,44 @@ namespace StateMachineMetadata
             }
         }
 
-        private void ConnectToOwnerStates()
-        {
-            foreach (var state in ElementsDictionary.Values.Cast<StateBase>().Where(s => !string.IsNullOrEmpty(s.OwnerId)))
+        private void ConnectToOwnerStates() {
+            var children = ElementsDictionary.Values.Cast<StateBase>().Where(s => !string.IsNullOrEmpty(s.OwnerId));
+            foreach (var stateWithParent in children)
             {
-                if (ElementsDictionary.ContainsKey(state.OwnerId))
+                //if (stateWithParent.OwnerId == null) {System.Diagnostics.Debugger.Break();}
+                //if (stateWithParent.Name == "SystemPoweredState") { System.Diagnostics.Debugger.Break(); }
+                if (ElementsDictionary.ContainsKey(stateWithParent.OwnerId))
                 {
-                    state.Owner = ElementsDictionary[state.OwnerId] as State;
-                    if (!state.Owner.Children.Contains(state))
-                        state.Owner.Children.Add(state);
+                    stateWithParent.Owner = ElementsDictionary[stateWithParent.OwnerId] as State;
+                    if (!stateWithParent.Owner.Children.Contains(stateWithParent))
+                        stateWithParent.Owner.Children.Add(stateWithParent);
                 }
 
-                if (state.Owner == null)
-                {
+                //if (stateWithParent.Owner == null)
+                //{
 
-                    var e1 = xml.PrimaryElems.Where(pe => pe.GetId() == state.OwnerId);
-                    var e2 = xml.DrawnElems.Where(ae => ae.Attribute("subject")?.Value == state.OwnerId);
+                //    var e1 = xml.PrimaryElems.Where(pe => pe.GetId() == stateWithParent.OwnerId);
+                //    var e2 = xml.DrawnElems.Where(ae => ae.Attribute("subject")?.Value == stateWithParent.OwnerId);
 
-                    if (e1.Any() && !e2.Any())
-                    {
-                        var errorMsg = $"Parent/Owner not found. State:'{state.Name}/{state.Id}', Owner:'{e1.First().Attribute("name").Value}/{e1.First().GetId()}' is missing in Diagram '{model.DiagramName}'";
-                        //if (Debugger.IsAttached) Debugger.Break();
-                    }
-                }
-                else if (state.Owner == null)
-                {
-                    throw new Exception("Parent/Owner not found");
-                }
+                //    if (e1.Any() && !e2.Any())
+                //    {
+                //        var errorMsg = $"Parent/Owner not found. State:'{stateWithParent.Name}/{stateWithParent.Id}', Owner:'{e1.First().Attribute("name").Value}/{e1.First().GetId()}' is missing in Diagram '{model.DiagramName}'";
+                //        //if (Debugger.IsAttached) Debugger.Break();
+                //    }
+                //}
+                //else if (stateWithParent.Owner == null)
+                //{
+                //    throw new Exception("Parent/Owner not found");
+                //}
+            }
+            var orphans = ElementsDictionary.Values.Cast<StateBase>().Where(s => string.IsNullOrEmpty(s.OwnerId));
+            foreach (StateBase orphanState in orphans) {
+                var orphanStateName = $"'{orphanState.Name}/{orphanState.Id}'";
+                var err = ErrorLog.GetEditedErrorLog(XML2ModelMapperErr1.Id, new object[] { orphanStateName });
+                XPLogger.Instance.AddError(err);
+                //var errorMsg = $"Parent(Owner) not found for State: '{orphanState.Name}/{orphanState.Id}'";
+
+                //throw new Exception("Parent/Owner not found");
             }
         }
 

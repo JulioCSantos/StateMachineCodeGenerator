@@ -3,7 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31729.503
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestsSubject", "TestsSubject\TestsSubject.csproj", "{1B5B0FA0-1D20-4FC0-BC3B-F134876B21AF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestsSubject", "TestsSubject\TestsSubject.csproj", "{1B5B0FA0-1D20-4FC0-BC3B-F134876B21AF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Maim", "Maim", "{16C814EE-B897-4A8F-9D7A-DF163530D5A9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Model", "Model", "{34C92553-16E5-4649-BCE1-BC0FC4D82E3C}"
+	ProjectSection(SolutionItems) = preProject
+		Main\Model\MainModel\CPolarCamModel.cs = Main\Model\MainModel\CPolarCamModel.cs
+		Main\Model\MainModel\CPolarCamModelBase_gen.cs = Main\Model\MainModel\CPolarCamModelBase_gen.cs
+		Main\Model\MainModel\CPolarCamStateMachine.cs = Main\Model\MainModel\CPolarCamStateMachine.cs
+		Main\Model\MainModel\CPolarCamStateMachineBase_gen.cs = Main\Model\MainModel\CPolarCamStateMachineBase_gen.cs
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,6 +28,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{34C92553-16E5-4649-BCE1-BC0FC4D82E3C} = {16C814EE-B897-4A8F-9D7A-DF163530D5A9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DCA90DE5-E20C-4D7C-BF09-88BEE8F1E1A3}

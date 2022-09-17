@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -20,6 +21,12 @@ namespace StateMachineCodeGenerator.Gui {
     public partial class MainWindow : Window {
         public MainWindow() {
             InitializeComponent();
+            this.Title = "GenSys State Machine Generator V" + Assembly.GetExecutingAssembly().GetName().Version;
+            this.Loaded += MainWindow_Loaded;
+        }
+
+        private void MainWindow_Loaded(object sender, RoutedEventArgs e) {
+            
         }
     }
 }

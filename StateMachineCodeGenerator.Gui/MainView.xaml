@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:StateMachineCodeGenerator.Gui"
              xmlns:viewModels="clr-namespace:StateMachineCodeGenerator.ViewModels;assembly=StateMachineCodeGenerator.ViewModels"
+             xmlns:common="clr-namespace:StateMachineCodeGenerator.Common;assembly=StateMachineCodeGenerator.Common"
              mc:Ignorable="d" 
              d:DesignHeight="500" d:DesignWidth="800">
     <!--<UserControl.DataContext>
@@ -201,12 +202,44 @@
         <!--#endregion horizontal (splitter) column-->
 
         <!-- #region Messages -->
-        <ListBox Grid.Row="2" ItemsSource="{Binding Messages}" 
+        <!--<ListBox Grid.Row="2" ItemsSource="{Binding Messages}" 
                  Height="{Binding MessagesHeight}" 
                   
                  BorderThickness="0" >
 
-        </ListBox>
+        </ListBox>-->
+        <DataGrid Grid.Row="2" ItemsSource="{Binding Path=ActiveErrors, Source={x:Static common:XPLogger.Instance}}" 
+                 Height="Auto" BorderThickness="0" AutoGenerateColumns="False" >
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Severity.Value}" Value="Error">
+                            <Setter Property="Background" Value="LightCoral"></Setter>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Severity.Value}" Value="Warning">
+                            <Setter Property="Background" Value="LightGoldenrodYellow"></Setter>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.RowStyle>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Seq" Binding="{Binding Seq}" />
+                <DataGridTextColumn Header="Id" Binding="{Binding Id}" />
+                <DataGridTextColumn Header="Message" Binding="{Binding Message}" Width="400" >
+                    <DataGridTextColumn.ElementStyle>
+                        <Style>
+                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                            <Setter Property="TextBlock.TextAlignment" Value="Center"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Severity" Binding="{Binding Severity.Value}" />
+                <DataGridTextColumn Header="Calling member" Binding="{Binding CallingMemberName}" />
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button Grid.Row="2" Content="Clear" Visibility="{Binding ClearErrorsVisibility}"
+                VerticalAlignment="Top" HorizontalAlignment="Right" Command="{Binding ClearErrorsCommand}" />
         <!--#endregion Messages -->
     </Grid>
 

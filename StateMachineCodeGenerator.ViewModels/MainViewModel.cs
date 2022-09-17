@@ -19,6 +19,26 @@ namespace StateMachineCodeGenerator.ViewModels
     {
         #region properties
 
+        #region Logger
+
+        private XPLogger _logger;
+        public XPLogger Logger {
+            get {
+                if (_logger != null) { return _logger; }
+                _logger = XPLogger.Instance;
+                _logger.ActiveErrors.CollectionChanged += (s, e) =>
+                    RaisePropertyChanged(nameof(MessagesHeight));
+
+                return _logger;
+            }
+        }
+
+        private void ActiveErrors_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e) {
+            
+        }
+
+        #endregion Logger
+
         #region PreviousInputFiles asssociated properties
 
         #region PreviousInputFiles
@@ -167,11 +187,20 @@ namespace StateMachineCodeGenerator.ViewModels
 
         #endregion TargetFilesDirectory
 
+        public RelayCommand ClearErrorsCommand => new((o) => Logger.ClearErrors());
+
         #region WindowTitle
         private string _windowTitle;
         public string WindowTitle
         {
-            get { return _windowTitle ??= "GenSys State Machine Generator V" + Assembly.GetExecutingAssembly().GetName().Version; }
+            get {
+                if (_windowTitle != null) return _windowTitle;
+                StackFrame[] frames = new StackTrace().GetFrames();
+                var initialAssemblyName = (from f in frames
+                        select f.GetMethod()?.ReflectedType?.AssemblyQualifiedName
+                    ).Distinct().Last() ?? Assembly.GetEntryAssembly()?.GetName().Name;
+                return _windowTitle ??= "GenSys State Machine Generator V" + Assembly.GetEntryAssembly()?.GetName().Version;
+            }
         }
         #endregion WindowTitle
 
@@ -221,13 +250,33 @@ namespace StateMachineCodeGenerator.ViewModels
         private double _messagesHeight;
         public double MessagesHeight {
             get {
-                MessagesHeight = Math.Min(Messages.Count * 22, 100);
+                //MessagesHeight = Math.Min(Messages.Count * 22, 100);
+                if (Logger.ActiveErrors.Any() == false) { MessagesHeight = 0; }
+                else { MessagesHeight = Math.Min(60 + Logger.ActiveErrors.Count * 22, 300);}
                 return _messagesHeight;
             }
-            set => SetProperty(ref _messagesHeight, value);
+            set {
+                if ( Equals(value, _messagesHeight) == false) {
+                    _messagesHeight = value;
+                    RaisePropertyChanged(nameof(MessagesHeight));
+                    RaisePropertyChanged(nameof(ClearErrorsVisibility));
+                }
+            }
         }
 
         #endregion MessagesHeight
+
+        #region ClearErrorsVisibility
+        public string ClearErrorsVisibility {
+            get {
+                var visibility = "Visible";
+                if (MessagesHeight == 0) { visibility = "Collapsed"; }
+
+                return visibility;
+            }
+        }
+
+        #endregion ClearErrorsVisibility
 
         #region WindowHeight
         private double _windowHeight = 500;
@@ -248,21 +297,35 @@ namespace StateMachineCodeGenerator.ViewModels
 
         #endregion Messages animation
 
+        public ErrorLog MainViewModelErr1 => new ErrorLog(new ErrorId(nameof(MainViewModelErr1)), "{0] file could not be read.", ErrorSeverity.Error);
+
         #endregion properties
 
         #region constructor
         public MainViewModel() {
-            if (new FileInfo(SerializedInputFilesPath).Exists) {
-                var serializedInputFiles = File.ReadAllText(SerializedInputFilesPath);
-                InputFilesDirectory = JsonSerializer.Deserialize<Dictionary<string, TargetFilesDirectory>>(serializedInputFiles);
-                if (InputFilesDirectory != null) {
-                    //instantiate through backing field to avoid collection Changed handling
-                    _previousInputFiles = new ObservableCollection<string>();
-                    InputFilesDirectory.Keys.ToList().ForEach(k => _previousInputFiles.Add(k));
-                    PreviousInputFiles = _previousInputFiles; //this activates CollectionChanged event
+            try {
+                if (new FileInfo(SerializedInputFilesPath).Exists) {
+                    var serializedInputFiles = File.ReadAllText(SerializedInputFilesPath);
+                    InputFilesDirectory = JsonSerializer.Deserialize<Dictionary<string, TargetFilesDirectory>>(serializedInputFiles);
+                    if (InputFilesDirectory != null) {
+                        //instantiate through backing field to avoid collection Changed handling
+                        _previousInputFiles = new ObservableCollection<string>();
+                        InputFilesDirectory.Keys.ToList().ForEach(k => _previousInputFiles.Add(k));
+                        PreviousInputFiles = _previousInputFiles; //this activates CollectionChanged event
+                    }
+                    RaisePropertyChanged(nameof(PreviousInputFilesVisibility));
+                    if (Logger.ActiveErrors.Any(e => e.Severity.Value == ErrorSeverity.Error.Value) == false) {
+                        Logger.ClearErrors();
+                        Logger.Seq = 0;
+                    }
                 }
-                RaisePropertyChanged(nameof(PreviousInputFilesVisibility));
             }
+            catch (Exception e) {
+                var err = ErrorLog.GetEditedErrorLog(MainViewModelErr1.Id, new object[] { SerializedInputFilesPath });
+                err.Message += " - " + e;
+                XPLogger.Instance.AddError(err);
+            }
+
 
             this.TargetFilesDirectory = new TargetFilesDirectory();
 
@@ -304,6 +367,9 @@ namespace StateMachineCodeGenerator.ViewModels
                 }
                 catch (Exception e) {
                     var filename = (new FileInfo(TargetFilesDirectory.EaXmlFileName)).Name;
+                    var err = ErrorLog.GetEditedErrorLog(MainViewModelErr1.Id, new object[] { filename });
+                    err.Message += " - " + e.Message;
+                    XPLogger.Instance.AddError(err);
                     AddMessage($"{filename}: {e.Message}");
                 }
             }
