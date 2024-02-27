@@ -7,7 +7,7 @@
 // File CPolarCamModelBase_gen.cs
 // Project PolarCam
 // Implementation of the Class CPolarCamModelBase
-// Created on 9/17/2022 12:34:37 PM
+// Created on 2/27/2024 1:48:23 PM
 ///////////////////////////////////////////////////////////
 using System;
 using System.Collections.Generic;

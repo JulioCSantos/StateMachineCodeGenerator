@@ -7,7 +7,7 @@
 // File CPolarCamStateMachineBase_gen.cs
 // Project PolarCam
 // Implementation of the Class CPolarCamStateMachineBase
-// Created on 9/17/2022 12:34:36 PM
+// Created on 2/27/2024 1:48:23 PM
 ///////////////////////////////////////////////////////////
 
 // Quick Start Guide for those using the GenSys Easy for the first time:
